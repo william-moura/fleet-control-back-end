@@ -1,0 +1,44 @@
+services:
+  app-php:
+    build: .      
+    ports:
+      - 9000:9000
+    volumes:
+      - ../:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app_network
+  web-nginx:
+    image: nginx:latest
+    ports:
+      - 8080:8080
+    volumes:
+      - ../site.conf:/etc/nginx/conf.d/site.conf
+      - ../:/var/www/html
+    restart: always
+    depends_on:
+      - app-php
+    networks:
+      - app_network
+  db:
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: fleet-control      
+      MYSQL_PASSWORD: william
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_USER: william
+    volumes:
+      - ../database/mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+
+networks:
+  app_network:
+    driver: bridge
+
