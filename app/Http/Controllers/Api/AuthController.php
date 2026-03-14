@@ -15,7 +15,7 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required', // Opcional, para identificar o dispositivo
+           // 'device_name' => 'required', // Opcional, para identificar o dispositivo
         ]);
 
         $user = User::where('email', $request->email)->first();
@@ -27,7 +27,7 @@ class AuthController extends Controller
         }
 
         // Cria o token
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'user' => $user,
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ]);
     }
     public function register(Request $request)
-    {
+    {        
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',

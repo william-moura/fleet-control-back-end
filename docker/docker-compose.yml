@@ -24,16 +24,17 @@ services:
   db:
     image: mysql:8.0
     ports:
-      - 3306:3306
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: fleet-control      
+      MYSQL_DATABASE: fleet_control      
       MYSQL_PASSWORD: william
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
       MYSQL_USER: william
     volumes:
       - ../database/mysql_data:/var/lib/mysql
+    networks:
+      - app_network
 
 volumes:
   mysql_data:
