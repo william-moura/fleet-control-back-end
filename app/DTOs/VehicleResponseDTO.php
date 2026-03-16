@@ -16,6 +16,8 @@ readonly class VehicleResponseDTO
         public string $vehicleStatus,
         public ?string $vehiclePurchaseDate, // Formatado como string para JSON
         public ?string $vehicleNotes,
+        public ?string $brand,
+        public ?string $fuelType,
     ) {}
 
     /**
@@ -26,15 +28,17 @@ readonly class VehicleResponseDTO
         return new self(
             id: $vehicle->id,
             vehiclePlate: $vehicle->vehicle_plate,
-            brandId: $vehicle->brand_id,
+            brandId: $vehicle->brand->id,            
             vehicleModel: $vehicle->vehicle_model,
             vehicleYear: $vehicle->vehicle_year,
-            fuelTypeId: $vehicle->fuel_type_id,
+            fuelTypeId: $vehicle->fuelType->id,
             vehicleTankCapacity: (float) $vehicle->vehicle_tank_capacity,
             vehicleCurrentMileage: $vehicle->vehicle_current_mileage,
-            vehicleStatus: $vehicle->vehicle_status,
-            vehiclePurchaseDate: $vehicle->vehicle_purchase_date?->format('Y-m-d'),
+            vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
+            vehiclePurchaseDate: $vehicle->vehicle_purchase_date?->format('d/m/Y'),
             vehicleNotes: $vehicle->vehicle_notes,
+            brand: $vehicle->brand->brand_name,
+            fuelType: $vehicle->fuelType->fuel_type_name,
         );
     }
 }

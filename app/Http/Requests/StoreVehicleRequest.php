@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use DateTimeImmutable;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreVehicleRequest extends FormRequest
@@ -14,16 +15,25 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vehicle_plate'           => ['required', 'string', 'unique:vehicles,vehicle_plate', 'max:10'],
-            'brand_id'                => ['required', 'integer', 'exists:brands,id'],
-            'vehicle_model'           => ['required', 'string', 'max:255'],
-            'vehicle_year'            => ['required', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
-            'fuel_type_id'            => ['required', 'integer', 'exists:fuel_types,id'],
-            'vehicle_tank_capacity'   => ['required', 'numeric', 'min:0'],
-            'vehicle_current_mileage' => ['required', 'integer', 'min:0'],
-            'vehicle_status'          => ['required', 'string', 'in:active,inactive,maintenance'],
-            'vehicle_purchase_date'   => ['nullable', 'date'],
-            'vehicle_notes'           => ['nullable', 'string', 'max:1000'],
+            'vehiclePlate'           => ['required', 'string', 'unique:vehicles,vehicle_plate', 'max:10'],
+            'brandId'                => ['required', 'integer', 'exists:vehicle_brands,id'],
+            'vehicleModel'           => ['required', 'string', 'max:255'],
+            'vehicleYear'            => ['required', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
+            'fuelTypeId'            => ['required', 'integer', 'exists:fuel_types,id'],
+            'vehicleTankCapacity'   => ['required', 'numeric', 'min:0'],
+            'vehicleCurrentMileage' => ['required', 'integer', 'min:0'],
+            'vehicleStatus'          => ['required', 'integer', 'in:1,2'],
+            'vehiclePurchaseDate'   => ['nullable', 'date'],
+            'vehicleNotes'           => ['nullable', 'string', 'max:1000'],
         ];
+    }
+
+    public function getAllData(): array
+    {        
+        $data = $this->all();
+        if ($this->has('vehiclePurchaseDate')) {
+            $data['vehiclePurchaseDate'] = new DateTimeImmutable($this->vehiclePurchaseDate);
+        }
+        return $data;
     }
 }
