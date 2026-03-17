@@ -34,6 +34,6 @@ class VehicleRepository implements VehicleRepositoryInterface
     }
     public function index(): Collection
     {
-        return $this->model->all();
+        return $this->model->with('brand', 'fuelType')->get();
     }
 }

@@ -25,6 +25,7 @@ class Vehicle extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'vehicle_purchase_date' => 'datetime',
     ];
     public function brand()
     {

@@ -16,7 +16,6 @@ class CreateVehicleController extends Controller
         // 1. O Request já validou os dados automaticamente aqui
         // 2. Criamos o DTO a partir do Request
         $dto = CreateVehicleDTO::fromRequest($request);
-
         // 3. O Service processa a criação e retorna uma Model ou o DTO de Resposta
         $vehicle = $service->createVehicle($dto);
 

@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Http\Requests\StoreVehicleRequest;
+use DateTimeImmutable;
 
 readonly class CreateVehicleDTO
 {
@@ -15,7 +16,7 @@ readonly class CreateVehicleDTO
         public float $vehicleTankCapacity,
         public int $vehicleCurrentMileage,
         public string $vehicleStatus,
-        public ?\DateTimeImmutable $vehiclePurchaseDate = null,
+        public ?DateTimeImmutable $vehiclePurchaseDate = null,
         public ?string $vehicleNotes = null,
     ) {}
 
@@ -25,23 +26,23 @@ readonly class CreateVehicleDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            vehiclePlate: $data['vehicle_plate'],
-            brandId: (int) $data['brand_id'],
-            vehicleModel: $data['vehicle_model'],
-            vehicleYear: (int) $data['vehicle_year'],
-            fuelTypeId: (int) $data['fuel_type_id'],
-            vehicleTankCapacity: (float) $data['vehicle_tank_capacity'],
-            vehicleCurrentMileage: (int) $data['vehicle_current_mileage'],
-            vehicleStatus: $data['vehicle_status'],
-            vehiclePurchaseDate: isset($data['vehicle_purchase_date']) 
-                ? new \DateTimeImmutable($data['vehicle_purchase_date']) 
+            vehiclePlate: $data['vehiclePlate'],
+            brandId: (int) $data['brandId'],
+            vehicleModel: $data['vehicleModel'],
+            vehicleYear: (int) $data['vehicleYear'],
+            fuelTypeId: (int) $data['fuelTypeId'],
+            vehicleTankCapacity: (float) $data['vehicleTankCapacity'],
+            vehicleCurrentMileage: (int) $data['vehicleCurrentMileage'],
+            vehicleStatus: $data['vehicleStatus'],
+            vehiclePurchaseDate: isset($data['vehiclePurchaseDate']) 
+                ? new DateTimeImmutable($data['vehiclePurchaseDate'])
                 : null,
-            vehicleNotes: $data['vehicle_notes'] ?? null,
+            vehicleNotes: $data['vehicleNotes'] ?? null,
         );
     }
 
     public static function fromRequest(StoreVehicleRequest $request): self
     {
-        return new self(...$request->validated());
+        return new self(...$request->getAllData());
     }
 }
