@@ -16,6 +16,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
+            echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
             eval $(ssh-agent -s)
             echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
             cd /var/www/fleet-control/fleet-control-back-end
