@@ -21,4 +21,24 @@ class VehicleService
     {
         return $this->vehicleRepository->index();
     }
+    public function destroyVehicle($id): void
+    {
+        $this->vehicleRepository->destroyVehicle($id);
+    }
+
+    public function showVehicle($id): Vehicle
+    {
+        return $this->vehicleRepository->showVehicle($id);
+    }
+
+    /**
+     * Summary of updateVehicle
+     * @param mixed $id
+     * @param CreateVehicleDTO $dto
+     * @return Collection<int, Vehicle>|Vehicle|\stdClass
+     */
+    public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle
+    {
+        return $this->vehicleRepository->updateVehicle($id, $dto);
+    }
 }

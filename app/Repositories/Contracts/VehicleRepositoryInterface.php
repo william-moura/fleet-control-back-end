@@ -10,4 +10,7 @@ interface VehicleRepositoryInterface
 {
     public function createVehicle(CreateVehicleDTO $to): Vehicle;
     public function index(): Collection;
+    public function destroyVehicle($id): void;
+    public function showVehicle($id): Vehicle;
+    public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle;
 }

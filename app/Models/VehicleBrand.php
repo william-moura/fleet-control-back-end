@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleBrand extends Model
 {
-    //
+    use SoftDeletes;
     protected $table = 'vehicle_brands';
     protected $fillable = ['brand_name'];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
