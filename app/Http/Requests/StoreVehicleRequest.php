@@ -15,7 +15,7 @@ class StoreVehicleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'vehiclePlate'           => ['required', 'string', 'unique:vehicles,vehicle_plate', 'max:10'],
+            'vehiclePlate'           => ['required', 'string', 'max:10'],
             'brandId'                => ['required', 'integer', 'exists:vehicle_brands,id'],
             'vehicleModel'           => ['required', 'string', 'max:255'],
             'vehicleYear'            => ['required', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
