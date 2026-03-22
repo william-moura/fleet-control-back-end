@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CreateVehicleController;
 use App\Http\Controllers\DestroyVehicleController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\FuelTypeController;
 use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\ShowVehicleController;
@@ -28,3 +29,11 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::get('/fuel-types', [FuelTypeController::class, 'index'])->name('vehicles.fuelTypes');
     Route::get('/{id}', ShowVehicleController::class)->name('vehicles.show');
 })->middleware('auth:sanctum');
+Route::group(['prefix' => 'drivers'], function () {
+    Route::get('/', [DriverController::class, 'index'])->name('drivers.index');
+    Route::post('/', [DriverController::class, 'store'])->name('drivers.store');
+    Route::put('/{id}', [DriverController::class, 'update'])->name('drivers.update');
+    Route::delete('/{id}', [DriverController::class, 'destroy'])->name('drivers.destroy');
+})->middleware('auth:sanctum');
+
+Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
