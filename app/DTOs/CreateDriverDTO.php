@@ -27,21 +27,21 @@ class CreateDriverDTO
     public static function fromRequest(StoreDriverRequest $request): self
     {
         return new self(
-            name: $request->driver_name,
-            registeredNumber: $request->driver_registered_number,
-            address: $request->driver_address,
-            city: $request->driver_city,
-            state: $request->driver_state,
-            zipCode: $request->driver_zip_code,
-            bloodType: $request->driver_blood_type,
-            rg: $request->driver_rg,
-            cpf: $request->driver_cpf,
-            licenseNumber: $request->driver_license_number,
-            licenseExpirationDate: $request->driver_license_expiration_date,
-            licenseCategory: $request->driver_license_category,
-            birthDate: $request->driver_birth_date,
-            phone: $request->driver_phone,
-            status: $request->driver_status,
+            name: $request->driverName,
+            registeredNumber: $request->driverRegisteredNumber,
+            address: $request->driverAddress,
+            city: $request->driverCity,
+            state: $request->driverState,
+            zipCode: $request->driverZipCode,
+            bloodType: $request->driverBloodType,
+            rg: $request->driverRg,
+            cpf: $request->driverCpf,
+            licenseNumber: $request->driverLicenseNumber,
+            licenseExpirationDate: $request->driverLicenseExpirationDate,
+            licenseCategory: $request->driverLicenseCategory,
+            birthDate: $request->driverBirthDate,
+            phone: $request->driverPhone,
+            status: $request->driverStatus,
         );
     }
 }

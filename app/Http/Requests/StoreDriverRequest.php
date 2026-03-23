@@ -25,21 +25,21 @@ class StoreDriverRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'driver_name' => ['required', 'string', 'max:255'],
-            'driver_registered_number' => ['required', 'string', 'max:255'],
-            'driver_address' => ['required', 'string', 'max:255'],
-            'driver_city' => ['required', 'string', 'max:255'],
-            'driver_state' => ['required', 'string', 'max:2'],
-            'driver_zip_code' => ['required', 'string', 'max:99999999'],
-            'driver_blood_type' => ['required', 'string', 'max:4'],
-            'driver_rg' => ['required', 'string', 'max:11'],
-            'driver_cpf' => ['required', 'string', 'max:11'],
-            'driver_license_number' => ['required', 'string', 'max:255'],
-            'driver_license_expiration_date' => ['required', 'date'],
-            'driver_license_category' => ['required', 'string', 'max:3'],
-            'driver_birth_date' => ['required', 'date'],
-            'driver_phone' => ['required', 'string', 'max:15'],
-            'driver_status' => ['required', 'integer', 'in:1,2'],
+            'driverName' => ['required', 'string', 'max:255'],
+            'driverRegisteredNumber' => ['required', 'string', 'max:255'],
+            'driverAddress' => ['required', 'string', 'max:255'],
+            'driverCity' => ['required', 'string', 'max:255'],
+            'driverState' => ['required', 'string', 'max:2'],
+            'driverZipCode' => ['required', 'string', 'max:99999999'],
+            'driverBloodType' => ['required', 'string', 'max:4'],
+            'driverRg' => ['required', 'string', 'max:11'],
+            'driverCpf' => ['required', 'string', 'max:11'],
+            'driverLicenseNumber' => ['required', 'string', 'max:255'],
+            'driverLicenseExpirationDate' => ['required', 'date'],
+            'driverLicenseCategory' => ['required', 'string', 'max:3'],
+            'driverBirthDate' => ['required', 'date'],
+            'driverPhone' => ['required', 'string', 'max:15'],
+            'driverStatus' => ['required', 'integer', 'in:1,2'],
         ];
     }
     public function failedValidation(Validator $validator) 
