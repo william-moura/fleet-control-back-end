@@ -30,10 +30,10 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::get('/{id}', ShowVehicleController::class)->name('vehicles.show');
 })->middleware('auth:sanctum');
 Route::group(['prefix' => 'drivers'], function () {
-    Route::get('/', [DriverController::class, 'index'])->name('drivers.index');
-    Route::post('/', [DriverController::class, 'store'])->name('drivers.store');
-    Route::put('/{id}', [DriverController::class, 'update'])->name('drivers.update');
-    Route::delete('/{id}', [DriverController::class, 'destroy'])->name('drivers.destroy');
+    Route::get('/', [DriverController::class, 'index']);
+    Route::post('/', [DriverController::class, 'store']);
+    Route::put('/{id}', [DriverController::class, 'update']);
+    Route::delete('/{id}', [DriverController::class, 'destroy']);
 })->middleware('auth:sanctum');
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
