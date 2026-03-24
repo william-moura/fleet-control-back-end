@@ -32,7 +32,7 @@ class DriverController extends Controller
             201
         );
     }
-    public function update(Request $request, $id): JsonResponse
+    public function update(StoreDriverRequest $request, $id): JsonResponse
     {
         $dto = CreateDriverDTO::fromRequest($request);
         $driver = $this->service->updateDriver($id, $dto);
