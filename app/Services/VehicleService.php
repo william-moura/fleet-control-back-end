@@ -41,4 +41,20 @@ class VehicleService
     {
         return $this->vehicleRepository->updateVehicle($id, $dto);
     }
+
+    public function syncDriver(int $vehicleId, array $driversId): void
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);        
+        $vehicle->drivers()->attach($driversId);
+    }
+    public function detachDriver(int $vehicleId, array $driversId): void
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        $vehicle->drivers()->detach($driversId);
+    }
+    public function showSyncedDrivers(int $vehicleId): Collection
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        return $vehicle->drivers;
+    }
 }
