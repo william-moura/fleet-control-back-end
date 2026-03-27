@@ -13,6 +13,7 @@ class ListVehicleController extends Controller
     public function __invoke(VehicleService $service): JsonResponse
     {
         $vehicles = $service->index();
+        // dd($vehicles);
         return response()->json(
             $vehicles->map(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle)),
             200
