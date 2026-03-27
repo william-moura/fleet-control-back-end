@@ -2,6 +2,10 @@
 
 namespace App\DTOs;
 
+use App\Models\Driver;
+use App\Models\Vehicle;
+use Illuminate\Support\Collection;
+
 readonly class VehicleResponseDTO
 {
     public function __construct(
@@ -18,12 +22,13 @@ readonly class VehicleResponseDTO
         public ?string $vehicleNotes,
         public ?string $brand,
         public ?string $fuelType,
+        public ?Collection $drivers,
     ) {}
 
     /**
      * Útil para instanciar a partir de um Model do Eloquent ou Doctrine
      */
-    public static function fromEntity(object $vehicle): self
+    public static function fromEntity(Vehicle $vehicle): self
     {
         return new self(
             id: $vehicle->id,
@@ -39,6 +44,7 @@ readonly class VehicleResponseDTO
             vehicleNotes: $vehicle->vehicle_notes,
             brand: $vehicle->brand->brand_name,
             fuelType: $vehicle->fuelType->fuel_type_name,
+            drivers: $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
         );
     }
 }

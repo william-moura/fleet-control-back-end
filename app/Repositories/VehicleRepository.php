@@ -34,7 +34,7 @@ class VehicleRepository implements VehicleRepositoryInterface
     }
     public function index(): Collection
     {
-        return $this->model->with('brand', 'fuelType')->get();
+        return $this->model->with('brand', 'fuelType', 'drivers')->get();
     }
 
     public function destroyVehicle($id): void
