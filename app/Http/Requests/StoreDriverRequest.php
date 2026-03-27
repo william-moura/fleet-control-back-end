@@ -39,7 +39,7 @@ class StoreDriverRequest extends FormRequest
             'driverLicenseCategory' => ['required', 'string', 'max:3'],
             'driverBirthDate' => ['required', 'date'],
             'driverPhone' => ['required', 'string', 'max:15'],
-            'driverStatus' => ['required', 'integer', 'in:1,2'],
+            'driverStatus' => ['required', 'integer', 'in:0,1'],
         ];
     }
     public function failedValidation(Validator $validator) 
