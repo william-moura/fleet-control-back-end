@@ -5,6 +5,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CreateVehicleController;
 use App\Http\Controllers\DestroyVehicleController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\FuelSupplierController;
 use App\Http\Controllers\FuelTypeController;
 use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\ShowVehicleController;
@@ -35,3 +36,4 @@ Route::group(['prefix' => 'vehicles'], function () {
 })->middleware('auth:sanctum');
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
+Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');
