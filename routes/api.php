@@ -38,4 +38,5 @@ Route::group(['prefix' => 'vehicles'], function () {
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');
-Route::resource('suppliers', SupplierController::class)->middleware('auth:sanctum');
+Route::resource('suppliers', SupplierController::class);
+// ->middleware('auth:sanctum');

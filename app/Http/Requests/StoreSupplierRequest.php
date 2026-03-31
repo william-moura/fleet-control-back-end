@@ -12,7 +12,7 @@ class StoreSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,21 +23,21 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fantasyName' => ['required', 'string', 'max:255'],
-            'corporateName' => ['required', 'string', 'max:255'],
-            'cnpj' => ['required', 'string', 'max:14'],
-            'ie' => ['required', 'string', 'max:14'],
-            'address' => ['required', 'string', 'max:255'],
-            'number' => ['required', 'string', 'max:10'],
-            'complement' => ['nullable', 'string', 'max:255'],
-            'neighborhood' => ['required', 'string', 'max:255'],
-            'city' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:2'],
-            'zipCode' => ['required', 'string', 'max:9'],
-            'phone' => ['required', 'string', 'max:15'],
-            'email' => ['required', 'email', 'max:255'],
-            'status' => ['required', 'integer', 'in:0,1'],
-            'notes' => ['nullable', 'string', 'max:1000'],
+            'supplierFantasyName' => ['required', 'string', 'max:255'],
+            'supplierCorporateName' => ['required', 'string', 'max:255'],
+            'supplierCnpj' => ['required', 'string', 'max:14'],
+            'supplierIe' => ['nullable', 'string', 'max:14'],
+            'supplierAddress' => ['required', 'string', 'max:255'],
+            'supplierNumber' => ['nullable', 'string', 'max:10'],
+            'supplierComplement' => ['nullable', 'string', 'max:255'],
+            'supplierNeighborhood' => ['nullable', 'string', 'max:255'],
+            'supplierCity' => ['required', 'string', 'max:255'],
+            'supplierState' => ['required', 'string', 'max:2'],
+            'supplierZipCode' => ['nullable', 'string', 'max:9'],
+            'supplierPhone' => ['nullable', 'string', 'max:15'],
+            'supplierEmail' => ['nullable', 'email', 'max:255'],
+            'supplierStatus' => ['required', 'integer', 'in:0,1'],
+            'supplierNotes' => ['nullable', 'string', 'max:1000'],
         ];
     }
 }
