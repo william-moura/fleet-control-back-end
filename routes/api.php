@@ -34,6 +34,7 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::get('/{id}/synced-drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
+    Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
 })->middleware('auth:sanctum');
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');

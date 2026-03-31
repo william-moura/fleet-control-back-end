@@ -12,7 +12,7 @@ class StoreFuelSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,18 +23,18 @@ class StoreFuelSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'supplier_id' => ['required', 'integer', 'exists:suppliers,id'],
-            'fuel_type_id' => ['required', 'integer', 'exists:fuel_types,id'],
-            'driver_id' => ['required', 'integer', 'exists:drivers,id'],
-            'vehicle_id' => ['required', 'integer', 'exists:vehicles,id'],
-            'fuel_supplier_price' => ['required', 'numeric', 'min:0'],
-            'fuel_supplier_quantity' => ['required', 'numeric', 'min:0'],
-            'fuel_supplier_total' => ['required', 'numeric', 'min:0'],
-            'fuel_supplier_date' => ['required', 'date'],
-            'fuel_supplier_kilometers' => ['required', 'numeric', 'min:0'],
-            'fuel_supplier_notes' => ['nullable', 'string', 'max:1000'],
-            'fuel_supplier_status' => ['required', 'integer', 'in:0,1'],
-            'fuel_supplier_invoice_number' => ['nullable', 'string', 'max:255'],
+            'supplierId' => ['required', 'integer', 'exists:suppliers,id'],
+            'fuelTypeId' => ['required', 'integer', 'exists:fuel_types,id'],
+            'driverId' => ['required', 'integer', 'exists:drivers,id'],
+            'vehicleId' => ['required', 'integer', 'exists:vehicles,id'],
+            'fuelSupplierPrice' => ['required', 'numeric', 'min:0'],
+            'fuelSupplierQuantity' => ['required', 'numeric', 'min:0'],
+            'fuelSupplierTotal' => ['required', 'numeric', 'min:0'],
+            'fuelSupplierDate' => ['required', 'date'],
+            'fuelSupplierKilometers' => ['required', 'numeric', 'min:0'],
+            'fuelSupplierNotes' => ['nullable', 'string', 'max:1000'],
+            'fuelSupplierStatus' => ['nullable', 'integer', 'in:0,1'],
+            'fuelSupplierInvoiceNumber' => ['nullable', 'string', 'max:255'],
         ];
     }
 }
