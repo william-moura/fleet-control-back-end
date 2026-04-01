@@ -5,16 +5,16 @@ namespace App\DTOs;
 class SyncedDriversResponseDTO
 {
     public function __construct(
-        public int $driverId,
+        public int $id,
         public string $driverName
     ) {
-        $this->driverId = $driverId;
+        $this->id = $id;
         $this->driverName = $driverName;
     }
     public static function fromEntity(object $driver): self
     {
         return new self(
-            driverId: $driver->id,
+            id: $driver->id,
             driverName: $driver->driver_name,
         );
     }

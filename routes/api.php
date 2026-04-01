@@ -5,9 +5,11 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CreateVehicleController;
 use App\Http\Controllers\DestroyVehicleController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\FuelSupplierController;
 use App\Http\Controllers\FuelTypeController;
 use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\ShowVehicleController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
 use App\Http\Controllers\VechicleSyncDriverController;
 use Illuminate\Http\Request;
@@ -32,6 +34,9 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::get('/{id}/synced-drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
+    Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
 })->middleware('auth:sanctum');
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
+Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');
+Route::resource('suppliers', SupplierController::class)->middleware('auth:sanctum');
