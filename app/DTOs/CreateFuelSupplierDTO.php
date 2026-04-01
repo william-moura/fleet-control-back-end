@@ -17,7 +17,7 @@ class CreateFuelSupplierDTO
         public float $fuel_supplier_total,
         public DateTimeImmutable $fuel_supplier_date,
         public float $fuel_supplier_kilometers,
-        public string $fuel_supplier_notes,
+        public ?string $fuel_supplier_notes = null,
         public int $fuel_supplier_status,
         public string $fuel_supplier_invoice_number,
     ) {}
@@ -41,18 +41,18 @@ class CreateFuelSupplierDTO
     public static function fromRequest(StoreFuelSupplierRequest $request): self
     {
         return new self(
-            supplier_id: $request->supplier_id,
-            fuel_type_id: $request->fuel_type_id,
-            driver_id: $request->driver_id,
-            vehicle_id: $request->vehicle_id,
-            fuel_supplier_price: $request->fuel_supplier_price,
-            fuel_supplier_quantity: $request->fuel_supplier_quantity,
-            fuel_supplier_total: $request->fuel_supplier_total,
-            fuel_supplier_date: new DateTimeImmutable($request->fuel_supplier_date),
-            fuel_supplier_kilometers: $request->fuel_supplier_kilometers,
-            fuel_supplier_notes: $request->fuel_supplier_notes,
-            fuel_supplier_status: $request->fuel_supplier_status,
-            fuel_supplier_invoice_number: $request->fuel_supplier_invoice_number,
+            supplier_id: $request->supplierId,
+            fuel_type_id: $request->fuelTypeId,
+            driver_id: $request->driverId,
+            vehicle_id: $request->vehicleId,
+            fuel_supplier_price: $request->fuelSupplierPrice,
+            fuel_supplier_quantity: $request->fuelSupplierQuantity,
+            fuel_supplier_total: $request->fuelSupplierTotal,
+            fuel_supplier_date: new DateTimeImmutable($request->fuelSupplierDate),
+            fuel_supplier_kilometers: $request->fuelSupplierKilometers,
+            fuel_supplier_notes: $request->fuelSupplierNotes,
+            fuel_supplier_status: $request->fuelSupplierStatus?? 1,
+            fuel_supplier_invoice_number: $request->fuelSupplierInvoiceNumber?? null,
         );
     }
 }
