@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('supplier', function (Blueprint $table) {
+        Schema::table('suppliers', function (Blueprint $table) {
             $table->tinyInteger('supplier_type')->nullable()->after('supplier_status');
         });
     }
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('supplier', function (Blueprint $table) {
+        Schema::table('suppliers', function (Blueprint $table) {
             $table->dropColumn('supplier_type');
         });
     }
