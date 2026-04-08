@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenance_control_types', function (Blueprint $table) {
+        Schema::create('maintenance_control_services', function (Blueprint $table) {
             $table->id();
-            $table->string('maintenance_control_type_name');
+            $table->string('maintenance_control_service_name');
 
             $table->timestamps();
             $table->softDeletes();
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maintenance_control_type');
+        Schema::dropIfExists('maintenance_control_services');
     }
 };

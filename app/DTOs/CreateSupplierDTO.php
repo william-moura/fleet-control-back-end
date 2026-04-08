@@ -7,7 +7,7 @@ use App\Http\Requests\StoreSupplierRequest;
 class CreateSupplierDTO
 {
     public function __construct(
-        public string $supplier_fantasy_name    ,
+        public string $supplier_fantasy_name,
         public string $supplier_corporate_name,
         public string $supplier_cnpj,
         public ?string $supplier_ie = null,
@@ -22,6 +22,7 @@ class CreateSupplierDTO
         public ?string $supplier_email = null,
         public int $supplier_status,
         public ?string $supplier_notes = null,
+        public int $supplier_type,
     ) {}
 
     public static function fromRequest(StoreSupplierRequest $request): self
@@ -42,6 +43,7 @@ class CreateSupplierDTO
             supplier_email: $request->supplierEmail,
             supplier_status: $request->supplierStatus,
             supplier_notes: $request->supplierNotes,
+            supplier_type: $request->supplierType,
         );        
     }
     public function toArray(): array
@@ -62,6 +64,7 @@ class CreateSupplierDTO
             'supplier_email' => $this->supplier_email,
             'supplier_status' => $this->supplier_status,
             'supplier_notes' => $this->supplier_notes,
+            'supplier_type' => $this->supplier_type,
         ];
     }
 }

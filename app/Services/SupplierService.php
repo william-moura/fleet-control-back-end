@@ -12,9 +12,9 @@ class SupplierService
     public function __construct(protected SupplierRepositoryInterface $supplierRepository)
     {
     }
-    public function index(): Collection
+    public function index(int $supplierType = 1): Collection
     {
-        return $this->supplierRepository->index();
+        return $this->supplierRepository->index($supplierType);
     }
     public function createSupplier(CreateSupplierDTO $dto): Supplier
     {

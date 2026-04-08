@@ -7,13 +7,17 @@ use App\Repositories\Contracts\BrandRepositoryInterface;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\FuelTypeRepositoryInterface;
+use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\SupplierRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use App\Repositories\DriverRepository;
 use App\Repositories\FuelSupplierRepository;
 use App\Repositories\FuelTypeRepository;
+use App\Repositories\MaintenanceRepository;
 use App\Repositories\SupplierRepository;
 use App\Repositories\VehicleRepository;
+use App\Repositories\MaintenanceServiceRepository;
+use App\Repositories\Contracts\MaintenanceServiceRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(DriverRepositoryInterface::class, DriverRepository::class);
         $this->app->bind(FuelSupplierRepositoryInterface::class, FuelSupplierRepository::class);
         $this->app->bind(SupplierRepositoryInterface::class, SupplierRepository::class);
+        $this->app->bind(MaintenanceRepositoryInterface::class, MaintenanceRepository::class);
+        $this->app->bind(MaintenanceServiceRepositoryInterface::class, MaintenanceServiceRepository::class);
     }
 
     /**

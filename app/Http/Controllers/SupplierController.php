@@ -15,9 +15,9 @@ class SupplierController extends Controller
     public function __construct(protected SupplierService $service)
     {
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $suppliers = $this->service->index();
+        $suppliers = $this->service->index($request->supplierType??1);
         return response()->json(
             $suppliers->map(fn(Supplier $supplier) => SupplierResponseDTO::fromEntity($supplier)),
             200
@@ -54,4 +54,5 @@ class SupplierController extends Controller
             200
         );
     }
+    
 }

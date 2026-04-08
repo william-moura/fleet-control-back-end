@@ -38,6 +38,7 @@ class StoreSupplierRequest extends FormRequest
             'supplierEmail' => ['nullable', 'email', 'max:255'],
             'supplierStatus' => ['required', 'integer', 'in:0,1'],
             'supplierNotes' => ['nullable', 'string', 'max:1000'],
+            'supplierType' => ['required', 'integer', 'in:1,2'],
         ];
     }
 }

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('vehicle_id')->constrained('vehicles', 'id')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
-            $table->foreignId('maintenance_control_type_id')->constrained('maintenance_control_types', 'id')
-                ->onDelete('restrict')
-                ->onUpdate('cascade');
+            // $table->foreignId('maintenance_control_type_id')->constrained('maintenance_control_types', 'id')
+            //     ->onDelete('restrict')
+            //     ->onUpdate('cascade');
             $table->foreignId('supplier_id')->constrained('suppliers', 'id')
                 ->onDelete('restrict')
                 ->onUpdate('cascade');
@@ -30,6 +30,7 @@ return new class extends Migration
             $table->date('maintenance_control_next_date')->nullable();
             $table->decimal('maintenance_control_next_kilometers', 10, 2)->nullable();
             $table->tinyInteger('maintenance_control_status')->default(1);
+            $table->date('maintenance_control_previous_date_finished')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
