@@ -9,9 +9,9 @@ class MaintenanceResponseDTO
 {
     public function __construct(
         public int $id,
-        public int $vehicle_id,
+        public int $vehicleId,
         public array $services,
-        public int $supplier_id,        
+        public int $supplierId,        
         public float $maintenanceKilometers,
         public VehicleResponseDTO $vehicle,
         public SupplierResponseDTO $supplier,
@@ -26,10 +26,10 @@ class MaintenanceResponseDTO
     {
         return new self(
             id: $maintenance->id,
-            vehicle_id: $maintenance->vehicle_id,
+            vehicleId: $maintenance->vehicle_id,
             services: $maintenance->maintenanceRelationServices
             ->map(fn(MaintenanceRelationService $service) => MaintenanceServiceResponseDTO::fromEntity($service->maintenanceService))->toArray(),
-            supplier_id: $maintenance->supplier_id,            
+            supplierId: $maintenance->supplier_id,            
             maintenanceKilometers: $maintenance->maintenance_control_kilometers,
             vehicle: VehicleResponseDTO::fromEntity($maintenance->vehicle),
             supplier: SupplierResponseDTO::fromEntity($maintenance->supplier),
