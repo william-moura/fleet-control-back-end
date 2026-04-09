@@ -42,7 +42,7 @@ class CreateMaintenanceControlDTO
     {
         return array_map(function($service) {
             return [
-                'maintenance_service_id' => $service['maintenance_service_id'],
+                'maintenance_service_id' => $service,
             ];
         }, $this->maintenance_services);
     }
