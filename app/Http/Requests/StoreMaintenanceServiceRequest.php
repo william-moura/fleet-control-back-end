@@ -12,7 +12,7 @@ class StoreMaintenanceServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,7 @@ class StoreMaintenanceServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'maintenanceServiceName' => ['required', 'string', 'max:255'],
         ];
     }
 }

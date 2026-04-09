@@ -12,7 +12,7 @@ class CreateMaintenanceServiceDTO
     public static function fromRequest(StoreMaintenanceServiceRequest $request): self
     {
         return new self(
-            maintenance_control_service_name: $request->input('maintenance_control_service_name'),
+            maintenance_control_service_name: $request->input('maintenanceServiceName'),
         );
     }
     public function toArray(): array
