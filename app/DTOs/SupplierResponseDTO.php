@@ -23,6 +23,7 @@ class SupplierResponseDTO
         public ?string $supplierEmail,
         public ?string $supplierNotes,
         public int $supplierStatus,
+        public ?int $supplierType = null,
     ) {}
     public static function fromEntity(Supplier $supplier): self
     {
@@ -43,6 +44,7 @@ class SupplierResponseDTO
             supplierEmail: $supplier->supplier_email,
             supplierNotes: $supplier->supplier_notes,
             supplierStatus: $supplier->supplier_status,
+            supplierType: $supplier->supplier_type ?? null,
         );
     }
 }

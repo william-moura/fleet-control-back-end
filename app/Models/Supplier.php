@@ -24,7 +24,8 @@ class Supplier extends Model
         'supplier_phone', 
         'supplier_email', 
         'supplier_status', 
-        'supplier_notes'
+        'supplier_notes',
+        'supplier_type'
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts = [

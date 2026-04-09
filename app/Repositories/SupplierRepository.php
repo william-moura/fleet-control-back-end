@@ -10,9 +10,11 @@ use Illuminate\Database\Eloquent\Collection;
 class SupplierRepository implements SupplierRepositoryInterface
 {
     public function __construct(private Supplier $model){}
-    public function index(): Collection
+    public function index(?int $supplierType = null): Collection
     {
-        return $this->model->all();
+        return $this->model->when($supplierType, function($query) use ($supplierType){
+            return $query->where('supplier_type', $supplierType);
+        })->get();
     }
     public function createSupplier(CreateSupplierDTO $dto): Supplier
     {
