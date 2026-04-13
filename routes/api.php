@@ -26,7 +26,7 @@ Route::get('/logout', function() {
     echo 'ok';
 });
 Route::group(['prefix' => 'vehicles'], function () {
-    Route::get('/', ListVehicleController::class)->name('vehicles.index');
+    Route::get('/', ListVehicleController::class)->name('vehicles.index')->middleware('role:admin|operador|administrador');
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
     Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
     Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');
@@ -37,7 +37,7 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
-})->middleware(['auth:sanctum', 'role:admin|operador']);
+})->middleware(['auth:sanctum']);
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');

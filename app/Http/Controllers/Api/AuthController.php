@@ -33,7 +33,9 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'role' => $user->getRoleNames(),
+            'permissions' => $user->getPermissionsViaRoles(),
         ]);
     }
     public function register(Request $request)
@@ -67,7 +69,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|unique:roles',
         ]);
-        $role = Role::create(['name' => $request->name, 'guard_name' => 'api']);
+        $role = Role::create(['name' => $request->name]);
         return response()->json([
             'role' => $role,
         ]);
@@ -117,7 +119,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|unique:permissions',
         ]);
-        $permission = Permission::create(['name' => $request->name, 'guard_name' => 'api']);
+        $permission = Permission::create(['name' => $request->name]);
         return response()->json([
             'permission' => $permission,
         ]);
