@@ -15,6 +15,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
 use App\Http\Controllers\VechicleSyncDriverController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -25,8 +26,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', function() {
     echo 'ok';
 });
-Route::group(['prefix' => 'vehicles'], function () {
-    Route::get('/', ListVehicleController::class)->name('vehicles.index')->middleware('role:admin|operador|administrador');
+Route::middleware(['auth:sanctum', 'role:admin|operador'])->prefix('vehicles')->group(function () {
+    Route::get('/', ListVehicleController::class);
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
     Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
     Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');
@@ -37,14 +38,14 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
-})->middleware(['auth:sanctum']);
+});
 
-Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
-Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');
-Route::resource('suppliers', SupplierController::class)->middleware('auth:sanctum');
-Route::resource('maintenance-controls', MaintenanceController::class)->middleware('auth:sanctum');
-Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware('auth:sanctum');
-Route::group(['prefix' => 'auth'], function () {
+Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::middleware(['auth:sanctum'])->prefix('auth')->group( function () {
     Route::post('/create-role', [AuthController::class, 'createRole']);
     Route::post('/assign-role', [AuthController::class, 'assignRole']);
     Route::post('/remove-role', [AuthController::class, 'removeRole']);
