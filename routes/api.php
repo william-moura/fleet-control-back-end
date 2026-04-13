@@ -37,10 +37,21 @@ Route::group(['prefix' => 'vehicles'], function () {
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
-})->middleware('auth:sanctum');
+})->middleware(['auth:sanctum', 'role:admin|operador']);
 
 Route::resource('drivers', DriverController::class)->middleware('auth:sanctum');
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware('auth:sanctum');
 Route::resource('suppliers', SupplierController::class)->middleware('auth:sanctum');
 Route::resource('maintenance-controls', MaintenanceController::class)->middleware('auth:sanctum');
 Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware('auth:sanctum');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('/create-role', [AuthController::class, 'createRole']);
+    Route::post('/assign-role', [AuthController::class, 'assignRole']);
+    Route::post('/remove-role', [AuthController::class, 'removeRole']);
+    Route::get('/roles', [AuthController::class, 'getRoles']);
+    Route::get('/permissions', [AuthController::class, 'getPermissions']);
+    Route::post('/create-permission', [AuthController::class, 'createPermission']);
+    Route::post('/assign-permission', [AuthController::class, 'assignPermission']);
+    Route::post('/remove-permission', [AuthController::class, 'removePermission']);
+    Route::get('/permissions-for-user', [AuthController::class, 'getPermissionsForUser']);
+});

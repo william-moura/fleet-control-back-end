@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -50,6 +52,105 @@ class AuthController extends Controller
 
         return response()->json([
             'user' => $user,
+        ]);
+    }
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ]);
+    }
+
+    public function createRole(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:roles',
+        ]);
+        $role = Role::create(['name' => $request->name, 'guard_name' => 'api']);
+        return response()->json([
+            'role' => $role,
+        ]);
+    }
+    public function assignRole(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+        $user = User::find($request->user_id);
+        $role = Role::find($request->role_id);
+        $user->assignRole($role);
+        return response()->json([
+            'message' => 'Role assigned successfully',
+        ]);
+    }
+    public function removeRole(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+        $user = User::find($request->user_id);
+        $role = Role::find($request->role_id);
+        $user->removeRole($role);
+        return response()->json([
+            'message' => 'Role removed successfully',
+        ]);
+    }
+    public function getRoles(Request $request)
+    {
+        $roles = Role::all();
+        return response()->json([
+            'roles' => $roles,
+        ]);
+    }
+    public function getPermissions(Request $request)
+    {
+        $permissions = Permission::all();
+        return response()->json([
+            'permissions' => $permissions,
+        ]);
+    }
+    public function createPermission(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|unique:permissions',
+        ]);
+        $permission = Permission::create(['name' => $request->name, 'guard_name' => 'api']);
+        return response()->json([
+            'permission' => $permission,
+        ]);
+    }
+    public function assignPermission(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'permission_id' => 'required|exists:permissions,id',
+        ]);
+        $user = User::find($request->user_id);
+        $permission = Permission::find($request->permission_id);
+        $user->assignPermission($permission);
+    }
+    public function removePermission(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'permission_id' => 'required|exists:permissions,id',
+        ]);
+        $user = User::find($request->user_id);
+        $permission = Permission::find($request->permission_id);
+        $user->removePermission($permission);
+    }
+    public function getPermissionsForUser(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+        $user = User::find($request->user_id);
+        $permissions = $user->getPermissionsViaRoles();
+        return response()->json([
+            'permissions' => $permissions,
         ]);
     }
 }
