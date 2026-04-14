@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTOs\PermissionResponseDTO;
+use App\DTOs\RoleResponseDTO;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -34,8 +36,8 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token,
-            'role' => $user->getRoleNames(),
-            'permissions' => $user->getPermissionsViaRoles(),
+            'role' => $user->roles->map(fn(Role $role) => RoleResponseDTO::fromEntity($role)),
+            'permissions' => $user->getPermissionsViaRoles()->map(fn(Permission $permission) => PermissionResponseDTO::fromEntity($permission)),
         ]);
     }
     public function register(Request $request)
@@ -103,9 +105,7 @@ class AuthController extends Controller
     public function getRoles(Request $request)
     {
         $roles = Role::all();
-        return response()->json([
-            'roles' => $roles,
-        ]);
+        return response()->json($roles->map(fn(Role $role) => RoleResponseDTO::fromEntity($role)));
     }
     public function getPermissions(Request $request)
     {
@@ -151,6 +151,44 @@ class AuthController extends Controller
         ]);
         $user = User::find($request->user_id);
         $permissions = $user->getPermissionsViaRoles();
+        return response()->json([
+            'permissions' => $permissions,
+        ]);
+    }
+
+    public function assignPermissionToRole(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permission_id' => 'required|exists:permissions,id',
+        ]);
+        $role = Role::find($request->role_id);
+        $permission = Permission::find($request->permission_id);
+        $role->givePermissionTo($permission);
+        return response()->json([
+            'message' => 'Permission assigned to role successfully',
+        ]);
+    }
+    public function removePermissionFromRole(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permission_id' => 'required|exists:permissions,id',
+        ]);
+        $role = Role::find($request->role_id);
+        $permission = Permission::find($request->permission_id);
+        $role->removePermission($permission);
+        return response()->json([
+            'message' => 'Permission removed from role successfully',
+        ]);
+    }
+    public function getPermissionsForRole(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+        ]);
+        $role = Role::find($request->role_id);
+        $permissions = $role->getPermissionsViaRoles();
         return response()->json([
             'permissions' => $permissions,
         ]);

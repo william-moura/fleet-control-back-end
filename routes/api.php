@@ -13,6 +13,7 @@ use App\Http\Controllers\MaintenanceServicesController;
 use App\Http\Controllers\ShowVehicleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VechicleSyncDriverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,4 +56,18 @@ Route::middleware(['auth:sanctum'])->prefix('auth')->group( function () {
     Route::post('/assign-permission', [AuthController::class, 'assignPermission']);
     Route::post('/remove-permission', [AuthController::class, 'removePermission']);
     Route::get('/permissions-for-user', [AuthController::class, 'getPermissionsForUser']);
+});
+Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index']);
+    Route::post('/', [UserController::class, 'create']);
+    Route::put('/{id}', [AuthController::class, 'updateUser']);
+    Route::delete('/{id}', [AuthController::class, 'deleteUser']);
+    Route::get('/{id}', [AuthController::class, 'getUser']);
+    Route::get('/{id}/roles', [AuthController::class, 'getUserRoles']);
+    Route::get('/{id}/permissions', [AuthController::class, 'getUserPermissions']);
+    Route::post('/{id}/assign-role', [AuthController::class, 'assignRoleToUser']);
+    Route::post('/{id}/remove-role', [AuthController::class, 'removeRoleFromUser']);
+    Route::post('/{id}/assign-permission', [AuthController::class, 'assignPermissionToUser']);
+    Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
+    Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
 });
