@@ -27,7 +27,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', function() {
     echo 'ok';
 });
-Route::middleware(['auth:sanctum', 'role:admin|operador'])->prefix('vehicles')->group(function () {
+Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehicles')->group(function () {
     Route::get('/', ListVehicleController::class);
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
     Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
@@ -41,11 +41,11 @@ Route::middleware(['auth:sanctum', 'role:admin|operador'])->prefix('vehicles')->
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
 });
 
-Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
-Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
-Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
-Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
-Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'role:admin|operador']);
+Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
+Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
+Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
+Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
+Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
 Route::middleware(['auth:sanctum'])->prefix('auth')->group( function () {
     Route::post('/create-role', [AuthController::class, 'createRole']);
     Route::post('/assign-role', [AuthController::class, 'assignRole']);
