@@ -28,6 +28,6 @@ class CnpjFormatter implements CastsAttributes
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         // Remove máscara: pontos, traços e barras
-        return preg_replace('/\D/', '', $value);
+        return preg_replace('/[^A-Za-z0-9]/', '', $value);
     }
 }
