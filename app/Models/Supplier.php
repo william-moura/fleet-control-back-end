@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\CnpjFormatter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -32,6 +33,7 @@ class Supplier extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'supplier_cnpj' => CnpjFormatter::class,
     ];
     public function fuelSuppliers()
     {
