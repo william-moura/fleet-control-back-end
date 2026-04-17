@@ -13,19 +13,12 @@ class CnpjFormatter implements CastsAttributes
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
         // Remove qualquer caractere não numérico antes de formatar
-        $cnpj = preg_replace('/\D/', '', $value);
+        $cnpj = preg_replace('/[^a-zA-Z0-9]/', '', $value);
 
         if (strlen($cnpj) !== 14) {
             return $value; // Retorna original se não for 14 dígitos
         }
 
-        /*
-        return preg_replace(
-            "/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/",
-            "$1.$2.$3/$4-$5",
-            $cnpj
-        );
-        */
         return vsprintf('%s%s.%s%s%s.%s%s%s/%s%s%s%s-%s%s', str_split($value));        
     }
 
