@@ -3,18 +3,27 @@
 namespace App\Services;
 
 use App\DTOs\CreateFuelSupplierDTO;
+use App\DTOs\FuelSupplierResponseDTO;
 use App\Models\FuelSupplier;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class FuelSupplierService
 {
     public function __construct(protected FuelSupplierRepositoryInterface $fuelSupplierRepository)
     {
     }
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->fuelSupplierRepository->index();
+        $fuelSuppliers = $this->fuelSupplierRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $fuelSuppliers->through(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier));
     }
     public function createFuelSupplier(CreateFuelSupplierDTO $dto): FuelSupplier
     {

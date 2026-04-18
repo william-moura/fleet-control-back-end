@@ -5,15 +5,29 @@ namespace App\Repositories;
 use App\DTOs\CreateUserDTO;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserRepository implements UserRepositoryInterface
 {
     public function __construct(private User $model){}
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->model->with('roles')->get();
+        return $this->model->query()->with('roles')
+        ->when($search, function($query) use ($search){
+            return $query->where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
+        })->when($sort, function($query) use ($sort, $sortDirection){
+            return $query->orderBy($sort, $sortDirection);
+        })->when($page && $perPage, function($query) use ($page, $perPage){
+            return $query->skip(($page - 1) * $perPage)->take($perPage);
+        })->paginate($perPage, ['*'], 'page', $page);
     }
     public function createUser(CreateUserDTO $dto): User
     {

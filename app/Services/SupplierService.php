@@ -3,18 +3,27 @@
 namespace App\Services;
 
 use App\DTOs\CreateSupplierDTO;
+use App\DTOs\SupplierResponseDTO;
 use App\Models\Supplier;
 use App\Repositories\Contracts\SupplierRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SupplierService
 {
     public function __construct(protected SupplierRepositoryInterface $supplierRepository)
     {
     }
-    public function index(?int $supplierType = null): Collection
+    public function index(
+        ?int $supplierType = null, 
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->supplierRepository->index($supplierType);
+        $suppliers = $this->supplierRepository->index($supplierType, $search, $sort, $sortDirection, $page, $perPage);
+        return $suppliers->through(fn(Supplier $supplier) => SupplierResponseDTO::fromEntity($supplier));
     }
     public function createSupplier(CreateSupplierDTO $dto): Supplier
     {

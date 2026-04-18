@@ -3,18 +3,28 @@
 namespace App\Services;
 
 use App\DTOs\CreateDriverDTO;
+use App\DTOs\DriverResponseDTO;
 use App\Models\Driver;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DriverService
 {
     public function __construct(protected DriverRepositoryInterface $driverRepository)
     {
     }
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->driverRepository->index();
+        $drivers = $this->driverRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $drivers->through(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver));
+
     }
     public function createDriver(CreateDriverDTO $dto): Driver
     {

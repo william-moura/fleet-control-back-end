@@ -6,6 +6,7 @@ use App\DTOs\CreateVehicleDTO;
 use App\Models\Vehicle;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class VehicleRepository implements VehicleRepositoryInterface
 {
@@ -32,9 +33,24 @@ class VehicleRepository implements VehicleRepositoryInterface
         ]);
 
     }
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->model->with('brand', 'fuelType', 'drivers')->get();
+        return $this->model->query()->with('brand', 'fuelType', 'drivers')
+        ->when($search, function($query) use ($search){
+            return $query->where('vehicle_plate', 'like', "%$search%")
+                ->orWhere('vehicle_model', 'like', "%$search%")
+                ->orWhere('vehicle_year', 'like', "%$search%");
+        })->when($sort, function($query) use ($sort, $sortDirection){
+            return $query->orderBy($sort, $sortDirection);
+        })->when($page && $perPage, function($query) use ($page, $perPage){
+            return $query->skip(($page - 1) * $perPage)->take($perPage);
+        })->paginate($perPage, ['*'], 'page', $page);
     }
 
     public function destroyVehicle($id): void

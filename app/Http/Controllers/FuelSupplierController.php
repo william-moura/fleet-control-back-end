@@ -15,13 +15,16 @@ class FuelSupplierController extends Controller
     public function __construct(protected FuelSupplierService $service)
     {
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $fuelSuppliers = $this->service->index();
-        return response()->json(
-            $fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier)),
-            200
+        $fuelSuppliers = $this->service->index(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5
         );
+        return response()->json($fuelSuppliers, 200);
     }
     public function store(StoreFuelSupplierRequest $request): JsonResponse
     {

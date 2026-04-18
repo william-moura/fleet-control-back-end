@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\DTOs\CreateVehicleDTO;
+use App\DTOs\VehicleResponseDTO;
 use App\Models\Vehicle;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class VehicleService
@@ -17,9 +19,16 @@ class VehicleService
             return $this->vehicleRepository->createVehicle($dto);
         });
     }
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->vehicleRepository->index();
+        $vehicles = $this->vehicleRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $vehicles->through(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle));
     }
     public function destroyVehicle($id): void
     {

@@ -5,15 +5,28 @@ namespace App\Repositories;
 use App\DTOs\CreateMaintenanceControlDTO;
 use App\Models\MaintenanceControl;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
-use DB;
-use Illuminate\Database\Eloquent\Collection;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 class MaintenanceRepository implements MaintenanceRepositoryInterface
 {
     public function __construct(private MaintenanceControl $model){}
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->model->all();
+        return $this->model->query()
+        ->when($search, function($query) use ($search){
+            return $query->where('maintenance_control_name', 'like', "%$search%")
+                ->orWhere('maintenance_control_description', 'like', "%$search%");
+        })->when($sort, function($query) use ($sort, $sortDirection){
+            return $query->orderBy($sort, $sortDirection);
+        })->when($page && $perPage, function($query) use ($page, $perPage){
+            return $query->skip(($page - 1) * $perPage)->take($perPage);
+        })->paginate($perPage, ['*'], 'page', $page);
     }
     public function createMaintenance(CreateMaintenanceControlDTO $dto): MaintenanceControl
     {

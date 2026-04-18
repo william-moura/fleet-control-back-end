@@ -4,11 +4,17 @@ namespace App\Repositories\Contracts;
 
 use App\DTOs\CreateMaintenanceControlDTO;
 use App\Models\MaintenanceControl;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface MaintenanceRepositoryInterface
 {
-    public function index(): Collection;
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator;
     public function createMaintenance(CreateMaintenanceControlDTO $dto): MaintenanceControl;
     public function updateMaintenance(int $id, CreateMaintenanceControlDTO $dto): MaintenanceControl;
     public function destroyMaintenance(int $id): void;
