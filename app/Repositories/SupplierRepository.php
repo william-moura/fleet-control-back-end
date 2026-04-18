@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\DTOs\CreateSupplierDTO;
 use App\Models\Supplier;
 use App\Repositories\Contracts\SupplierRepositoryInterface;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SupplierRepository implements SupplierRepositoryInterface
 {
@@ -17,9 +17,10 @@ class SupplierRepository implements SupplierRepositoryInterface
         ?string $sortDirection = null,
         ?int $page = 1,
         ?int $perPage = 5
-    ): Collection
+    ): LengthAwarePaginator
     {
-        return $this->model->when($supplierType, function($query) use ($supplierType){
+        return $this->model->query()
+        ->when($supplierType, function($query) use ($supplierType){
             return $query->where('supplier_type', $supplierType);
         })->when($search, function($query) use ($search){
             return $query->where('supplier_fantasy_name', 'like', "%$search%")
@@ -32,7 +33,7 @@ class SupplierRepository implements SupplierRepositoryInterface
             return $query->orderBy($sort, $sortDirection);
         })->when($page && $perPage, function($query) use ($page, $perPage){
             return $query->skip(($page - 1) * $perPage)->take($perPage);
-        })->get();
+        })->paginate($perPage, ['*'], 'page', $page);
     }
     public function createSupplier(CreateSupplierDTO $dto): Supplier
     {

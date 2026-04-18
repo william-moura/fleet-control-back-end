@@ -17,11 +17,15 @@ class SupplierController extends Controller
     }
     public function index(Request $request): JsonResponse
     {
-        $suppliers = $this->service->index($request->supplierType??null);
-        return response()->json(
-            $suppliers->map(fn(Supplier $supplier) => SupplierResponseDTO::fromEntity($supplier)),
-            200
+        $suppliers = $this->service->index(
+            $request->supplierType??null,
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5,
         );
+        return response()->json($suppliers, 200);
     }
     public function store(StoreSupplierRequest $request): JsonResponse
     {

@@ -2,13 +2,19 @@
 
 namespace App\Repositories\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
 use App\DTOs\CreateUserDTO;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserRepositoryInterface
 {
-    public function index(): Collection;
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator;
     public function createUser(CreateUserDTO $dto): User;
     public function updateUser(int $id, CreateUserDTO $dto): User;
     public function deleteUser(int $id): void;

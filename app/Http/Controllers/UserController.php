@@ -15,10 +15,16 @@ class UserController extends Controller
     public function __construct(protected UserService $service)
     {
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $users = $this->service->index();
-        return response()->json($users->map(fn(User $user) => UserResponseDTO::fromEntity($user)), 200);
+        $users = $this->service->index(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5
+        );
+        return response()->json($users, 200);
     }
     public function create(CreateUserRequest $request): JsonResponse
     {

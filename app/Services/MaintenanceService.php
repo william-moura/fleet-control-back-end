@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\DTOs\CreateMaintenanceControlDTO;
 use App\DTOs\CreateMaintenanceServiceDTO;
+use App\DTOs\MaintenanceResponseDTO;
+use App\DTOs\MaintenanceServiceResponseDTO;
 use App\Models\MaintenanceControl;
 use App\Models\MaintenanceControlService;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceServiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class MaintenanceService
 {
@@ -17,9 +20,16 @@ class MaintenanceService
         protected MaintenanceServiceRepositoryInterface $maintenanceServiceRepository
     ){
     }
-    public function index(): Collection
+    public function index(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->maintenanceRepository->index();
+        $maintenances = $this->maintenanceRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $maintenances->through(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance));
     }
     public function createMaintenanceControl(CreateMaintenanceControlDTO $dto): MaintenanceControl
     {
@@ -38,9 +48,16 @@ class MaintenanceService
         return $this->maintenanceRepository->showMaintenance($id);
     }
 
-    public function indexMaintenanceServices(): Collection
+    public function indexMaintenanceServices(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
     {
-        return $this->maintenanceServiceRepository->index();
+        $maintenanceServices = $this->maintenanceServiceRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $maintenanceServices->through(fn(MaintenanceControlService $maintenanceService) => MaintenanceServiceResponseDTO::fromEntity($maintenanceService));
     }
     public function createMaintenanceService(CreateMaintenanceServiceDTO $dto): MaintenanceControlService
     {
