@@ -15,11 +15,17 @@ class MaintenanceController extends Controller
     public function __construct(protected MaintenanceService $service)
     {
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $maintenances = $this->service->index();
+        $maintenances = $this->service->index(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5
+        );
         return response()->json(
-            $maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)),
+            $maintenances,
             200
         );
     }
