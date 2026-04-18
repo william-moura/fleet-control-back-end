@@ -12,9 +12,15 @@ class ListVehicleController extends Controller
 {
     public function __invoke(VehicleService $service): JsonResponse
     {
-        $vehicles = $service->index();
+        $vehicles = $service->index(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5
+        );
         return response()->json(
-            $vehicles->map(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle)),
+            $vehicles,
             200
         );
     }

@@ -19,7 +19,7 @@ class UserRepository implements UserRepositoryInterface
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        return $this->model->with('roles')->query()
+        return $this->model->query()->with('roles')
         ->when($search, function($query) use ($search){
             return $query->where('name', 'like', "%$search%")
                 ->orWhere('email', 'like', "%$search%");
