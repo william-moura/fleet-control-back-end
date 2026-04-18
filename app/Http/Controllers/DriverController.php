@@ -15,11 +15,17 @@ class DriverController extends Controller
     public function __construct(protected DriverService $service)
     {
     }
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $drivers = $this->service->index();
+        $drivers = $this->service->index(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->perPage??5
+        );
         return response()->json(
-            $drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
+            $drivers,
             200
         );
     }

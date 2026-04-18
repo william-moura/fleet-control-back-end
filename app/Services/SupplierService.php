@@ -12,9 +12,16 @@ class SupplierService
     public function __construct(protected SupplierRepositoryInterface $supplierRepository)
     {
     }
-    public function index(?int $supplierType = null): Collection
+    public function index(
+        ?int $supplierType = null, 
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): Collection
     {
-        return $this->supplierRepository->index($supplierType);
+        return $this->supplierRepository->index($supplierType, $search, $sort, $sortDirection, $page, $perPage);
     }
     public function createSupplier(CreateSupplierDTO $dto): Supplier
     {
