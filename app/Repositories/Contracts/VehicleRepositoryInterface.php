@@ -19,4 +19,5 @@ interface VehicleRepositoryInterface
     public function destroyVehicle($id): void;
     public function showVehicle($id): Vehicle;
     public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle;
+    public function count(): int;
 }

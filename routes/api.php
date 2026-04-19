@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CreateVehicleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DestroyVehicleController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\FuelSupplierController;
@@ -27,6 +28,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', function() {
     echo 'ok';
 });
+Route::get('/dashboard', DashboardController::class)->middleware(['auth:sanctum', 'role:administrador|gestor']);
 Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehicles')->group(function () {
     Route::get('/', ListVehicleController::class);
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');

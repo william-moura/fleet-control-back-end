@@ -90,4 +90,8 @@ class VehicleRepository implements VehicleRepositoryInterface
         ]);
         return $vehicle;
     }
+    public function count(): int
+    {
+        return $this->model->where('vehicle_status', 1)->count();
+    }
 }
