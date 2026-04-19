@@ -48,4 +48,17 @@ class FuelSupplierRepository implements FuelSupplierRepositoryInterface
     {
         return $this->model->find($id);
     }
+
+    public function lastsFuelSuppliers(): Collection
+    {
+        return $this->model->orderBy('fuel_supplier_date', 'desc')->take(5)->get();
+    }
+    public function totalFuelSuppliers(): float
+    {
+        return $this->model->sum('fuel_supplier_total');
+    }
+    public function totalFuelSuppliersByMonth(): float
+    {
+        return $this->model->whereMonth('fuel_supplier_date', now()->month)->sum('fuel_supplier_total');
+    }
 }

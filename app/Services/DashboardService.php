@@ -23,14 +23,14 @@ class DashboardService
     public function getDashboardData(): DashboardResponseDTO
     {
         $vehicleCount = $this->vehicleRepository->count();
-        $maintenanceCount = $this->maintenanceRepository->index(null, null, null, 1, 1);
-        $fuelSupplierCount = $this->fuelSupplierRepository->index(null, null, null, 1, 1);
+        $maintenanceCount = $this->maintenanceRepository->nextMaintenances();
+        $fuelSupplierCount = $this->fuelSupplierRepository->lastsFuelSuppliers();
         return new DashboardResponseDTO(
             vehicleCount: $vehicleCount,
             mediaConsumption: 10,
             totalCost: 1000,
-            fuelSupplier: FuelSupplierResponseDTO::fromEntity($fuelSupplierCount->first()),
-            maintenance: MaintenanceResponseDTO::fromEntity($maintenanceCount->first()),
+            fuelSupplier: $fuelSupplierCount->toArray(),
+            maintenance: $maintenanceCount->toArray(),
             
         );
     }
