@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\DTOs\CreateFuelSupplierDTO;
 use App\Models\FuelSupplier;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface FuelSupplierRepositoryInterface
@@ -19,4 +20,7 @@ interface FuelSupplierRepositoryInterface
     public function updateFuelSupplier(int $id, CreateFuelSupplierDTO $dto): ?FuelSupplier;
     public function destroyFuelSupplier(int $id): void;
     public function showFuelSupplier(int $id): FuelSupplier;
+    public function lastsFuelSuppliers(): Collection;
+    public function totalFuelSuppliers(): float;
+    public function totalFuelSuppliersByMonth(): float;
 }

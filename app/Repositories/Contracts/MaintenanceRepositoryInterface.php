@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\DTOs\CreateMaintenanceControlDTO;
 use App\Models\MaintenanceControl;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface MaintenanceRepositoryInterface
@@ -19,4 +20,5 @@ interface MaintenanceRepositoryInterface
     public function updateMaintenance(int $id, CreateMaintenanceControlDTO $dto): MaintenanceControl;
     public function destroyMaintenance(int $id): void;
     public function showMaintenance(int $id): MaintenanceControl;
+    public function nextMaintenances(): Collection;
 }

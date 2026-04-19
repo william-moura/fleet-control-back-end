@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTOs\CreateMaintenanceControlDTO;
 use App\Models\MaintenanceControl;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 class MaintenanceRepository implements MaintenanceRepositoryInterface
@@ -47,5 +48,10 @@ class MaintenanceRepository implements MaintenanceRepositoryInterface
     public function showMaintenance(int $id): MaintenanceControl
     {
         return $this->model->with('maintenanceRelationServices')->find($id);
+    }
+
+    public function nextMaintenances(): Collection
+    {
+        return $this->model->where('maintenance_control_next_date', '>=', now())->orderBy('maintenance_control_next_date', 'asc')->take(5)->get();
     }
 }
