@@ -30,8 +30,8 @@ class DashboardService
             vehicleCount: $vehicleCount,
             mediaConsumption: 10,
             totalCost: 1000,
-            fuelSupplier: $this->convertToFuelSupplierResponseDTO($fuelSupplierCount),
-            maintenance: $this->convertToMaintenanceResponseDTO($maintenanceCount),
+            recentFuelSupplier: $this->convertToFuelSupplierResponseDTO($fuelSupplierCount),
+            recentMaintenance: $this->convertToMaintenanceResponseDTO($maintenanceCount),
             
         );
     }
