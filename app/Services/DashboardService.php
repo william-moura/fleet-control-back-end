@@ -11,6 +11,8 @@ use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
@@ -29,13 +31,14 @@ class DashboardService
         $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalCost = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalMaintenances = $this->maintenanceRepository->totalMaintenancesByMonth();
+        $evolutionExpenses = $this->getEvolutionExpenses();        
         return new DashboardResponseDTO(
             vehicleCount: $vehicleCount,
             mediaConsumption: $mediaConsumption,
             totalCost: $totalCost+$totalMaintenances,
             recentFuelSupplies: $this->convertToFuelSupplierResponseDTO($lastsFuelSuppliers),
             recentMaintenances: $this->convertToMaintenanceResponseDTO($nextMaintenances),
-            
+            evolutionExpenses: $evolutionExpenses,
         );
     }
 
@@ -47,5 +50,36 @@ class DashboardService
     private function convertToMaintenanceResponseDTO(Collection $maintenances): array
     {
         return $maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance))->toArray();
+    }
+
+    private function getEvolutionExpenses(): array
+    {
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+        $fuel = DB::table('fuel_suppliers')
+        ->whereYear('fuel_supplier_date', $currentYear)
+        ->selectRaw('MONTH(fuel_supplier_date) as month, SUM(fuel_supplier_total) as total_cost')
+        ->groupBy('month');
+        $maintenance = DB::table('maintenance_control')
+        ->whereYear('maintenance_control_date', $currentYear)
+        ->selectRaw('MONTH(maintenance_control_date) as month, SUM(maintenance_control_total_cost) as total_cost')
+        ->groupBy('month')
+        ;
+
+        $result = $fuel->unionAll($maintenance)->get();
+        $labels = [];
+        $values = [];
+
+        foreach (range(1, $currentMonth) as $monthNumber) {
+            // Nome do mês curto (Jan, Fev, Mar...) traduzido conforme o locale do Laravel
+            $labels[] = Carbon::create()->month($monthNumber)->locale('pt-BR')->translatedFormat('M');
+            
+            // Soma os valores que pertencem a este mês no resultado do banco
+            $values[] = $result->where('month', $monthNumber)->sum('total_cost');
+        }
+        return [
+            'labels' => $labels,
+            'values' => $values,
+        ];
     }
 }

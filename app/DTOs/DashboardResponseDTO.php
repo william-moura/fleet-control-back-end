@@ -13,7 +13,8 @@ class DashboardResponseDTO
         public float $mediaConsumption,
         public float $totalCost,
         public array $recentFuelSupplies,
-        public array $recentMaintenances
+        public array $recentMaintenances,
+        public array $evolutionExpenses
     ) { }
     public function toArray(): array
     {
@@ -23,6 +24,7 @@ class DashboardResponseDTO
             'totalCost' => $this->totalCost,
             'fuelSupplier' => array_map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier), $this->fuelSupplier),
             'maintenance' => array_map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance), $this->maintenance),
+            'evolutionExpenses' => $this->evolutionExpenses,
         ];
     }
 }
