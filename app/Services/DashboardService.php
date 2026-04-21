@@ -24,14 +24,17 @@ class DashboardService
     public function getDashboardData(): DashboardResponseDTO
     {
         $vehicleCount = $this->vehicleRepository->count();
-        $maintenanceCount = $this->maintenanceRepository->nextMaintenances();
-        $fuelSupplierCount = $this->fuelSupplierRepository->lastsFuelSuppliers();
+        $nextMaintenances = $this->maintenanceRepository->nextMaintenances();
+        $lastsFuelSuppliers = $this->fuelSupplierRepository->lastsFuelSuppliers();
+        $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
+        $totalCost = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
+        $totalMaintenances = $this->maintenanceRepository->totalMaintenancesByMonth();
         return new DashboardResponseDTO(
             vehicleCount: $vehicleCount,
-            mediaConsumption: 10,
-            totalCost: 1000,
-            recentFuelSupplies: $this->convertToFuelSupplierResponseDTO($fuelSupplierCount),
-            recentMaintenances: $this->convertToMaintenanceResponseDTO($maintenanceCount),
+            mediaConsumption: $mediaConsumption,
+            totalCost: $totalCost+$totalMaintenances,
+            recentFuelSupplies: $this->convertToFuelSupplierResponseDTO($lastsFuelSuppliers),
+            recentMaintenances: $this->convertToMaintenanceResponseDTO($nextMaintenances),
             
         );
     }

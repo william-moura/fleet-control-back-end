@@ -54,4 +54,8 @@ class MaintenanceRepository implements MaintenanceRepositoryInterface
     {
         return $this->model->where('maintenance_control_next_date', '>=', now())->orderBy('maintenance_control_next_date', 'asc')->take(5)->get();
     }
+    public function totalMaintenancesByMonth(): float
+    {
+        return $this->model->whereMonth('maintenance_control_date', now()->month)->sum('maintenance_control_total_cost');
+    }
 }
