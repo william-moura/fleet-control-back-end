@@ -12,8 +12,8 @@ class DashboardResponseDTO
         public int $vehicleCount,
         public float $mediaConsumption,
         public float $totalCost,
-        public array $fuelSupplier,
-        public array $maintenance
+        public array $recentFuelSupplier,
+        public array $recentMaintenance
     ) {
         
         
