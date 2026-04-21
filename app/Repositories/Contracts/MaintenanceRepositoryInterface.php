@@ -21,4 +21,5 @@ interface MaintenanceRepositoryInterface
     public function destroyMaintenance(int $id): void;
     public function showMaintenance(int $id): MaintenanceControl;
     public function nextMaintenances(): Collection;
+    public function totalMaintenancesByMonth(): float;
 }

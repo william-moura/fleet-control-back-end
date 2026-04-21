@@ -14,10 +14,7 @@ class DashboardResponseDTO
         public float $totalCost,
         public array $recentFuelSupplies,
         public array $recentMaintenances
-    ) {
-        
-        
-    }
+    ) { }
     public function toArray(): array
     {
         return [
