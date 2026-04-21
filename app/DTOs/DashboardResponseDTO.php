@@ -13,8 +13,9 @@ class DashboardResponseDTO
         public float $mediaConsumption,
         public float $totalCost,
         public array $fuelSupplier,
-        public array $maintenance,
+        public array $maintenance
     ) {
+        
         
     }
     public function toArray(): array
