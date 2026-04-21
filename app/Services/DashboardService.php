@@ -10,6 +10,7 @@ use App\Models\MaintenanceControl;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class DashboardService
 {
@@ -29,9 +30,19 @@ class DashboardService
             vehicleCount: $vehicleCount,
             mediaConsumption: 10,
             totalCost: 1000,
-            fuelSupplier: $fuelSupplierCount->toArray(),
-            maintenance: $maintenanceCount->toArray(),
+            fuelSupplier: $this->convertToFuelSupplierResponseDTO($fuelSupplierCount),
+            maintenance: $this->convertToMaintenanceResponseDTO($maintenanceCount),
             
         );
+    }
+
+    private function convertToFuelSupplierResponseDTO(Collection $fuelSupplier): array
+    {
+        return $fuelSupplier->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier))->toArray();
+    
+    }
+    private function convertToMaintenanceResponseDTO(Collection $maintenances): array
+    {
+        return $maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance))->toArray();
     }
 }

@@ -15,8 +15,7 @@ class DashboardResponseDTO
         public array $fuelSupplier,
         public array $maintenance
     ) {
-        $this->maintenance = array_map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance), $maintenance);
-        $this->fuelSupplier = array_map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier), $fuelSupplier);
+        
         
     }
     public function toArray(): array
