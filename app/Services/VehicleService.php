@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\DTOs\CreateKilometerDTO;
 use App\DTOs\CreateVehicleDTO;
+use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
+use App\Models\Kilometer;
 use App\Models\Vehicle;
+use App\Repositories\Contracts\KilometerRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -12,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class VehicleService
 {
-    public function __construct(protected VehicleRepositoryInterface $vehicleRepository){}
+    public function __construct(protected VehicleRepositoryInterface $vehicleRepository, protected KilometerRepositoryInterface $kilometerRepository){}
     public function createVehicle(CreateVehicleDTO $dto): Vehicle
     {
         return DB::transaction(function () use ($dto) {
@@ -65,5 +69,12 @@ class VehicleService
     {
         $vehicle = Vehicle::findOrFail($vehicleId);
         return $vehicle->drivers;
+    }
+    public function storeKilometer(CreateKilometerDTO $dto): KilometerResponseDTO
+    {
+        return DB::transaction(function () use ($dto) {
+            $kilometer = $this->kilometerRepository->storeKilometer($dto);
+            return KilometerResponseDTO::fromEntity($kilometer);
+        });
     }
 }

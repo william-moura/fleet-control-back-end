@@ -7,6 +7,7 @@ use App\Repositories\Contracts\BrandRepositoryInterface;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\FuelTypeRepositoryInterface;
+use App\Repositories\Contracts\KilometerRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\SupplierRepositoryInterface;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -14,6 +15,7 @@ use App\Repositories\Contracts\VehicleRepositoryInterface;
 use App\Repositories\DriverRepository;
 use App\Repositories\FuelSupplierRepository;
 use App\Repositories\FuelTypeRepository;
+use App\Repositories\KilometerRepository;
 use App\Repositories\MaintenanceRepository;
 use App\Repositories\SupplierRepository;
 use App\Repositories\UserRepository;
@@ -38,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(MaintenanceRepositoryInterface::class, MaintenanceRepository::class);
         $this->app->bind(MaintenanceServiceRepositoryInterface::class, MaintenanceServiceRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+        $this->app->bind(KilometerRepositoryInterface::class, KilometerRepository::class);
     }
 
     /**
