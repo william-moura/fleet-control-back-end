@@ -22,4 +22,5 @@ interface MaintenanceRepositoryInterface
     public function showMaintenance(int $id): MaintenanceControl;
     public function nextMaintenances(): Collection;
     public function totalMaintenancesByMonth(): float;
+    public function findUpcomingMaintenances(int $kmThreshold = 500, int $daysThreshold = 7): Collection;
 }
