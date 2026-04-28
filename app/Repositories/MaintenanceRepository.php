@@ -52,10 +52,64 @@ class MaintenanceRepository implements MaintenanceRepositoryInterface
 
     public function nextMaintenances(): Collection
     {
-        return $this->model->where('maintenance_control_next_date', '>=', now())->orderBy('maintenance_control_next_date', 'asc')->take(5)->get();
+        return $this->model
+            ->query()
+            ->where('maintenance_control_next_date', '>=', now())
+            ->orderBy('maintenance_control_next_date', 'asc')
+            ->take(5)
+            ->get();
     }
     public function totalMaintenancesByMonth(): float
     {
         return $this->model->whereMonth('maintenance_control_date', now()->month)->sum('maintenance_control_total_cost');
+    }
+
+    /**
+ * Busca manutenções próximas do vencimento por KM ou Data.
+ *
+ * @param int $kmThreshold Margem de antecedência em quilômetros.
+ * @param int $daysThreshold Margem de antecedência em dias.
+ * @return \Illuminate\Support\Collection
+ */
+public function findUpcomingMaintenances(int $kmThreshold = 500, int $daysThreshold = 7): Collection
+{
+    // Subquery para obter a última quilometragem registrada de cada veículo
+    // Usamos DB::table para evitar o overhead de instanciar Models na subquery
+    $latestKilometers = DB::table('kilometers')
+        ->select('vehicle_id')
+        ->selectRaw('MAX(kilometers_value) as km_atual')
+        ->groupBy('vehicle_id');
+
+    return $this->model->query()
+        ->select([
+            'vehicles.vehicle_plate',
+            'maintenance_control.maintenance_control_description',
+            'maintenance_control.maintenance_control_next_kilometers',
+            'maintenance_control.maintenance_control_next_date',
+            'ul.km_atual'
+        ])
+        // Alias para facilitar o acesso no Front-end/Resource
+        ->selectRaw('(maintenance_control.maintenance_control_next_kilometers - ul.km_atual) AS km_restante')
+        ->selectRaw('DATEDIFF(maintenance_control.maintenance_control_next_date, NOW()) AS dias_restantes')
+        
+        // Join com a tabela de veículos para pegar a placa
+        ->join('vehicles', 'maintenance_control.vehicle_id', '=', 'vehicles.id')
+        
+        // Join com a subquery de quilometragem (ul = última leitura)
+        ->joinSub($latestKilometers, 'ul', function ($join) {
+            $join->on('maintenance_control.vehicle_id', '=', 'ul.vehicle_id');
+        })
+        
+        // Filtros de negócio
+        ->where('maintenance_control.maintenance_control_status', 1)
+        ->where(function ($query) use ($kmThreshold, $daysThreshold) {
+            $query->whereRaw('ul.km_atual >= (maintenance_control.maintenance_control_next_kilometers - ?)', [$kmThreshold])
+                  ->orWhereRaw('maintenance_control.maintenance_control_next_date <= DATE_ADD(NOW(), INTERVAL ? DAY)', [$daysThreshold]);
+        })
+        
+        // Ordenação: primeiro o que está mais crítico (menor km restante/dias)
+        ->orderBy('km_restante', 'asc')
+        ->orderBy('dias_restantes', 'asc')
+        ->get();
     }
 }

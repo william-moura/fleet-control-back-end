@@ -21,6 +21,7 @@ class MaintenanceResponseDTO
         public string $maintenanceNextDate,
         public string $maintenanceStatus,
         public string $maintenancePreviousDateFinished,
+        public float $maintenanceNextKilometers,
     ) {}
     public static function fromEntity(MaintenanceControl $maintenance): self
     {
@@ -39,6 +40,7 @@ class MaintenanceResponseDTO
             maintenanceNextDate: $maintenance->maintenance_control_next_date,
             maintenanceStatus: $maintenance->maintenance_control_status,
             maintenancePreviousDateFinished: $maintenance->maintenance_control_previous_date_finished,
+            maintenanceNextKilometers: $maintenance->maintenance_control_next_kilometers ?? 0,
         );
     }
 }

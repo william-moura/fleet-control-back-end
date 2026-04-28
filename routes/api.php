@@ -8,6 +8,7 @@ use App\Http\Controllers\DestroyVehicleController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\FuelSupplierController;
 use App\Http\Controllers\FuelTypeController;
+use App\Http\Controllers\KilometerController;
 use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceServicesController;
@@ -41,6 +42,7 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
+    Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
 });
 
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);

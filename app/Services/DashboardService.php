@@ -26,7 +26,7 @@ class DashboardService
     public function getDashboardData(): DashboardResponseDTO
     {
         $vehicleCount = $this->vehicleRepository->count();
-        $nextMaintenances = $this->maintenanceRepository->nextMaintenances();
+        $nextMaintenances = $this->maintenanceRepository->findUpcomingMaintenances();
         $lastsFuelSuppliers = $this->fuelSupplierRepository->lastsFuelSuppliers();
         $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalCost = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();

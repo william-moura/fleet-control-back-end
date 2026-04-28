@@ -34,6 +34,7 @@ class StoreMaintenanceControlRequest extends FormRequest
             'nextMaintenanceDate' => ['nullable', 'date'],
             'status' => ['nullable', 'integer', 'in:0,1'],
             'previsionDateFinish' => ['nullable', 'date'],
+            'maintenanceNextKilometers' => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }
