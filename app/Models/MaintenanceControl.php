@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MaintenanceControl extends Model
 {
     use SoftDeletes;
     protected $table = 'maintenance_control';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'vehicle_id',
         'maintenance_control_type_id',
@@ -28,12 +30,20 @@ class MaintenanceControl extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'maintenance_control_date' => 'datetime',
+        'maintenance_control_next_date' => 'datetime',
+        'maintenance_control_previous_date_finished' => 'datetime',
+        'maintenance_control_kilometers' => 'float',
+        'maintenance_control_next_kilometers' => 'float',
+        'maintenance_control_total_cost' => 'float',
+        'supplier_id' => 'integer',
+        'vehicle_id' => 'integer',
     ];
-    public function vehicle()
+    public function vehicle(): BelongsTo
     {
-        return $this->belongsTo(Vehicle::class);
+        return $this->belongsTo(Vehicle::class, 'vehicle_id', 'id');
     }
-    public function supplier()
+    public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
     }
