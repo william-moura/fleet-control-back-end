@@ -10,14 +10,14 @@ use Illuminate\Http\Request;
 
 class ListVehicleController extends Controller
 {
-    public function __invoke(VehicleService $service): JsonResponse
+    public function __invoke(Request $request, VehicleService $service): JsonResponse
     {
         $vehicles = $service->index(
             $request->search??null,
             $request->sort??null,
             $request->sortDirection??null,
             $request->page??1,
-            $request->perPage??5
+            $request->per_page??5
         );
         return response()->json(
             $vehicles,

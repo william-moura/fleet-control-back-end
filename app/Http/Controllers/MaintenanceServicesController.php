@@ -22,7 +22,7 @@ class MaintenanceServicesController extends Controller
             $request->sort??null,
             $request->sortDirection??null,
             $request->page??1,
-            $request->perPage??5
+            $request->per_page??5
         );
         return response()->json($maintenanceServices, 200);
     }
