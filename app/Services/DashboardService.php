@@ -49,6 +49,7 @@ class DashboardService
     }
     private function convertToMaintenanceResponseDTO(Collection $maintenances): array
     {
+        // dd($maintenances);
         return $maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance))->toArray();
     }
 

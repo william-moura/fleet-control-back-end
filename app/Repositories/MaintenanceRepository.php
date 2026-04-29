@@ -80,13 +80,25 @@ public function findUpcomingMaintenances(int $kmThreshold = 500, int $daysThresh
         ->selectRaw('MAX(kilometers_value) as km_atual')
         ->groupBy('vehicle_id');
 
-    return $this->model->query()
+    return $this->model
+        ->newQuery()
+        ->with(['vehicle','supplier'])
         ->select([
             'vehicles.vehicle_plate',
             'maintenance_control.maintenance_control_description',
             'maintenance_control.maintenance_control_next_kilometers',
             'maintenance_control.maintenance_control_next_date',
-            'ul.km_atual'
+            'maintenance_control.maintenance_control_total_cost',
+            'maintenance_control.maintenance_control_kilometers',
+            'maintenance_control.maintenance_control_description',
+            'maintenance_control.maintenance_control_date',
+            'maintenance_control.maintenance_control_notes',
+            'maintenance_control.maintenance_control_status',
+            'maintenance_control.maintenance_control_previous_date_finished',
+            'ul.km_atual',
+            'maintenance_control.supplier_id',
+            'maintenance_control.vehicle_id',
+            'maintenance_control.id'
         ])
         // Alias para facilitar o acesso no Front-end/Resource
         ->selectRaw('(maintenance_control.maintenance_control_next_kilometers - ul.km_atual) AS km_restante')
