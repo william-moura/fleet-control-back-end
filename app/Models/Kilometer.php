@@ -23,6 +23,7 @@ class Kilometer extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'kilometers_date' => 'datetime',
     ];
     public function vehicle(): BelongsTo
     {
