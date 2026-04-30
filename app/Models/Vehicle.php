@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Vehicle extends Model
@@ -41,5 +42,9 @@ class Vehicle extends Model
     public function drivers(): BelongsToMany
     {
         return $this->belongsToMany(Driver::class, 'vehicle_relationship_drivers', 'vehicle_id', 'driver_id');
+    }
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
     }
 }

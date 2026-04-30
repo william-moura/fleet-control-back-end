@@ -12,6 +12,7 @@ use App\Http\Controllers\KilometerController;
 use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceServicesController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ShowVehicleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
@@ -75,3 +76,4 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
     Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
 });
+Route::post('/upload', [MediaController::class, 'upload']);
