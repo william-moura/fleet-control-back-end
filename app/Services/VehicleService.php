@@ -7,6 +7,7 @@ use App\DTOs\CreateVehicleDTO;
 use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
 use App\Models\Kilometer;
+use App\Models\Media;
 use App\Models\Vehicle;
 use App\Repositories\Contracts\KilometerRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
@@ -20,7 +21,12 @@ class VehicleService
     public function createVehicle(CreateVehicleDTO $dto): Vehicle
     {
         return DB::transaction(function () use ($dto) {
-            return $this->vehicleRepository->createVehicle($dto);
+            $veiculo = $this->vehicleRepository->createVehicle($dto);
+            if (!empty($dto->photosIds)) {
+                $medias =Media::whereIn('id', $dto->photosIds)->get();
+                $veiculo->media()->saveMany($medias);
+            }
+            return $veiculo;
         });
     }
     public function index(

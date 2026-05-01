@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\Driver;
+use App\Models\Media;
 use App\Models\Vehicle;
 use Illuminate\Support\Collection;
 
@@ -23,6 +24,7 @@ readonly class VehicleResponseDTO
         public ?string $brand,
         public ?string $fuelType,
         public ?Collection $drivers,
+        public ?Collection $media,
     ) {}
 
     /**
@@ -45,6 +47,7 @@ readonly class VehicleResponseDTO
             brand: $vehicle->brand->brand_name,
             fuelType: $vehicle->fuelType->fuel_type_name,
             drivers: $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
+            media: $vehicle->media->map(fn(Media $media) => $media),
         );
     }
 }

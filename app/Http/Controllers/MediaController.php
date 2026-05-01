@@ -21,6 +21,6 @@ class MediaController extends Controller
             'size' => $file->getSize(),
             'user_id' => auth()->id(),
         ]);
-        return response()->json(['path' => $path, 'media' => $media]);
+        return response()->json($media);
     }
 }
