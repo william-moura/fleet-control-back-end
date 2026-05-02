@@ -44,7 +44,7 @@ readonly class VehicleResponseDTO
             vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
             vehiclePurchaseDate: $vehicle->vehicle_purchase_date?->format('d/m/Y'),
             vehicleNotes: $vehicle->vehicle_notes,
-            brand: $vehicle->brand->brand_name,
+            brand: strtoupper($vehicle->brand->brand_name),
             fuelType: $vehicle->fuelType->fuel_type_name,
             drivers: $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
             photos: $vehicle->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
