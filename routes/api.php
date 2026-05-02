@@ -77,3 +77,4 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
 });
 Route::post('/upload', [MediaController::class, 'upload']);
+Route::delete('/upload/{id}', [MediaController::class, 'destroy']);

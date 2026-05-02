@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\PhotoResponseDTO;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
@@ -21,6 +23,13 @@ class MediaController extends Controller
             'size' => $file->getSize(),
             'user_id' => auth()->id(),
         ]);
-        return response()->json($media);
+        return response()->json(PhotoResponseDTO::fromEntity($media));
+    }
+    public function destroy(int$id)
+    {
+        $media = Media::find($id);
+        Storage::disk('public')->delete($media->path);
+        $media->delete();
+        return response()->json(null, 204);
     }
 }

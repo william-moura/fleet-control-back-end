@@ -45,7 +45,7 @@ class VehicleService
         $this->vehicleRepository->destroyVehicle($id);
     }
 
-    public function showVehicle($id): Vehicle
+    public function showVehicle(int $id): Vehicle
     {
         return $this->vehicleRepository->showVehicle($id);
     }
@@ -58,7 +58,14 @@ class VehicleService
      */
     public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle
     {
-        return $this->vehicleRepository->updateVehicle($id, $dto);
+        return DB::transaction(function () use ($id, $dto) {
+            $vehicle = $this->vehicleRepository->updateVehicle($id, $dto);
+            if (!empty($dto->photosIds)) {
+                $medias = Media::whereIn('id', $dto->photosIds)->get();
+                $vehicle->media()->saveMany($medias);
+            }
+            return $vehicle;
+        });
     }
 
     public function syncDriver(int $vehicleId, array $driversId): void
