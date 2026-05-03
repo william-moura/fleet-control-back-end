@@ -25,6 +25,8 @@ class StoreVehicleRequest extends FormRequest
             'vehicleStatus'          => ['required', 'integer', 'in:1,2'],
             'vehiclePurchaseDate'   => ['nullable', 'date'],
             'vehicleNotes'           => ['nullable', 'string', 'max:1000'],
+            'photosIds'               => ['nullable', 'array'],
+            'photosIds.*'             => ['nullable', 'integer', 'exists:media,id'],
         ];
     }
 

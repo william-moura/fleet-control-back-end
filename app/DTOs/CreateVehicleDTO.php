@@ -18,6 +18,7 @@ readonly class CreateVehicleDTO
         public string $vehicleStatus,
         public ?DateTimeImmutable $vehiclePurchaseDate = null,
         public ?string $vehicleNotes = null,
+        public ?array $photosIds = null,
     ) {}
 
     /**
@@ -38,6 +39,7 @@ readonly class CreateVehicleDTO
                 ? new DateTimeImmutable($data['vehiclePurchaseDate'])
                 : null,
             vehicleNotes: $data['vehicleNotes'] ?? null,
+            photosIds: $data['photosIds'] ?? null,
         );
     }
 
