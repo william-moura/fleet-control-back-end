@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreateKilometerDTO;
 use App\DTOs\CreateVehicleDTO;
+use App\DTOs\HistoryResponseDTO;
 use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
 use App\Models\Kilometer;
@@ -89,5 +90,29 @@ class VehicleService
             $kilometer = $this->kilometerRepository->storeKilometer($dto);
             return KilometerResponseDTO::fromEntity($kilometer);
         });
+    }
+    public function getHistory(int $vehicleId): array
+    {
+        $maintenanceControls = DB::table('maintenance_control')
+            ->where('vehicle_id', $vehicleId)
+            ->select('id',
+                'maintenance_control_date as date',                
+                'maintenance_control_total_cost as totalCost',
+                DB::raw("'Manutenção' as type"),
+                DB::raw("maintenance_control_description as description"),
+            )
+            ;
+        $fuelSuppliers = DB::table('fuel_suppliers')
+            ->where('vehicle_id', $vehicleId)
+            ->select('id',
+                'fuel_supplier_date as date',
+                'fuel_supplier_total as totalCost',
+                DB::raw("'Abastecimento' as type"),
+                DB::raw("CONCAT('Abastecimento de ', fuel_supplier_quantity, ' litros') as description"),
+            )
+            ->union($maintenanceControls)
+            ->orderBy('date', 'desc')
+            ->get();
+        return $fuelSuppliers->map(fn(object $item) => HistoryResponseDTO::fromEntity($item))->toArray();
     }
 }

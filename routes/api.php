@@ -18,6 +18,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VechicleSyncDriverController;
+use App\Http\Controllers\VehicleHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,7 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
+    Route::get('/{id}/history', VehicleHistoryController::class);
 });
 
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
