@@ -40,7 +40,7 @@ readonly class VehicleResponseDTO
             vehicleYear: $vehicle->vehicle_year,
             fuelTypeId: $vehicle->fuelType->id,
             vehicleTankCapacity: (float) $vehicle->vehicle_tank_capacity,
-            vehicleCurrentMileage: $vehicle->vehicle_current_mileage,
+            vehicleCurrentMileage: $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage,
             vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
             vehiclePurchaseDate: $vehicle->vehicle_purchase_date?->format('d/m/Y'),
             vehicleNotes: $vehicle->vehicle_notes,
