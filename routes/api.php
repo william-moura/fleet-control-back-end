@@ -36,8 +36,8 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::get('/', ListVehicleController::class);
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
     Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
-    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');
-    Route::get('/brands', [BrandController::class, 'index'])->name('vehicles.brands');
+    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');    
+    Route::resource('brands', BrandController::class);
     Route::get('/fuel-types', [FuelTypeController::class, 'index'])->name('vehicles.fuelTypes');
     Route::get('/{id}', ShowVehicleController::class)->name('vehicles.show');
     Route::get('/{id}/synced-drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
