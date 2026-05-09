@@ -5,8 +5,11 @@ namespace App\Services;
 use App\DTOs\GenerateReportDTO;
 use App\DTOs\ReportResponseDTO;
 use App\Exports\BaseExport;
+use App\Factories\ReportFactory;
 use App\Models\FuelSupplier;
 use App\Models\Vehicle;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use DateTimeImmutable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -18,8 +21,13 @@ class ReportService
 {
     public function generateReport(string $id, GenerateReportDTO $dto): ReportResponseDTO
     {
-        $report = $this->selectReportByType($id, $dto);
-        return ReportResponseDTO::fromEntity($report);
+        $reportStrategy = ReportFactory::make($id);
+        $data = $reportStrategy->getDados($dto);        
+        $headings = $reportStrategy->getHeadings();
+        return new ReportResponseDTO(
+            columns: $headings,
+            data: $data->toArray(),
+        );
     }
     private function selectReportByType(string $id, GenerateReportDTO $dto): Collection
     {
@@ -77,17 +85,29 @@ class ReportService
             ->get();
     }
 
-    public function generatePdfReport(string $id, GenerateReportDTO $dto): StreamedResponse
+    public function generatePdfReport(string $id, GenerateReportDTO $dto): DomPDFPDF
     {
-        $report = $this->selectReportByType($id, $dto);
-        return response()->streamDownload(function () use ($report) {
-            echo $report->toPdf();
-        }, "relatorio_{$report->type}.pdf");
+        $reportStrategy = ReportFactory::make($id);
+        $data = $reportStrategy->getDados($dto);
+        $title = $reportStrategy->getTitle();        
+        $headings = $reportStrategy->getHeadings();
+        $pdf = Pdf::loadView('reports.basepdf', [
+            'data' => $data->toArray(), 
+            'title' => $title, 
+            'headings' => $headings,
+            'startDate' => $dto->startDate->format('d/m/Y'),
+            'endDate' => $dto->endDate->format('d/m/Y'),
+        ]);
+        $pdf->setPaper('a4', 'portrait');
+        return $pdf;
     }
 
     public function generateExcelReport(string $id, GenerateReportDTO $dto): BinaryFileResponse
     {
-        $report = $this->selectReportByType($id, $dto);
-        return Excel::download(new BaseExport($report), "relatorio_{$dto->type}.xlsx");
+        $reportStrategy = ReportFactory::make($id);
+        $data = $reportStrategy->getDados($dto);
+        $title = $reportStrategy->getTitle();        
+        $headings = $reportStrategy->getHeadings();
+        return Excel::download(new BaseExport($data, $headings), "relatorio_{$id}.xlsx");
     }
 }

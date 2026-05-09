@@ -2,16 +2,21 @@
 
 namespace App\Exports;
 
+use App\Models\Vehicle;
 use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BaseExport implements FromCollection
+class BaseExport implements FromCollection, WithHeadings
 {
     protected Collection $data;
+    protected array $headings;
 
-    public function __construct(Collection $data)
+    public function __construct(Collection $data, array $headings)
     {
         $this->data = $data;
+        $this->headings = $headings;
     }
 
     /**
@@ -23,6 +28,16 @@ class BaseExport implements FromCollection
     }
     public function headings(): array
     {
-        return array_keys($this->data->first()->getAttributes());
+        return $this->headings;
+    }
+
+    public function map($row): array
+    {
+        return [
+            $row->id,
+            $row->vehicle_plate,
+            $row->vehicle_model,
+            number_format($row->total_cost, 2, ',', '.'),
+        ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\GenerateReportRequest;
 use App\Services\ReportService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -21,10 +22,11 @@ class ReportController extends Controller
         return response()->json($this->reportService->generateReport($id, $dto));
     }
 
-    private function generatePdfReport(string $id, GenerateReportRequest $request): StreamedResponse
+    public function generatePdfReport(string $id, GenerateReportRequest $request): Response
     {
         $dto = GenerateReportDTO::fromRequest($request);
-        return $this->reportService->generatePdfReport($id, $dto);
+        $pdf = $this->reportService->generatePdfReport($id, $dto);
+        return $pdf->stream("relatorio_{$id}.pdf");
     }
     public function generateExcelReport(string $id, GenerateReportRequest $request): BinaryFileResponse
     {
