@@ -9,6 +9,7 @@ class ReportResponseDTO
     public function __construct(
         public array $columns,
         public array $data,
+        public string $title,
     ) {}
 
     public static function fromEntity(Collection $data): self
@@ -17,6 +18,7 @@ class ReportResponseDTO
         return new self(
             columns: $columns,
             data: $data->toArray(),
+            title: $data->first()->getTitle(),
         );
     }
 }
