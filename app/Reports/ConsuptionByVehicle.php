@@ -11,6 +11,9 @@ class ConsuptionByVehicle implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
+        if (!$dto->startDate || !$dto->endDate) {
+            throw new \Exception('Data de início e fim são obrigatórias');
+        }
         $result = FuelSupplier::query()
             ->join('vehicles AS v', 'v.id', '=', 'fuel_suppliers.vehicle_id')
             //->where('vehicle_id', $vehicleId)

@@ -23,8 +23,8 @@ class GenerateReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'startDate' => ['required', 'date'],
-            'endDate' => ['required', 'date'],
+            'startDate' => ['nullable', 'date'],
+            'endDate' => ['nullable', 'date'],
             'type' => ['nullable', 'string', 'in:daily,weekly,monthly,yearly'],
             'status' => ['nullable', 'string', 'in:pending,completed,cancelled'],
             'vehicleId' => ['nullable', 'exists:vehicles,id'],

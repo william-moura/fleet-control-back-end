@@ -3,7 +3,9 @@
 namespace App\Factories;
 
 use App\Contracts\ReportContract;
+use App\Reports\ActiveVehicles;
 use App\Reports\ConsuptionByVehicle;
+use App\Reports\ConsuptionByDriver;
 use App\Reports\TotalCostByVehicle;
 
 class ReportFactory
@@ -11,6 +13,8 @@ class ReportFactory
     protected static array $reports = [
         'total_cost' => TotalCostByVehicle::class,
         'consumption_by_vehicle' => ConsuptionByVehicle::class,
+        'consumption_by_driver' => ConsuptionByDriver::class,
+        'active_vehicles' => ActiveVehicles::class,
     ];
     public static function make(string $id): ReportContract
     {
