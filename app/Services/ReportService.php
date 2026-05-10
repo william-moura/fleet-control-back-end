@@ -27,6 +27,7 @@ class ReportService
         return new ReportResponseDTO(
             columns: $headings,
             data: $data->toArray(),
+            title: $reportStrategy->getTitle(),
         );
     }
     private function selectReportByType(string $id, GenerateReportDTO $dto): Collection

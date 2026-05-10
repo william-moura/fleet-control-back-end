@@ -15,16 +15,16 @@ class ConsuptionByVehicle implements ReportContract
             throw new \Exception('Data de início e fim são obrigatórias');
         }
         $result = FuelSupplier::query()
-            ->join('vehicles AS v', 'v.id', '=', 'fuel_suppliers.vehicle_id')
-            //->where('vehicle_id', $vehicleId)
+            ->join('vehicles AS v', 'v.id', '=', 'fuel_suppliers.vehicle_id')            
             ->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->vehicleId, function($query) use ($dto) {
+                $query->where('fuel_suppliers.vehicle_id', $dto->vehicleId);
+            })
             ->select([
-                'v.id'                
-                //'vehicles.vehicle_plate', 
-                //'vehicles.vehicle_model'
+                'v.id'
             ])
             ->selectRaw('CONCAT(v.vehicle_plate, " - ", v.vehicle_model) as veículo')
-            ->selectRaw('SUM(fuel_supplier_quantity) as quatidade')
+            ->selectRaw('SUM(fuel_supplier_quantity) as quantity')
             ->selectRaw('SUM(fuel_suppliers.fuel_supplier_total) as total_cost')
             ->selectRaw('SUM(fuel_supplier_quantity) / SUM(fuel_supplier_total) as consumption')
             ->selectRaw('SUM(fuel_supplier_quantity) / SUM(fuel_supplier_total) * 100 as consumption_percentage')
@@ -35,10 +35,10 @@ class ConsuptionByVehicle implements ReportContract
             ->map(fn(object $fuelSupplier) => [
                 'id' => $fuelSupplier->id,
                 'vehicle_model' => $fuelSupplier->veículo,
-                'quantity' => $fuelSupplier->quantidade,
-                'consumption' => $fuelSupplier->consumption,
-                'consumption_percentage' => $fuelSupplier->consumption_percentage,
-                'consumption_per_liter' => $fuelSupplier->consumption_per_liter,
+                'quantity' => number_format($fuelSupplier->quantity, 2, ',', '.'),
+                'consumption' => 'R$ ' . number_format($fuelSupplier->consumption, 2, ',', '.'),
+                'consumption_percentage' => number_format($fuelSupplier->consumption_percentage, 2, ',', '.') . '%',
+                'consumption_per_liter' => number_format($fuelSupplier->consumption_per_liter, 2, ',', '.') . ' km/l',
                 'total_fuel_suppliers' => $fuelSupplier->total_fuel_suppliers,
             ]);
         return new Collection($result);
@@ -49,7 +49,7 @@ class ConsuptionByVehicle implements ReportContract
             'id' => 'ID',
             'vehicle_model' => 'Veículo',
             'quantity' => 'Quantidade',
-            'consumption' => 'Consumo',
+            'consumption' => 'Custo médio por litro',
             'consumption_percentage' => 'Consumo Percentual',
             'consumption_per_liter' => 'Consumo por Litro',
             'total_fuel_suppliers' => 'Total de Abastecimentos',
