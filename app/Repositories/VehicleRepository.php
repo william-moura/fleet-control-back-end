@@ -41,7 +41,7 @@ class VehicleRepository implements VehicleRepositoryInterface
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        return $this->model->query()->with(['brand', 'fuelType', 'drivers', 'media'])
+        return $this->model->query()->with(['brand', 'fuelType', 'drivers', 'media', 'maxKilometer'])
         ->when($search, function($query) use ($search){
             return $query->where('vehicle_plate', 'like', "%$search%")
                 ->orWhere('vehicle_model', 'like', "%$search%")

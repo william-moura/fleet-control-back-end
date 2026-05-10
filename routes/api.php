@@ -13,6 +13,7 @@ use App\Http\Controllers\ListVehicleController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceServicesController;
 use App\Http\Controllers\MediaController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShowVehicleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
@@ -36,8 +37,8 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::get('/', ListVehicleController::class);
     Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
     Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
-    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');
-    Route::get('/brands', [BrandController::class, 'index'])->name('vehicles.brands');
+    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');    
+    Route::resource('brands', BrandController::class);
     Route::get('/fuel-types', [FuelTypeController::class, 'index'])->name('vehicles.fuelTypes');
     Route::get('/{id}', ShowVehicleController::class)->name('vehicles.show');
     Route::get('/{id}/synced-drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
@@ -80,3 +81,6 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
 });
 Route::post('/upload', [MediaController::class, 'upload']);
 Route::delete('/upload/{id}', [MediaController::class, 'destroy']);
+Route::get('/reports/{id}', [ReportController::class, 'generateReport']);
+Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport']);
+Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport']);
