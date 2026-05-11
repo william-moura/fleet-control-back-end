@@ -55,7 +55,15 @@ class VehicleRepository implements VehicleRepositoryInterface
 
     public function destroyVehicle($id): void
     {
-        $this->model->find($id)->delete();
+        $vehicle = $this->model->find($id);
+        if (!$vehicle) {
+            throw new \Exception('Vehicle not found');
+        }
+        $vehicle->delete();
+        $vehicle->drivers()->detach();
+        $vehicle->fuelSuppliers()->detach();
+        $vehicle->media()->delete();
+        $vehicle->maxKilometer()->delete();
     }
 
     public function showVehicle($id): Vehicle
@@ -93,5 +101,13 @@ class VehicleRepository implements VehicleRepositoryInterface
     public function count(): int
     {
         return $this->model->where('vehicle_status', 1)->count();
+    }
+    public function checkVechicleHasRelationship(int $id): bool
+    {
+        $vehicle = $this->model->where('id', $id)->with(['maintenances', 'fuelSuppliers'])->first();        
+        if ($vehicle->maintenances->count() > 0 || $vehicle->fuelSuppliers->count() > 0) {
+            return true;
+        }
+        return false;
     }
 }

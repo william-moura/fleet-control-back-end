@@ -42,8 +42,13 @@ class VehicleService
         return $vehicles->through(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle));
     }
     public function destroyVehicle($id): void
-    {
-        $this->vehicleRepository->destroyVehicle($id);
+    {        
+        if ($this->vehicleRepository->checkVechicleHasRelationship($id)) {
+            throw new \Exception('Veículo não pode ser deletado porque tem relacionamentos com manutenções ou abastecimentos');
+        }
+        DB::transaction(function () use ($id) {
+            $this->vehicleRepository->destroyVehicle($id);
+        });
     }
 
     public function showVehicle(int $id): Vehicle

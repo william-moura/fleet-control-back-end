@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -52,5 +53,13 @@ class Vehicle extends Model
     public function maxKilometer(): HasOne
     {
         return $this->hasOne(Kilometer::class)->orderBy('kilometers_value', 'desc')->limit(1);
+    }
+    public function fuelSuppliers(): HasMany
+    {
+        return $this->hasMany(FuelSupplier::class);
+    }
+    public function maintenances(): HasMany
+    {
+        return $this->hasMany(MaintenanceControl::class);
     }
 }

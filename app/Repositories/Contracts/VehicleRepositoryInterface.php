@@ -20,4 +20,5 @@ interface VehicleRepositoryInterface
     public function showVehicle($id): Vehicle;
     public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle;
     public function count(): int;
+    public function checkVechicleHasRelationship(int $id): bool;
 }
