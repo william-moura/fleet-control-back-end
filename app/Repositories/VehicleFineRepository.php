@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTOs\CreateVehicleFineDTO;
 use App\Models\VehicleFine;
 use App\Repositories\Contracts\VehicleFineRepositoryInterface;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VehicleFineRepository implements VehicleFineRepositoryInterface
@@ -20,7 +21,7 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        return $this->model->query()->when($search, function($query) use ($search){
+        return $this->model->query()->with('vehicle', 'driver')->when( $search, function($query) use ($search){
             return $query->where('vehicle_fine_amount', 'like', "%$search%")
                 ->orWhere('vehicle_fine_date', 'like', "%$search%")
                 ->orWhere('vehicle_fine_level', 'like', "%$search%");
@@ -45,5 +46,9 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
     public function showVehicleFine(int $id): VehicleFine
     {
         return $this->model->find($id);
+    }
+    public function totalFinesByMonth(): float
+    {
+        return $this->model->whereYear('vehicle_fine_date', Carbon::now()->year)->whereMonth('vehicle_fine_date', Carbon::now()->month)->sum('vehicle_fine_amount');
     }
 }

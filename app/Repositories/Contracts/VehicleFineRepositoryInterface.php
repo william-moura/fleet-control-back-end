@@ -19,4 +19,5 @@ interface VehicleFineRepositoryInterface
     public function updateVehicleFine(int $id, CreateVehicleFineDTO $dto): VehicleFine;
     public function destroyVehicleFine(int $id): void;
     public function showVehicleFine(int $id): VehicleFine;
+    public function totalFinesByMonth(): float;
 }

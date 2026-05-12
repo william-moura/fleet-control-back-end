@@ -21,7 +21,7 @@ return new class extends Migration
                 ->onUpdate('cascade');
             $table->decimal('vehicle_fine_amount', 10, 2);
             $table->date('vehicle_fine_date');
-            $table->enum('vehicle_fine_level', ['leve', 'media', 'grave', 'gravissima']);
+            $table->enum('vehicle_fine_level', ['leve', 'media', 'grave', 'gravissima']);            
             $table->decimal('vehicle_fine_points', 10, 2);
             $table->text('vehicle_fine_notes')->nullable();
             $table->tinyInteger('vehicle_fine_status')->default(1);

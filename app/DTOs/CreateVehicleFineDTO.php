@@ -8,43 +8,43 @@ use DateTimeImmutable;
 class CreateVehicleFineDTO
 {
     public function __construct(
-        public int $vehicle_id,
-        public int $driver_id,
-        public float $vehicle_fine_amount,
-        public DateTimeImmutable $vehicle_fine_date,
-        public string $vehicle_fine_level,
-        public float $vehicle_fine_points,
-        public string $vehicle_fine_notes,
-        public int $vehicle_fine_status,
-        public ?DateTimeImmutable $vehicle_fine_paid_date = null,
+        public int $vehicleId,
+        public int $driverId,
+        public float $fineAmount,
+        public DateTimeImmutable $fineDate,
+        public string $fineType,
+        public float $finePoints,
+        public string $fineNotes,
+        public int $fineStatus,
+        public ?DateTimeImmutable $fineDueDate = null,
     ) {}
     public static function fromRequest(VehicleFineRequest $request): self
     {
         return new self(
-            vehicle_id: $request->vehicleId,
-            driver_id: $request->driverId,
-            vehicle_fine_amount: $request->vehicleFineAmount,
-            vehicle_fine_date: new DateTimeImmutable($request->vehicleFineDate),
-            vehicle_fine_level: $request->vehicleFineLevel,
-            vehicle_fine_points: $request->vehicleFinePoints,
-            vehicle_fine_notes: $request->vehicleFineNotes,
-            vehicle_fine_status: $request->vehicleFineStatus,
-            vehicle_fine_paid_date: $request->vehicleFinePaidDate ? new DateTimeImmutable($request->vehicleFinePaidDate) : null,
+            vehicleId: $request->vehicleId,
+            driverId: $request->driverId,
+            fineAmount: $request->fineAmount,
+            fineDate: new DateTimeImmutable($request->fineDate),
+            fineType: $request->fineType,
+            finePoints: $request->finePoints,
+            fineNotes: $request->fineNotes,
+            fineStatus: $request->fineStatus,
+            fineDueDate: $request->fineDueDate ? new DateTimeImmutable($request->fineDueDate) : null,
         );
     }
 
     public function toArray(): array
     {
         return [
-            'vehicle_id' => $this->vehicle_id,
-            'driver_id' => $this->driver_id,
-            'vehicle_fine_amount' => $this->vehicle_fine_amount,
-            'vehicle_fine_date' => $this->vehicle_fine_date,
-            'vehicle_fine_level' => $this->vehicle_fine_level,
-            'vehicle_fine_points' => $this->vehicle_fine_points,
-            'vehicle_fine_notes' => $this->vehicle_fine_notes,
-            'vehicle_fine_status' => $this->vehicle_fine_status,
-            'vehicle_fine_paid_date' => $this->vehicle_fine_paid_date,
+            'vehicle_id' => $this->vehicleId,
+            'driver_id' => $this->driverId,
+            'vehicle_fine_amount' => $this->fineAmount,
+            'vehicle_fine_date' => $this->fineDate,
+            'vehicle_fine_level' => $this->fineType,
+            'vehicle_fine_points' => $this->finePoints,
+            'vehicle_fine_notes' => $this->fineNotes,
+            'vehicle_fine_status' => $this->fineStatus,
+            'vehicle_fine_paid_date' => $this->fineDueDate,
         ];
     }
 }

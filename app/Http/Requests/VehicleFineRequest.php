@@ -26,13 +26,13 @@ class VehicleFineRequest extends FormRequest
         return [
             'vehicleId' => ['required', 'exists:vehicles,id'],
             'driverId' => ['required', 'exists:drivers,id'],
-            'vehicleFineAmount' => ['required', 'numeric'],
-            'vehicleFineDate' => ['required', 'date'],
-            'vehicleFineLevel' => ['required', 'string', Rule::in(['leve', 'media', 'grave', 'gravissima'])],
-            'vehicleFinePoints' => ['required', 'numeric'],
-            'vehicleFineNotes' => ['nullable', 'string'],
-            'vehicleFineStatus' => ['required', 'integer', 'in:1,2'],
-            'vehicleFinePaidDate' => ['nullable', 'date'],
+            'fineAmount' => ['required', 'numeric'],
+            'fineDate' => ['required', 'date'],
+            'fineType' => ['required', 'string', Rule::in(['leve', 'media', 'grave', 'gravissima'])],
+            'finePoints' => ['required', 'numeric'],
+            'fineNotes' => ['nullable', 'string'],
+            'fineStatus' => ['required', 'integer', 'in:1,2'],
+            'fineDueDate' => ['nullable', 'date'],
         ];
     }
 }

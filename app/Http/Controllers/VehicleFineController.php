@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTOs\CreateVehicleFineDTO;
 use App\DTOs\VehicleFineResponseDTO;
 use App\Http\Requests\VehicleFineRequest;
+use App\Services\VehicleFineService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,13 @@ class VehicleFineController extends Controller
     }
     public function index(Request $request): JsonResponse
     {
-        $vehicleFines = $this->vehicleFineService->index($request);
+        $vehicleFines = $this->vehicleFineService->index(
+            $request->search??null, 
+            $request->sort??null, 
+            $request->sortDirection??null, 
+            $request->page??1, 
+            $request->per_page??5
+        );
         return response()->json($vehicleFines, 200);
     }
 
@@ -24,7 +31,7 @@ class VehicleFineController extends Controller
         $dto = CreateVehicleFineDTO::fromRequest($request);
         $vehicleFine = $this->vehicleFineService->createVehicleFine($dto);
         return response()->json(
-            VehicleFineResponseDTO::fromEntity($vehicleFine),
+            $vehicleFine,            
             201
         );
     }
@@ -33,7 +40,7 @@ class VehicleFineController extends Controller
     {
         $vehicleFine = $this->vehicleFineService->showVehicleFine($id);
         return response()->json(
-            VehicleFineResponseDTO::fromEntity($vehicleFine),
+            $vehicleFine,
             200
         );
     }
@@ -43,7 +50,7 @@ class VehicleFineController extends Controller
         $dto = CreateVehicleFineDTO::fromRequest($request);
         $vehicleFine = $this->vehicleFineService->updateVehicleFine($id, $dto);
         return response()->json(
-            VehicleFineResponseDTO::fromEntity($vehicleFine),
+            $vehicleFine,
             200
         );
     }

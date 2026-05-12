@@ -21,7 +21,7 @@ class VehicleFineService
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        $vehicleFines = $this->vehicleFineRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        $vehicleFines = $this->vehicleFineRepository->index($search, $sort, $sortDirection, $page, $perPage);        
         return $vehicleFines->through(fn(VehicleFine $vehicleFine) => VehicleFineResponseDTO::fromEntity($vehicleFine));
     }
     public function createVehicleFine(CreateVehicleFineDTO $dto): VehicleFineResponseDTO
