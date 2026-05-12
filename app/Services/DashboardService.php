@@ -9,6 +9,7 @@ use App\Models\FuelSupplier;
 use App\Models\MaintenanceControl;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
+use App\Repositories\Contracts\VehicleFineRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
@@ -19,7 +20,8 @@ class DashboardService
     public function __construct(
         protected VehicleRepositoryInterface $vehicleRepository,        
         protected MaintenanceRepositoryInterface $maintenanceRepository,
-        protected FuelSupplierRepositoryInterface $fuelSupplierRepository
+        protected FuelSupplierRepositoryInterface $fuelSupplierRepository,
+        protected VehicleFineRepositoryInterface $vehicleFineRepository
     )
     {
     }
@@ -31,11 +33,12 @@ class DashboardService
         $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalCost = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalMaintenances = $this->maintenanceRepository->totalMaintenancesByMonth();
-        $evolutionExpenses = $this->getEvolutionExpenses();        
+        $evolutionExpenses = $this->getEvolutionExpenses();
+        $finesCost = $this->vehicleFineRepository->totalFinesByMonth();
         return new DashboardResponseDTO(
             vehicleCount: $vehicleCount,
             mediaConsumption: $mediaConsumption,
-            totalCost: $totalCost+$totalMaintenances,
+            totalCost: $totalCost+$totalMaintenances+$finesCost,
             recentFuelSupplies: $this->convertToFuelSupplierResponseDTO($lastsFuelSuppliers),
             recentMaintenances: $this->convertToMaintenanceResponseDTO($nextMaintenances),
             evolutionExpenses: $evolutionExpenses,
