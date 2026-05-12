@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Http\Requests\VehicleFineRequest;
+use App\VehicleFineStatusEnum;
 use DateTimeImmutable;
 
 class CreateVehicleFineDTO
@@ -12,11 +13,11 @@ class CreateVehicleFineDTO
         public int $driverId,
         public float $fineAmount,
         public DateTimeImmutable $fineDate,
-        public string $fineType,
+        public string $fineLevel,
         public float $finePoints,
         public string $fineNotes,
         public int $fineStatus,
-        public ?DateTimeImmutable $fineDueDate = null,
+        public DateTimeImmutable $finePaidDate,
     ) {}
     public static function fromRequest(VehicleFineRequest $request): self
     {
@@ -25,11 +26,11 @@ class CreateVehicleFineDTO
             driverId: $request->driverId,
             fineAmount: $request->fineAmount,
             fineDate: new DateTimeImmutable($request->fineDate),
-            fineType: $request->fineType,
+            fineLevel: $request->fineLevel,
             finePoints: $request->finePoints,
             fineNotes: $request->fineNotes,
-            fineStatus: $request->fineStatus,
-            fineDueDate: $request->fineDueDate ? new DateTimeImmutable($request->fineDueDate) : null,
+            fineStatus: VehicleFineStatusEnum::fromLabel($request->fineStatus)->value(),
+            finePaidDate: new DateTimeImmutable($request->finePaidDate),
         );
     }
 
@@ -40,11 +41,11 @@ class CreateVehicleFineDTO
             'driver_id' => $this->driverId,
             'vehicle_fine_amount' => $this->fineAmount,
             'vehicle_fine_date' => $this->fineDate,
-            'vehicle_fine_level' => $this->fineType,
+            'vehicle_fine_level' => $this->fineLevel,
             'vehicle_fine_points' => $this->finePoints,
             'vehicle_fine_notes' => $this->fineNotes,
             'vehicle_fine_status' => $this->fineStatus,
-            'vehicle_fine_paid_date' => $this->fineDueDate,
+            'vehicle_fine_paid_date' => $this->finePaidDate,
         ];
     }
 }

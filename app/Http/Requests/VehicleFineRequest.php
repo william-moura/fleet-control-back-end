@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\VehicleFineStatusEnum;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class VehicleFineRequest extends FormRequest
 {
@@ -28,11 +30,11 @@ class VehicleFineRequest extends FormRequest
             'driverId' => ['required', 'exists:drivers,id'],
             'fineAmount' => ['required', 'numeric'],
             'fineDate' => ['required', 'date'],
-            'fineType' => ['required', 'string', Rule::in(['leve', 'media', 'grave', 'gravissima'])],
+            'fineLevel' => ['required', 'string', Rule::in(['leve', 'media', 'grave', 'gravissima'])],
             'finePoints' => ['required', 'numeric'],
             'fineNotes' => ['nullable', 'string'],
-            'fineStatus' => ['required', 'integer', 'in:1,2'],
-            'fineDueDate' => ['nullable', 'date'],
+            'fineStatus' => ['required', 'string', Rule::in(VehicleFineStatusEnum::labels())],
+            'finePaidDate' => ['required', 'date'],
         ];
     }
 }
