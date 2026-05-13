@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTOs\CreateVehicleFineDTO;
 use App\Models\VehicleFine;
 use App\Repositories\Contracts\VehicleFineRepositoryInterface;
+use App\VehicleFineStatusEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -56,7 +57,8 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
     {
         return $this->model
             ->with(['vehicle', 'driver'])
-            ->where('vehicle_fine_date', '>=', now())
+            ->where('vehicle_fine_paid_date', '>=', now())
+            ->where('vehicle_fine_status', VehicleFineStatusEnum::PENDING)
             ->orderBy('vehicle_fine_date', 'asc')
             ->take(5)
             ->get();
