@@ -61,11 +61,11 @@ Route::middleware(['auth:sanctum'])->prefix('auth')->group( function () {
     Route::post('/remove-role', [AuthController::class, 'removeRole']);
     Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::get('/permissions', [AuthController::class, 'getPermissions']);
-    Route::post('/create-permission', [AuthController::class, 'createPermission']);
     Route::post('/assign-permission', [AuthController::class, 'assignPermission']);
     Route::post('/remove-permission', [AuthController::class, 'removePermission']);
     Route::get('/permissions-for-user', [AuthController::class, 'getPermissionsForUser']);
 });
+Route::post('/create-permission', [AuthController::class, 'createPermission']);
 Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/', [UserController::class, 'create']);
@@ -78,8 +78,8 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/{id}/remove-role', [AuthController::class, 'removeRoleFromUser']);
     Route::post('/{id}/assign-permission', [AuthController::class, 'assignPermissionToUser']);
     Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
-    Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
 });
+Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
 Route::post('/upload', [MediaController::class, 'upload']);
 Route::delete('/upload/{id}', [MediaController::class, 'destroy']);
 Route::get('/reports/{id}', [ReportController::class, 'generateReport']);

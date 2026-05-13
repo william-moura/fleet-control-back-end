@@ -5,8 +5,10 @@ namespace App\Services;
 use App\DTOs\DashboardResponseDTO;
 use App\DTOs\FuelSupplierResponseDTO;
 use App\DTOs\MaintenanceResponseDTO;
+use App\DTOs\VehicleFineResponseDTO;
 use App\Models\FuelSupplier;
 use App\Models\MaintenanceControl;
+use App\Models\VehicleFine;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\VehicleFineRepositoryInterface;
@@ -35,6 +37,7 @@ class DashboardService
         $totalMaintenances = $this->maintenanceRepository->totalMaintenancesByMonth();
         $evolutionExpenses = $this->getEvolutionExpenses();
         $finesCost = $this->vehicleFineRepository->totalFinesByMonth();
+        $nextFinesToPay = $this->vehicleFineRepository->nextFinesToPay();
         return new DashboardResponseDTO(
             vehicleCount: $vehicleCount,
             mediaConsumption: $mediaConsumption,
@@ -42,6 +45,7 @@ class DashboardService
             recentFuelSupplies: $this->convertToFuelSupplierResponseDTO($lastsFuelSuppliers),
             recentMaintenances: $this->convertToMaintenanceResponseDTO($nextMaintenances),
             evolutionExpenses: $evolutionExpenses,
+            nextFinesToPay: $this->convertToVehicleFineResponseDTO($nextFinesToPay),
         );
     }
 
@@ -84,5 +88,9 @@ class DashboardService
             'labels' => $labels,
             'values' => $values,
         ];
+    }
+    private function convertToVehicleFineResponseDTO(Collection $fines): array
+    {
+        return $fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine))->toArray();
     }
 }
