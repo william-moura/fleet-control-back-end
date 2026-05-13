@@ -25,6 +25,8 @@ readonly class VehicleResponseDTO
         public ?string $fuelType,
         public ?Collection $drivers,
         public ?Collection $photos,
+        public ?float $totalFines = null,
+        public ?float $totalKilometersCost = null,
     ) {}
 
     /**
@@ -32,6 +34,7 @@ readonly class VehicleResponseDTO
      */
     public static function fromEntity(Vehicle $vehicle): self
     {
+        $totalKilometersCost = ($vehicle->fines?->sum('vehicle_fine_amount') ?? 0 + $vehicle->fuelSuppliers?->sum('fuel_supplier_total') ?? 0 + $vehicle->maintenances?->sum('maintenance_control_total_cost') ?? 0 ) / $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;        
         return new self(
             id: $vehicle->id,
             vehiclePlate: $vehicle->vehicle_plate,
@@ -48,6 +51,8 @@ readonly class VehicleResponseDTO
             fuelType: $vehicle->fuelType->fuel_type_name,
             drivers: $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
             photos: $vehicle->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
+            totalFines: $vehicle->fines?->sum('vehicle_fine_amount') ?? 0,
+            totalKilometersCost: $totalKilometersCost,
         );
     }
 }

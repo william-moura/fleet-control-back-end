@@ -46,10 +46,13 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
+    Route::get('/{id}/history', VehicleHistoryController::class);    
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
-    Route::get('/{id}/history', VehicleHistoryController::class);
 });
 
+Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('kilometers')->group(function () {
+    Route::get('/', [KilometerController::class, 'index']);
+});
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
 Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);

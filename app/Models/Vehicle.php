@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class Vehicle extends Model
 {
@@ -61,5 +62,14 @@ class Vehicle extends Model
     public function maintenances(): HasMany
     {
         return $this->hasMany(MaintenanceControl::class);
+    }
+
+    public function fines(): HasMany
+    {
+        return $this->hasMany(VehicleFine::class);
+    }
+    public function totalFines(): float
+    {
+        return $this->fines()->sum('vehicle_fine_amount');
     }
 }
