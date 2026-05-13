@@ -6,6 +6,7 @@ use App\DTOs\CreateVehicleFineDTO;
 use App\Models\VehicleFine;
 use App\Repositories\Contracts\VehicleFineRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class VehicleFineRepository implements VehicleFineRepositoryInterface
@@ -50,5 +51,14 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
     public function totalFinesByMonth(): float
     {
         return $this->model->whereYear('vehicle_fine_date', Carbon::now()->year)->whereMonth('vehicle_fine_date', Carbon::now()->month)->sum('vehicle_fine_amount');
+    }
+    public function nextFinesToPay(): Collection
+    {
+        return $this->model
+            ->with(['vehicle', 'driver'])
+            ->where('vehicle_fine_date', '>=', now())
+            ->orderBy('vehicle_fine_date', 'asc')
+            ->take(5)
+            ->get();
     }
 }

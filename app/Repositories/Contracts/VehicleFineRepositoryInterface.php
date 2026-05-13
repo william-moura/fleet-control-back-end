@@ -4,6 +4,7 @@ namespace App\Repositories\Contracts;
 
 use App\DTOs\CreateVehicleFineDTO;
 use App\Models\VehicleFine;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface VehicleFineRepositoryInterface
@@ -20,4 +21,5 @@ interface VehicleFineRepositoryInterface
     public function destroyVehicleFine(int $id): void;
     public function showVehicleFine(int $id): VehicleFine;
     public function totalFinesByMonth(): float;
+    public function nextFinesToPay(): Collection;
 }
