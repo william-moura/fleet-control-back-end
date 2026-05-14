@@ -34,7 +34,11 @@ readonly class VehicleResponseDTO
      */
     public static function fromEntity(Vehicle $vehicle): self
     {
-        $totalKilometersCost = ($vehicle->fines?->sum('vehicle_fine_amount') ?? 0 + $vehicle->fuelSuppliers?->sum('fuel_supplier_total') ?? 0 + $vehicle->maintenances?->sum('maintenance_control_total_cost') ?? 0 ) / $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;        
+        $divisor = $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;
+        if ($divisor == 0) {
+            $divisor = 1;
+        }
+        $totalKilometersCost = ($vehicle->fines?->sum('vehicle_fine_amount') ?? 0 + $vehicle->fuelSuppliers?->sum('fuel_supplier_total') ?? 0 + $vehicle->maintenances?->sum('maintenance_control_total_cost') ?? 0 ) / $divisor;
         return new self(
             id: $vehicle->id,
             vehiclePlate: $vehicle->vehicle_plate,
