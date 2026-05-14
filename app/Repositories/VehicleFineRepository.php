@@ -23,7 +23,9 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        return $this->model->query()->with('vehicle', 'driver')->when( $search, function($query) use ($search){
+        return $this->model->query()
+        ->with(['vehicle', 'vehicle.drivers', 'vehicle.fines', 'vehicle.maintenances', 'vehicle.fuelSuppliers'])
+        ->when( $search, function($query) use ($search){
             return $query->where('vehicle_fine_amount', 'like', "%$search%")
                 ->orWhere('vehicle_fine_date', 'like', "%$search%")
                 ->orWhere('vehicle_fine_level', 'like', "%$search%");

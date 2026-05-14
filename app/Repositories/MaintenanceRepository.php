@@ -82,7 +82,7 @@ public function findUpcomingMaintenances(int $kmThreshold = 500, int $daysThresh
 
     return $this->model
         ->newQuery()
-        ->with(['vehicle','supplier'])
+        ->with(['vehicle','supplier', 'vehicle.maxKilometer', 'vehicle.drivers', 'vehicle.fines', 'vehicle.maintenances', 'vehicle.fuelSuppliers'])
         ->select([
             'vehicles.vehicle_plate',
             'maintenance_control.maintenance_control_description',

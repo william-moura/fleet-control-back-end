@@ -120,4 +120,15 @@ class VehicleService
             ->get();
         return $fuelSuppliers->map(fn(object $item) => HistoryResponseDTO::fromEntity($item))->toArray();
     }
+    public function indexKilometers(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
+    {
+        $kilometers = $this->kilometerRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        return $kilometers->through(fn(Kilometer $kilometer) => KilometerResponseDTO::fromEntity($kilometer));
+    }
 }
