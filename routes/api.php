@@ -51,7 +51,7 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
 });
 
 Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('kilometers')->group(function () {
-    Route::get('/', [KilometerController::class, 'index']);
+    Route::resource('/', KilometerController::class);
 });
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
