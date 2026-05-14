@@ -14,7 +14,7 @@ class KilometerResponseDTO
         public DateTimeImmutable $kilometersDate,
         public ?string $kilometersNotes = null,
         public int $kilometersStatus,
-        public VehicleResponseDTO $vehicle,
+        public ?VehicleResponseDTO $vehicle = null,
     ) {}
     public static function fromEntity(Kilometer $kilometer): self
     {
@@ -26,7 +26,7 @@ class KilometerResponseDTO
             kilometersDate: new DateTimeImmutable($kilometer->kilometers_date),
             kilometersNotes: $kilometer->kilometers_notes,
             kilometersStatus: $kilometer->kilometers_status,
-            vehicle: VehicleResponseDTO::fromEntity($kilometer->vehicle),
+            vehicle: $kilometer->vehicle ? VehicleResponseDTO::fromEntity($kilometer->vehicle) : null,
         );
     }
 }
