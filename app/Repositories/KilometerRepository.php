@@ -39,6 +39,7 @@ class KilometerRepository implements KilometerRepositoryInterface
             })->when($sort, function($query) use ($sort, $sortDirection){
                 return $query->orderBy($sort, $sortDirection);
             })
+            ->whereNull('vehicles.deleted_at')
             ->select([
                 'kilometers.id', 
                 'kilometers.vehicle_id', 
