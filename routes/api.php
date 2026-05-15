@@ -92,4 +92,5 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::post('/remove-permission', [RoleController::class, 'removePermissionFromRole']);
     Route::get('/permissions', [RoleController::class, 'getPermissionsForRole']);
     Route::get('/all-permissions', [AuthController::class, 'getPermissions']);
+    Route::post('/permissions', [AuthController::class, 'createPermission']);
 });
