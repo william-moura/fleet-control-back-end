@@ -104,7 +104,7 @@ class AuthController extends Controller
     }
     public function getRoles(Request $request)
     {
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
         return response()->json($roles->map(fn(Role $role) => RoleResponseDTO::fromEntity($role)));
     }
     public function getPermissions(Request $request)
