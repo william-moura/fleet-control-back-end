@@ -110,9 +110,10 @@ class AuthController extends Controller
     public function getPermissions(Request $request)
     {
         $permissions = Permission::all();
-        return response()->json([
-            'permissions' => $permissions,
-        ]);
+        return response()->json(
+            $permissions,
+            200,
+        );
     }
     public function createPermission(Request $request)
     {

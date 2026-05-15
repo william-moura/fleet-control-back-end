@@ -14,6 +14,7 @@ use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\MaintenanceServicesController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ShowVehicleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
@@ -81,3 +82,10 @@ Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport'])-
 Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport'])->middleware(['permission:acessar_relatorios']);
 Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'permission:listar_multas_veiculos']);
 Route::post('/assign-role', [AuthController::class, 'assignRole']);
+Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
+    Route::resource('/', RoleController::class);
+    Route::post('/assign-permission', [RoleController::class, 'assignPermissionToRole']);
+    Route::post('/remove-permission', [RoleController::class, 'removePermissionFromRole']);
+    Route::get('/permissions', [RoleController::class, 'getPermissionsForRole']);
+    Route::get('/all-permissions', [AuthController::class, 'getPermissions']);
+});
