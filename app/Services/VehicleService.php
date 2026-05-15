@@ -15,6 +15,9 @@ use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+
+use function Illuminate\Support\weeks;
 
 class VehicleService
 {
@@ -27,6 +30,7 @@ class VehicleService
                 $medias =Media::whereIn('id', $dto->photosIds)->get();
                 $veiculo->media()->saveMany($medias);
             }
+            Cache::flush();
             return $veiculo;
         });
     }
@@ -38,10 +42,12 @@ class VehicleService
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
-        $vehicles = $this->vehicleRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        $vehicles = Cache::remember('active_vehicles_'.md5($search.$sort.$sortDirection.$page.$perPage), weeks(1), function () use ($search, $sort, $sortDirection, $page, $perPage) {
+            return $this->vehicleRepository->index($search, $sort, $sortDirection, $page, $perPage);
+        });        
         return $vehicles->through(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle));
     }
-    public function destroyVehicle($id): void
+    public function destroyVehicle(int $id): void
     {        
         if ($this->vehicleRepository->checkVechicleHasRelationship($id)) {
             throw new \Exception('Veículo não pode ser deletado porque tem relacionamentos com manutenções ou abastecimentos');
@@ -49,6 +55,7 @@ class VehicleService
         DB::transaction(function () use ($id) {
             $this->vehicleRepository->destroyVehicle($id);
         });
+        Cache::flush();
     }
 
     public function showVehicle(int $id): Vehicle
@@ -70,6 +77,7 @@ class VehicleService
                 $medias = Media::whereIn('id', $dto->photosIds)->get();
                 $vehicle->media()->saveMany($medias);
             }
+            Cache::flush();
             return $vehicle;
         });
     }
@@ -78,11 +86,13 @@ class VehicleService
     {
         $vehicle = Vehicle::findOrFail($vehicleId);        
         $vehicle->drivers()->attach($driversId);
+        Cache::flush();
     }
     public function detachDriver(int $vehicleId, array $driversId): void
     {
         $vehicle = Vehicle::findOrFail($vehicleId);
         $vehicle->drivers()->detach($driversId);
+        Cache::flush();
     }
     public function showSyncedDrivers(int $vehicleId): Collection
     {

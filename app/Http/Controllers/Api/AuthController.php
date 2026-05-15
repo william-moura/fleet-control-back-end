@@ -104,15 +104,16 @@ class AuthController extends Controller
     }
     public function getRoles(Request $request)
     {
-        $roles = Role::all();
+        $roles = Role::with('permissions')->get();
         return response()->json($roles->map(fn(Role $role) => RoleResponseDTO::fromEntity($role)));
     }
     public function getPermissions(Request $request)
     {
         $permissions = Permission::all();
-        return response()->json([
-            'permissions' => $permissions,
-        ]);
+        return response()->json(
+            $permissions,
+            200,
+        );
     }
     public function createPermission(Request $request)
     {
@@ -191,6 +192,20 @@ class AuthController extends Controller
         $permissions = $role->getPermissionsViaRoles();
         return response()->json([
             'permissions' => $permissions,
+        ]);
+    }
+    public function assignPermissionsToRole(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permissions' => 'required|array',
+            'permissions.*' => 'required|exists:permissions,id',
+        ]);
+        $role = Role::find($request->role_id);
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $role->givePermissionTo($permissions);
+        return response()->json([
+            'message' => 'Permissions assigned to role successfully',
         ]);
     }
 }
