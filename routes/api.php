@@ -71,7 +71,7 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/{id}/remove-role', [AuthController::class, 'removeRoleFromUser']);
     Route::post('/{id}/assign-permission', [AuthController::class, 'assignPermissionToUser']);
     Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
-    Route::get('/roles', [AuthController::class, 'getRoles']);
+    // Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::get('/permissions', [AuthController::class, 'getPermissions']);
 });
 Route::post('/assign-permissions-to-role', [AuthController::class, 'assignPermissionsToRole']);
