@@ -33,12 +33,12 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/logout', function() {
     echo 'ok';
 });
-Route::get('/dashboard', DashboardController::class)->middleware(['auth:sanctum', 'role:administrador|gestor']);
-Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehicles')->group(function () {
-    Route::get('/', ListVehicleController::class);
-    Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create');
-    Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update');
-    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy');    
+Route::get('/dashboard', DashboardController::class)->middleware(['auth:sanctum', 'permission:acessar_dashboards']);
+Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
+    Route::get('/', ListVehicleController::class)->middleware(['permission:listar_veiculos']);
+    Route::post('/', [CreateVehicleController::class, 'store'])->name('vehicles.create')->middleware(['permission:adicionar_veiculo']);
+    Route::put('/{id}', UpdateVehicleController::class)->name('vehicles.update')->middleware(['permission:editar_veiculo']);
+    Route::delete('/{id}', DestroyVehicleController::class)->name('vehicles.destroy')->middleware(['permission:excluir_veiculo']);    
     Route::resource('brands', BrandController::class);
     Route::get('/fuel-types', [FuelTypeController::class, 'index'])->name('vehicles.fuelTypes');
     Route::get('/{id}', ShowVehicleController::class)->name('vehicles.show');
@@ -46,46 +46,38 @@ Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('vehi
     Route::post('/{id}/sync-driver', [VechicleSyncDriverController::class, 'sync']);
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
-    Route::get('/{id}/history', VehicleHistoryController::class);    
-    Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
+    Route::get('/{id}/history', VehicleHistoryController::class);
+    Route::post('/{id}/kilometers', [KilometerController::class, 'store'])->middleware(['permission:adicionar_quilometragem']);
 });
 
-Route::middleware(['auth:sanctum', 'role:administrador|operador'])->prefix('kilometers')->group(function () {
-    Route::resource('/', KilometerController::class);
+Route::middleware(['auth:sanctum'])->prefix('kilometers')->group(function () {
+    Route::resource('/', KilometerController::class)->middleware(['permission:listar_quilometragem']);
 });
-Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
-Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
-Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
-Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
-Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
-Route::middleware(['auth:sanctum'])->prefix('auth')->group( function () {
-    Route::post('/create-role', [AuthController::class, 'createRole']);
-    Route::post('/assign-role', [AuthController::class, 'assignRole']);
-    Route::post('/remove-role', [AuthController::class, 'removeRole']);
-    Route::get('/roles', [AuthController::class, 'getRoles']);
-    Route::get('/permissions', [AuthController::class, 'getPermissions']);
-    Route::post('/assign-permission', [AuthController::class, 'assignPermission']);
-    Route::post('/remove-permission', [AuthController::class, 'removePermission']);
-    Route::get('/permissions-for-user', [AuthController::class, 'getPermissionsForUser']);
-});
-Route::post('/create-permission', [AuthController::class, 'createPermission']);
+Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'permission:listar_motoristas']);
+Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'permission:listar_abastecimento']);
+Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'permission:listar_fornecedores']);
+Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'permission:listar_manutencoes']);
+Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'permission:listar_servicos_manutencoes']);
 Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index']);
-    Route::post('/', [UserController::class, 'create']);
-    Route::put('/{id}', [AuthController::class, 'updateUser']);
-    Route::delete('/{id}', [AuthController::class, 'deleteUser']);
-    Route::get('/{id}', [AuthController::class, 'getUser']);
+    Route::get('/', [UserController::class, 'index'])->middleware(['permission:listar_usuarios']);
+    Route::post('/', [UserController::class, 'create'])->middleware(['permission:adicionar_usuarios']);
+    Route::put('/{id}', [AuthController::class, 'updateUser'])->middleware(['permission:editar_usuarios']);
+    Route::delete('/{id}', [AuthController::class, 'deleteUser'])->middleware(['permission:excluir_usuarios']);
+    Route::get('/{id}', [AuthController::class, 'getUser'])->middleware(['permission:visualizar_usuarios']);
     Route::get('/{id}/roles', [AuthController::class, 'getUserRoles']);
     Route::get('/{id}/permissions', [AuthController::class, 'getUserPermissions']);
-    Route::post('/{id}/assign-role', [AuthController::class, 'assignRoleToUser']);
+    Route::post('/assign-role', [AuthController::class, 'assignRole']);
     Route::post('/{id}/remove-role', [AuthController::class, 'removeRoleFromUser']);
     Route::post('/{id}/assign-permission', [AuthController::class, 'assignPermissionToUser']);
     Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
+    Route::get('/roles', [AuthController::class, 'getRoles']);
+    Route::get('/permissions', [AuthController::class, 'getPermissions']);
 });
-Route::post('/assign-permission-to-role', [AuthController::class, 'assignPermissionToRole']);
+Route::post('/assign-permissions-to-role', [AuthController::class, 'assignPermissionsToRole']);
 Route::post('/upload', [MediaController::class, 'upload']);
 Route::delete('/upload/{id}', [MediaController::class, 'destroy']);
-Route::get('/reports/{id}', [ReportController::class, 'generateReport']);
-Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport']);
-Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport']);
-Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'role:administrador|operador']);
+Route::get('/reports/{id}', [ReportController::class, 'generateReport'])->middleware(['permission:acessar_relatorios']);
+Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport'])->middleware(['permission:acessar_relatorios']);
+Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport'])->middleware(['permission:acessar_relatorios']);
+Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'permission:listar_multas_veiculos']);
+Route::post('/assign-role', [AuthController::class, 'assignRole']);

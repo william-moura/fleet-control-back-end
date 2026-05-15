@@ -193,4 +193,18 @@ class AuthController extends Controller
             'permissions' => $permissions,
         ]);
     }
+    public function assignPermissionsToRole(Request $request)
+    {
+        $request->validate([
+            'role_id' => 'required|exists:roles,id',
+            'permissions' => 'required|array',
+            'permissions.*' => 'required|exists:permissions,id',
+        ]);
+        $role = Role::find($request->role_id);
+        $permissions = Permission::whereIn('id', $request->permissions)->get();
+        $role->givePermissionTo($permissions);
+        return response()->json([
+            'message' => 'Permissions assigned to role successfully',
+        ]);
+    }
 }
