@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::delete('/{id}/detach-driver', [VechicleSyncDriverController::class, 'detach']);
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
     Route::get('/{id}/history', VehicleHistoryController::class);
-    Route::post('/{id}/kilometers', [KilometerController::class, 'store'])->middleware(['permission:adicionar_quilometragem']);
+    Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
 });
 
 Route::middleware(['auth:sanctum'])->prefix('kilometers')->group(function () {
