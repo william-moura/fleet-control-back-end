@@ -24,6 +24,7 @@ use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', function (Request $request) {
@@ -93,4 +94,12 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::post('/remove-permission', [RoleController::class, 'removePermissionFromRole']);
     Route::get('/permissions', [RoleController::class, 'getPermissionsForRole']);
     Route::post('/permissions', [AuthController::class, 'createPermission']);
+});
+
+Route::get('/teste-email', function() {
+    Mail::raw('Este é um e-mail de teste do Laravel 12!', function ($message) {
+        $message->to('williammoura908@gmail.com')
+        ->subject('Teste de Email Laravel');
+    });
+    echo 'foi foi';
 });
