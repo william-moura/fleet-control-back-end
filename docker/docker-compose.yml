@@ -35,6 +35,29 @@ services:
       - ../database/mysql_data:/var/lib/mysql
     networks:
       - app_network
+  queue-worker:
+    build: .
+    container_name: queue-worker
+    restart: always
+    command: php artisan queue:listen --tries=3 --timeout=90
+    volumes:
+      - ../:/var/www/html
+    depends_on:
+      - app-php
+      - db
+    networks:
+      - app_network
+  scheduler:
+    build: .
+    container_name: scheduler
+    restart: always
+    command: sh -c "while [ true ]; do php artisan schedule:run; sleep 60; done"
+    volumes:
+      - ../:/var/www/html
+    depends_on:
+      - app-php
+    networks:
+      - app_network
 
 volumes:
   mysql_data:
