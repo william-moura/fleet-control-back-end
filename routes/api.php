@@ -97,9 +97,11 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
 });
 
 Route::get('/teste-email', function() {
-    Mail::raw('Este é um e-mail de teste do Laravel 12!', function ($message) {
+    $return =Mail::raw('Este é um e-mail de teste do Laravel 12!', function ($message) {
         $message->to('williammoura908@gmail.com')
         ->subject('Teste de Email Laravel');
     });
+    
     echo 'foi foi';
+    return $return;
 });
