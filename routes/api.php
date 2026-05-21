@@ -79,8 +79,8 @@ Route::post('/assign-permissions-to-role', [AuthController::class, 'assignPermis
 Route::post('/upload', [MediaController::class, 'upload']);
 Route::delete('/upload/{id}', [MediaController::class, 'destroy']);
 Route::get('/reports/{id}', [ReportController::class, 'generateReport'])->middleware(['permission:acessar_relatorios']);
-Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport'])->middleware(['permission:acessar_relatorios']);
-Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport'])->middleware(['permission:acessar_relatorios']);
+Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport']);
+Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport']);
 Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'permission:listar_multas_veiculos']);
 Route::post('/assign-role', [AuthController::class, 'assignRole']);
 Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
