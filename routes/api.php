@@ -59,7 +59,7 @@ Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum',
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'permission:listar_abastecimento']);
 Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'permission:listar_fornecedores']);
 Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'permission:listar_manutencoes']);
-Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum', 'permission:listar_servicos_manutencoes']);
+Route::resource('maintenance-services', MaintenanceServicesController::class)->middleware(['auth:sanctum']);
 Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->middleware(['permission:listar_usuarios']);
     Route::post('/', [UserController::class, 'create'])->middleware(['permission:adicionar_usuarios']);
