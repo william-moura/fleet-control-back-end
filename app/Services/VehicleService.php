@@ -141,4 +141,18 @@ class VehicleService
         $kilometers = $this->kilometerRepository->index($search, $sort, $sortDirection, $page, $perPage);
         return $kilometers->through(fn(Kilometer $kilometer) => KilometerResponseDTO::fromEntity($kilometer));
     }
+    public function showKilometer(int $id): KilometerResponseDTO
+    {
+        $kilometer = $this->kilometerRepository->showKilometer($id);
+        return KilometerResponseDTO::fromEntity($kilometer);
+    }
+    public function updateKilometer(int $id, CreateKilometerDTO $dto): KilometerResponseDTO
+    {
+        $kilometer = $this->kilometerRepository->updateKilometer($id, $dto);
+        return KilometerResponseDTO::fromEntity($kilometer);
+    }
+    public function destroyKilometer(int $id): void
+    {
+        $this->kilometerRepository->destroyKilometer($id);
+    }
 }

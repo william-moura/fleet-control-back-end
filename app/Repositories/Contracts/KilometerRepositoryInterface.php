@@ -16,4 +16,7 @@ interface KilometerRepositoryInterface
         ?int $page = 1,
         ?int $perPage = 5
     ): LengthAwarePaginator;
+    public function showKilometer(int $id): Kilometer;
+    public function updateKilometer(int $id, CreateKilometerDTO $dto): Kilometer;
+    public function destroyKilometer(int $id): void;
 }
