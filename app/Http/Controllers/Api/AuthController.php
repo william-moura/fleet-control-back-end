@@ -213,7 +213,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email' . $id,
+            'email' => 'required|email',
             'role_id' => 'required|exists:roles,id',
         ]);
         $user = User::find($id);
