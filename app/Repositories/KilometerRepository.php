@@ -52,4 +52,16 @@ class KilometerRepository implements KilometerRepositoryInterface
             ->orderBy('kilometers_date', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }
+    public function showKilometer(int $id): Kilometer
+    {
+        return $this->model->find($id);
+    }
+    public function updateKilometer(int $id, CreateKilometerDTO $dto): Kilometer
+    {
+        return $this->model->find($id)->update($dto->toArray()) ? $this->model->find($id) : null;
+    }
+    public function destroyKilometer(int $id): void
+    {
+        $this->model->find($id)->delete();
+    }
 }

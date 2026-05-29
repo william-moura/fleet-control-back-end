@@ -38,4 +38,26 @@ class KilometerController extends Controller
             200
         );
     }
+    public function show(int $id): JsonResponse
+    {
+        $kilometer = $this->vehicleService->showKilometer($id);
+        return response()->json(
+            $kilometer,
+            200
+        );
+    }
+    public function update(int $id, StoreKilometerRequest $request): JsonResponse
+    {
+        $dto = CreateKilometerDTO::fromRequest($request);
+        $kilometer = $this->vehicleService->updateKilometer($id, $dto);
+        return response()->json(
+            $kilometer,
+            200
+        );
+    }
+    public function destroy(int $id): JsonResponse
+    {
+        $this->vehicleService->destroyKilometer($id);
+        return response()->json(null, 204);
+    }
 }

@@ -7,6 +7,7 @@ use App\DTOs\CreateVehicleDTO;
 use App\DTOs\HistoryResponseDTO;
 use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
+use App\Models\Driver;
 use App\Models\Kilometer;
 use App\Models\Media;
 use App\Models\Vehicle;
@@ -96,8 +97,15 @@ class VehicleService
     }
     public function showSyncedDrivers(int $vehicleId): Collection
     {
-        $vehicle = Vehicle::findOrFail($vehicleId);
-        return $vehicle->drivers;
+        return Driver::query()
+            ->join('vehicle_relationship_drivers', 'drivers.id', '=', 'vehicle_relationship_drivers.driver_id')
+            ->where('vehicle_relationship_drivers.vehicle_id', $vehicleId)
+            ->where('drivers.driver_status', 1)
+            ->whereNull('drivers.deleted_at')
+            ->groupBy('drivers.id')
+            ->select('drivers.id', 'drivers.driver_name', 'drivers.driver_cpf', 'drivers.driver_phone', 'drivers.driver_address', 'drivers.driver_city', 
+            'drivers.driver_state', 'drivers.driver_zip_code')
+            ->get();        
     }
     public function storeKilometer(CreateKilometerDTO $dto): KilometerResponseDTO
     {
@@ -140,5 +148,19 @@ class VehicleService
     {
         $kilometers = $this->kilometerRepository->index($search, $sort, $sortDirection, $page, $perPage);
         return $kilometers->through(fn(Kilometer $kilometer) => KilometerResponseDTO::fromEntity($kilometer));
+    }
+    public function showKilometer(int $id): KilometerResponseDTO
+    {
+        $kilometer = $this->kilometerRepository->showKilometer($id);
+        return KilometerResponseDTO::fromEntity($kilometer);
+    }
+    public function updateKilometer(int $id, CreateKilometerDTO $dto): KilometerResponseDTO
+    {
+        $kilometer = $this->kilometerRepository->updateKilometer($id, $dto);
+        return KilometerResponseDTO::fromEntity($kilometer);
+    }
+    public function destroyKilometer(int $id): void
+    {
+        $this->kilometerRepository->destroyKilometer($id);
     }
 }

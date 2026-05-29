@@ -19,7 +19,7 @@ class VehicleFineResponseDTO
         public string $fineStatus,
         public string $finePaidDate,
         public VehicleResponseDTO $vehicle,
-        public DriverResponseDTO $driver,
+        public ?DriverResponseDTO $driver = null,
     ) {}
     public static function fromEntity(VehicleFine $vehicleFine): self
     {
@@ -35,7 +35,7 @@ class VehicleFineResponseDTO
             fineStatus: VehicleFineStatusEnum::from($vehicleFine->vehicle_fine_status)->label(),
             finePaidDate: $vehicleFine->vehicle_fine_paid_date?->format('Y-m-d'),
             vehicle: VehicleResponseDTO::fromEntity($vehicleFine->vehicle),
-            driver: DriverResponseDTO::fromEntity($vehicleFine->driver),
+            driver: $vehicleFine->driver ? DriverResponseDTO::fromEntity($vehicleFine->driver) : null,
         );
     }
 }
