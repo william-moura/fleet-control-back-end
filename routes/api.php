@@ -52,9 +52,7 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
 });
 
-Route::middleware(['auth:sanctum'])->prefix('kilometers')->group(function () {
-    Route::resource('/', KilometerController::class)->middleware(['permission:listar_quilometragem']);
-});
+Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'permission:listar_motoristas']);
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'permission:listar_abastecimento']);
 Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'permission:listar_fornecedores']);
@@ -78,7 +76,7 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
 Route::post('/assign-permissions-to-role', [AuthController::class, 'assignPermissionsToRole']);
 Route::post('/upload', [MediaController::class, 'upload']);
 Route::delete('/upload/{id}', [MediaController::class, 'destroy']);
-Route::get('/reports/{id}', [ReportController::class, 'generateReport'])->middleware(['permission:acessar_relatorios']);
+Route::get('/reports/{id}', [ReportController::class, 'generateReport']);
 Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport']);
 Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport']);
 Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'permission:listar_multas_veiculos']);

@@ -46,7 +46,7 @@ class KilometerController extends Controller
             200
         );
     }
-    public function update(int $id, Request $request): JsonResponse
+    public function update(int $id, StoreKilometerRequest $request): JsonResponse
     {
         $dto = CreateKilometerDTO::fromRequest($request);
         $kilometer = $this->vehicleService->updateKilometer($id, $dto);

@@ -97,11 +97,14 @@ class VehicleService
     }
     public function showSyncedDrivers(int $vehicleId): Collection
     {
-        return  Driver::newQuery()
+        return Driver::query()
             ->join('vehicle_relationship_drivers', 'drivers.id', '=', 'vehicle_relationship_drivers.driver_id')
             ->where('vehicle_relationship_drivers.vehicle_id', $vehicleId)
+            ->where('drivers.driver_status', 1)
+            ->whereNull('drivers.deleted_at')
             ->groupBy('drivers.id')
-            ->select('drivers.id', 'drivers.driver_name', 'drivers.driver_cpf', 'drivers.driver_email', 'drivers.driver_phone', 'drivers.driver_address', 'drivers.driver_city', 'drivers.driver_state', 'drivers.driver_zip', 'drivers.driver_country', 'drivers.driver_notes')
+            ->select('drivers.id', 'drivers.driver_name', 'drivers.driver_cpf', 'drivers.driver_phone', 'drivers.driver_address', 'drivers.driver_city', 
+            'drivers.driver_state', 'drivers.driver_zip_code')
             ->get();        
     }
     public function storeKilometer(CreateKilometerDTO $dto): KilometerResponseDTO
