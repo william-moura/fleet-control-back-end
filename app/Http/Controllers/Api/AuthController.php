@@ -209,16 +209,18 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateUser(Request $request)
+    public function updateUser(Request $request, int $id)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id',
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $request->user_id,
+            'email' => 'required|email',
             'role_id' => 'required|exists:roles,id',
         ]);
-        $user = User::find($request->user_id);
-        $user->update($request->all());
+        $user = User::find($id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
         $user->assignRole($request->role_id);
         return response()->json([
             'message' => 'User updated successfully',
