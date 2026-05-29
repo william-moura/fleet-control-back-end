@@ -7,6 +7,7 @@ use App\DTOs\CreateVehicleDTO;
 use App\DTOs\HistoryResponseDTO;
 use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
+use App\Models\Driver;
 use App\Models\Kilometer;
 use App\Models\Media;
 use App\Models\Vehicle;
@@ -96,8 +97,12 @@ class VehicleService
     }
     public function showSyncedDrivers(int $vehicleId): Collection
     {
-        $vehicle = Vehicle::findOrFail($vehicleId);
-        return $vehicle->drivers;
+        return  Driver::newQuery()
+            ->join('vehicle_relationship_drivers', 'drivers.id', '=', 'vehicle_relationship_drivers.driver_id')
+            ->where('vehicle_relationship_drivers.vehicle_id', $vehicleId)
+            ->groupBy('drivers.id')
+            ->select('drivers.id', 'drivers.driver_name', 'drivers.driver_cpf', 'drivers.driver_email', 'drivers.driver_phone', 'drivers.driver_address', 'drivers.driver_city', 'drivers.driver_state', 'drivers.driver_zip', 'drivers.driver_country', 'drivers.driver_notes')
+            ->get();        
     }
     public function storeKilometer(CreateKilometerDTO $dto): KilometerResponseDTO
     {
