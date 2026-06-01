@@ -221,7 +221,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
         ]);
-        $user->assignRole($request->role_id);
+        $user->assignRoles([$request->role_id]);
         return response()->json([
             'message' => 'User updated successfully',
         ]);
