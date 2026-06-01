@@ -72,6 +72,7 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/{id}/remove-permission', [AuthController::class, 'removePermissionFromUser']);
     // Route::get('/roles', [AuthController::class, 'getRoles']);
     Route::get('/permissions', [AuthController::class, 'getPermissions']);
+    Route::put('/{id}/password', [AuthController::class, 'updatePassword']);
 });
 Route::post('/assign-permissions-to-role', [AuthController::class, 'assignPermissionsToRole']);
 Route::post('/upload', [MediaController::class, 'upload']);
@@ -93,6 +94,7 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::get('/permissions', [RoleController::class, 'getPermissionsForRole']);
     Route::post('/permissions', [AuthController::class, 'createPermission']);
 });
+
 
 Route::get('/teste-email', function() {
     $return =Mail::raw('Este é um e-mail de teste do Laravel 12!', function ($message) {
