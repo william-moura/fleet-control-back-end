@@ -41,7 +41,7 @@ class RoleRepository implements RoleRepositoryInterface
         return DB::transaction(function () use ($id, $dto) {
             $role = $this->model->find($id);
             $role->update($dto->toArray());
-            $role->givePermissionTo($dto->permissions);
+            $role->syncPermissions($dto->permissions);
             return $role;
         });
     }
