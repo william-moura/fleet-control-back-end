@@ -226,4 +226,15 @@ class AuthController extends Controller
             'message' => 'User updated successfully',
         ]);
     }
+    public function updatePassword(Request $request, int $id)
+    {
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
+        $user = User::find($id);
+        $user->update(['password' => Hash::make($request->password)]);
+        return response()->json([
+            'message' => 'Password updated successfully',
+        ]);
+    }
 }
