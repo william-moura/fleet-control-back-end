@@ -237,12 +237,14 @@ class AuthController extends Controller
             'message' => 'Password updated successfully',
         ]);
     }
-    public function deleteUser(Request $request, int $id)
+    public function deleteUser(int $id)
     {
-        $request->validate([
-            'password' => 'required|min:8',
-        ]);
         $user = User::find($id);
+        if (!$user) {
+            return response()->json([
+                'message' => 'User not found',
+            ], 404);
+        }
         $user->delete();
         return response()->json([
             'message' => 'User deleted successfully',
