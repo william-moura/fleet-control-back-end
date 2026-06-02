@@ -86,7 +86,7 @@ class VehicleService
     public function syncDriver(int $vehicleId, array $driversId): void
     {
         $vehicle = Vehicle::findOrFail($vehicleId);        
-        $vehicle->drivers()->attach($driversId);
+        $vehicle->drivers()->sync($driversId);
         Cache::flush();
     }
     public function detachDriver(int $vehicleId, array $driversId): void
