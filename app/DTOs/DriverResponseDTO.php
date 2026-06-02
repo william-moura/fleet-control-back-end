@@ -38,7 +38,7 @@ class DriverResponseDTO
             driverRg: $driver->driver_rg,
             driverCpf: $driver->driver_cpf,
             driverLicenseNumber: $driver->driver_license_number,
-            driverLicenseExpirationDate: Caron::parse($driver->driver_license_expiration_date)->format('d/m/Y'),
+            driverLicenseExpirationDate: Carbon::parse($driver->driver_license_expiration_date)->format('d/m/Y'),
             driverLicenseCategory: $driver->driver_license_category,
             driverBirthDate: Carbon::parse($driver->driver_birth_date)->format('d/m/Y'),
             driverPhone: $driver->driver_phone,
