@@ -4,6 +4,7 @@ namespace App\DTOs;
 
 use App\Models\VehicleFine;
 use App\VehicleFineStatusEnum;
+use Illuminate\Support\Carbon;
 
 class VehicleFineResponseDTO
 {
@@ -28,12 +29,12 @@ class VehicleFineResponseDTO
             vehicleId: $vehicleFine->vehicle_id,
             driverId: $vehicleFine->driver_id,
             fineAmount: $vehicleFine->vehicle_fine_amount,
-            fineDate: $vehicleFine->vehicle_fine_date?->format('Y-m-d'),
+            fineDate: Carbon::parse($vehicleFine->vehicle_fine_date)->format('Y-m-d'),
             fineLevel: $vehicleFine->vehicle_fine_level,
             finePoints: $vehicleFine->vehicle_fine_points,
             fineNotes: $vehicleFine->vehicle_fine_notes,
             fineStatus: VehicleFineStatusEnum::from($vehicleFine->vehicle_fine_status)->label(),
-            finePaidDate: $vehicleFine->vehicle_fine_paid_date?->format('Y-m-d'),
+            finePaidDate: Carbon::parse($vehicleFine->vehicle_fine_paid_date)->format('Y-m-d'),
             vehicle: VehicleResponseDTO::fromEntity($vehicleFine->vehicle),
             driver: $vehicleFine->driver ? DriverResponseDTO::fromEntity($vehicleFine->driver) : null,
         );

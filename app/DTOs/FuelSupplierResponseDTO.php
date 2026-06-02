@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\FuelSupplier;
+use Illuminate\Support\Carbon;
 
 class FuelSupplierResponseDTO
 {
@@ -37,7 +38,7 @@ class FuelSupplierResponseDTO
             fuelSupplierPrice: $fuelSupplier->fuel_supplier_price,
             fuelSupplierQuantity: $fuelSupplier->fuel_supplier_quantity,
             fuelSupplierTotal: $fuelSupplier->fuel_supplier_total,
-            fuelSupplierDate: $fuelSupplier->fuel_supplier_date,
+            fuelSupplierDate: Carbon::parse($fuelSupplier->fuel_supplier_date)->format('Y-m-d'),
             fuelSupplierKilometers: $fuelSupplier->fuel_supplier_kilometers,
             fuelSupplierNotes: $fuelSupplier->fuel_supplier_notes,
             fuelSupplierStatus: $fuelSupplier->fuel_supplier_status,
