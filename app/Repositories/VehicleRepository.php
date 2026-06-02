@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\DTOs\CreateVehicleDTO;
 use App\Models\Vehicle;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -59,11 +60,16 @@ class VehicleRepository implements VehicleRepositoryInterface
         if (!$vehicle) {
             throw new \Exception('Vehicle not found');
         }
-        $vehicle->delete();
-        $vehicle->drivers()->detach();
-        $vehicle->fuelSuppliers()->detach();
+        DB::table('vehicle_relationship_drivers')
+        ->where('vehicle_id', $id)        
+        ->delete();
+
+        DB::table('fuel_suppliers')
+        ->where('vehicle_id', $id)        
+        ->delete();        
         $vehicle->media()->delete();
         $vehicle->maxKilometer()->delete();
+        $vehicle->delete();
     }
 
     public function showVehicle($id): Vehicle
