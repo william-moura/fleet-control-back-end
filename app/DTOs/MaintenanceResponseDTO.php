@@ -5,6 +5,7 @@ namespace App\DTOs;
 use App\Models\MaintenanceControl;
 use App\Models\MaintenanceRelationService;
 use App\DTOs\MaintenanceServiceResponseDTO;
+use Illuminate\Support\Carbon;
 class MaintenanceResponseDTO
 {
     public function __construct(
@@ -34,12 +35,12 @@ class MaintenanceResponseDTO
             maintenanceKilometers: $maintenance->maintenance_control_kilometers,
             vehicle: VehicleResponseDTO::fromEntity($maintenance->vehicle),
             supplier: SupplierResponseDTO::fromEntity($maintenance->supplier),
-            maintenanceDate: $maintenance->maintenance_control_date,
+            maintenanceDate: Carbon::parse($maintenance->maintenance_control_date)->format('Y-m-d'),
             maintenanceCost: $maintenance->maintenance_control_total_cost,
             maintenanceNotes: $maintenance->maintenance_control_notes,
-            maintenanceNextDate: $maintenance->maintenance_control_next_date,
+            maintenanceNextDate: Carbon::parse($maintenance->maintenance_control_next_date)->format('Y-m-d'),
             maintenanceStatus: $maintenance->maintenance_control_status,
-            maintenancePreviousDateFinished: $maintenance->maintenance_control_previous_date_finished,
+            maintenancePreviousDateFinished: Carbon::parse($maintenance->maintenance_control_previous_date_finished)->format('Y-m-d'),
             maintenanceNextKilometers: $maintenance->maintenance_control_next_kilometers ?? 0,
         );
     }

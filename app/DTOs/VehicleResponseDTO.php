@@ -5,6 +5,7 @@ namespace App\DTOs;
 use App\Models\Driver;
 use App\Models\Media;
 use App\Models\Vehicle;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 readonly class VehicleResponseDTO
@@ -49,7 +50,7 @@ readonly class VehicleResponseDTO
             vehicleTankCapacity: (float) $vehicle->vehicle_tank_capacity,
             vehicleCurrentMileage: $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage,
             vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
-            vehiclePurchaseDate: $vehicle->vehicle_purchase_date?->format('d/m/Y'),
+            vehiclePurchaseDate: Carbon::parse($vehicle->vehicle_purchase_date)->format('Y-m-d'),
             vehicleNotes: $vehicle->vehicle_notes,
             brand: strtoupper($vehicle->brand->brand_name),
             fuelType: $vehicle->fuelType->fuel_type_name,
