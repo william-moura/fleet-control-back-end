@@ -2,7 +2,7 @@
 
 namespace App\DTOs;
 
-use Carbon\Carbon;
+use Illuminate\Support\Carbon 
 
 class DriverResponseDTO
 {
