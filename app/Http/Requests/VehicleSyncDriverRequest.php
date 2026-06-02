@@ -26,7 +26,7 @@ class VehicleSyncDriverRequest extends FormRequest
     {
         return [            
             'driver_id' => ['required', 'array'],
-            'driver_id.*' => ['required', 'exists:drivers,id', 'integer'],
+            'driver_id.*' => ['nullable', 'exists:drivers,id', 'integer'],
         ];
     }
     public function failedValidation(Validator $validator) 
