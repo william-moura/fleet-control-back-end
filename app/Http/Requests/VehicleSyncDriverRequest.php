@@ -25,7 +25,7 @@ class VehicleSyncDriverRequest extends FormRequest
     public function rules(): array
     {
         return [            
-            'driver_id' => ['required', 'array'],
+            'driver_id' => ['nullable', 'array'],
             'driver_id.*' => ['nullable', 'exists:drivers,id', 'integer'],
         ];
     }
