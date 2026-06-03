@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleRepository implements RoleRepositoryInterface
 {
@@ -47,7 +48,13 @@ class RoleRepository implements RoleRepositoryInterface
     }
     public function deleteRole(int $id): void
     {
-        $this->model->find($id)->delete();
+        $role = $this->model->find($id);        
+        if (!$role) {
+            throw new \Exception('Role not found');
+        }
+        $role->users()->detach();
+        $role->permissions()->detach();
+        $role->delete();
     }
     public function showRole(int $id): Role
     {
