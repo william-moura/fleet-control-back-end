@@ -23,6 +23,7 @@ class MaintenanceResponseDTO
         public string $maintenanceStatus,
         public string $maintenancePreviousDateFinished,
         public float $maintenanceNextKilometers,
+        public string $servicesFormatted
     ) {}
     public static function fromEntity(MaintenanceControl $maintenance): self
     {
@@ -42,6 +43,9 @@ class MaintenanceResponseDTO
             maintenanceStatus: $maintenance->maintenance_control_status,
             maintenancePreviousDateFinished: Carbon::parse($maintenance->maintenance_control_previous_date_finished)->format('Y-m-d'),
             maintenanceNextKilometers: $maintenance->maintenance_control_next_kilometers ?? 0,
+            servicesFormatted: $maintenance->maintenanceRelationServices
+            ->map(fn(MaintenanceRelationService $service) => $service->maintenanceService->maintenance_control_service_name)
+            ->implode(', ')
         );
     }
 }
