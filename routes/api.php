@@ -93,13 +93,3 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::post('/permissions', [AuthController::class, 'createPermission']);
 });
 
-
-Route::get('/teste-email', function() {
-    $return =Mail::raw('Este é um e-mail de teste do Laravel 12!', function ($message) {
-        $message->to('williammoura908@gmail.com')
-        ->subject('Teste de Email Laravel');
-    });
-    
-    echo 'foi foi';
-    return $return;
-});
