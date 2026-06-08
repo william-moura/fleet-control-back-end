@@ -45,7 +45,7 @@ class Vehicle extends Model
     }
     public function drivers(): BelongsToMany
     {
-        return $this->belongsToMany(Driver::class, 'vehicle_relationship_drivers', 'vehicle_id', 'driver_id');
+        return $this->belongsToMany(Driver::class, 'vehicle_relationship_drivers', 'vehicle_id', 'driver_id')->distinct();
     }
     public function media(): MorphMany
     {
