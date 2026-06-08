@@ -32,7 +32,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('/dashboard', DashboardController::class)->middleware(['auth:sanctum', 'permission:acessar_dashboards']);
 Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::get('/', ListVehicleController::class)->middleware(['permission:listar_veiculos']);
