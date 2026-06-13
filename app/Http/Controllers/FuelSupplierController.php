@@ -57,4 +57,12 @@ class FuelSupplierController extends Controller
             200
         );
     }
+    public function getFuelSuppliersByVehicle(int $id): JsonResponse
+    {
+        $fuelSuppliers = $this->service->getFuelSuppliersByVehicle($id);
+        return response()->json(
+            $fuelSuppliers,
+            200
+        );
+    }
 }

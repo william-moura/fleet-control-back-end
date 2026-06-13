@@ -75,4 +75,10 @@ class MaintenanceService
     {
         return $this->maintenanceServiceRepository->showMaintenanceService($id);
     }
+
+    public function getMaintenanceControlsByVehicle(int $id): Collection
+    {
+        $maintenanceControls = $this->maintenanceRepository->getMaintenanceControlsByVehicle($id);
+        return $maintenanceControls->map(fn(MaintenanceControl $maintenanceControl) => MaintenanceResponseDTO::fromEntity($maintenanceControl));
+    }
 }

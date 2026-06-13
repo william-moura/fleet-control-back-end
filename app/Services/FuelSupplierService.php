@@ -41,4 +41,9 @@ class FuelSupplierService
     {
         return $this->fuelSupplierRepository->showFuelSupplier($id);
     }
+    public function getFuelSuppliersByVehicle(int $id): Collection
+    {
+        $fuelSuppliers = $this->fuelSupplierRepository->getFuelSuppliersByVehicle($id);
+        return $fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier));
+    }
 }

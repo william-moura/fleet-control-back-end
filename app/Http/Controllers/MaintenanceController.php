@@ -61,4 +61,13 @@ class MaintenanceController extends Controller
         $this->service->destroyMaintenanceControl($id);
         return response()->json(null, 204);
     }
+
+    public function getMaintenanceControlsByVehicle(int $id): JsonResponse
+    {
+        $maintenanceControls = $this->service->getMaintenanceControlsByVehicle($id);
+        return response()->json(
+            $maintenanceControls,
+            200
+        );
+    }
 }
