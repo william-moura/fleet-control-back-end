@@ -8,6 +8,7 @@ use App\Models\FuelSupplier;
 use App\Repositories\Contracts\FuelSupplierRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as SupportCollection;
 
 class FuelSupplierService
 {
@@ -41,7 +42,7 @@ class FuelSupplierService
     {
         return $this->fuelSupplierRepository->showFuelSupplier($id);
     }
-    public function getFuelSuppliersByVehicle(int $id): Collection
+    public function getFuelSuppliersByVehicle(int $id): SupportCollection
     {
         $fuelSuppliers = $this->fuelSupplierRepository->getFuelSuppliersByVehicle($id);
         return $fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier));
