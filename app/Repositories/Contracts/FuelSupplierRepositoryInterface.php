@@ -23,4 +23,5 @@ interface FuelSupplierRepositoryInterface
     public function lastsFuelSuppliers(): Collection;
     public function totalFuelSuppliers(): float;
     public function totalFuelSuppliersByMonth(): float;
+    public function getFuelSuppliersByVehicle(int $id): Collection;
 }

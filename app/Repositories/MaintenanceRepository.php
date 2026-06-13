@@ -124,4 +124,11 @@ public function findUpcomingMaintenances(int $kmThreshold = 500, int $daysThresh
         ->orderBy('dias_restantes', 'asc')
         ->get();
     }
+    public function getMaintenanceControlsByVehicle(int $id): Collection
+    {
+        return $this->model->with(['vehicle', 'supplier', 'vehicle.maxKilometer', 'vehicle.drivers', 'vehicle.fines', 'vehicle.maintenances', 'vehicle.fuelSuppliers'])
+        ->where('vehicle_id', $id)
+        ->orderBy('maintenance_control_date', 'desc')
+        ->get();
+    }
 }

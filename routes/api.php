@@ -52,6 +52,8 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
 
 Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);
 Route::resource('drivers', DriverController::class)->middleware(['auth:sanctum', 'permission:listar_motoristas']);
+Route::get('fuel-suppliers/vehicles/{id}', [FuelSupplierController::class, 'getFuelSuppliersByVehicle']);
+Route::get('maintenance-controls/vehicle/{id}', [MaintenanceController::class, 'getMaintenanceControlsByVehicle']);
 Route::resource('fuel-suppliers', FuelSupplierController::class)->middleware(['auth:sanctum', 'permission:listar_abastecimento']);
 Route::resource('suppliers', SupplierController::class)->middleware(['auth:sanctum', 'permission:listar_fornecedores']);
 Route::resource('maintenance-controls', MaintenanceController::class)->middleware(['auth:sanctum', 'permission:listar_manutencoes']);
