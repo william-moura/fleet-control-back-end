@@ -25,7 +25,11 @@ class Vehicle extends Model
         'vehicle_current_mileage', 
         'vehicle_status', 
         'vehicle_purchase_date', 
-        'vehicle_notes'
+        'vehicle_notes',
+        'vehicle_chassis_number',
+        'vehicle_renavam_number',
+        'vechicle_color',
+        'vehicle_transmission_type',
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts = [

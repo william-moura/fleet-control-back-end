@@ -19,6 +19,10 @@ readonly class CreateVehicleDTO
         public ?DateTimeImmutable $vehiclePurchaseDate = null,
         public ?string $vehicleNotes = null,
         public ?array $photosIds = null,
+        public ?string $vehicleChassisNumber = null,
+        public ?string $vehicleRenavamNumber = null,
+        public ?string $vechicleColor = null,
+        public ?string $vehicleTransmissionType = null,
     ) {}
 
     /**
@@ -40,6 +44,10 @@ readonly class CreateVehicleDTO
                 : null,
             vehicleNotes: $data['vehicleNotes'] ?? null,
             photosIds: $data['photosIds'] ?? null,
+            vehicleChassisNumber: $data['vehicleChassisNumber'] ?? null,
+            vehicleRenavamNumber: $data['vehicleRenavamNumber'] ?? null,
+            vechicleColor: $data['vechicleColor'] ?? null,
+            vehicleTransmissionType: $data['vehicleTransmissionType'] ?? null,
         );
     }
 
