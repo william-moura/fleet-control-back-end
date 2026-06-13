@@ -27,6 +27,10 @@ class StoreVehicleRequest extends FormRequest
             'vehicleNotes'           => ['nullable', 'string', 'max:1000'],
             'photosIds'               => ['nullable', 'array'],
             'photosIds.*'             => ['nullable', 'integer', 'exists:media,id'],
+            'vehicleChassisNumber'    => ['nullable', 'string', 'max:255'],
+            'vehicleRenavamNumber'    => ['nullable', 'string', 'max:255'],
+            'vechicleColor'           => ['nullable', 'string', 'max:255'],
+            'vehicleTransmissionType' => ['nullable', 'string', 'in:manual,automatica'],
         ];
     }
 

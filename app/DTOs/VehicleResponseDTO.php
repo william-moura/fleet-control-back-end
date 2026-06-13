@@ -28,6 +28,10 @@ readonly class VehicleResponseDTO
         public ?Collection $photos,
         public ?float $totalFines = null,
         public ?float $totalKilometersCost = null,
+        public ?string $vehicleChassisNumber = null,
+        public ?string $vehicleRenavamNumber = null,
+        public ?string $vechicleColor = null,
+        public ?string $vehicleTransmissionType = null,
     ) {}
 
     /**
@@ -58,6 +62,10 @@ readonly class VehicleResponseDTO
             photos: $vehicle->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
             totalFines: $vehicle->fines?->sum('vehicle_fine_amount') ?? 0,
             totalKilometersCost: $totalKilometersCost,
+            vehicleChassisNumber: $vehicle->vehicle_chassis_number,
+            vehicleRenavamNumber: $vehicle->vehicle_renavam_number,
+            vechicleColor: $vehicle->vechicle_color,
+            vehicleTransmissionType: $vehicle->vehicle_transmission_type,
         );
     }
 }
