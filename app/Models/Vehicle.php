@@ -30,6 +30,7 @@ class Vehicle extends Model
         'vehicle_renavam_number',
         'vechicle_color',
         'vehicle_transmission_type',
+        'vehicle_model_year',
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts = [
