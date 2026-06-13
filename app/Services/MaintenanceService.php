@@ -12,6 +12,7 @@ use App\Repositories\Contracts\MaintenanceRepositoryInterface;
 use App\Repositories\Contracts\MaintenanceServiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection as SupportCollection;
 
 class MaintenanceService
 {
@@ -76,7 +77,7 @@ class MaintenanceService
         return $this->maintenanceServiceRepository->showMaintenanceService($id);
     }
 
-    public function getMaintenanceControlsByVehicle(int $id): Collection
+    public function getMaintenanceControlsByVehicle(int $id): SupportCollection
     {
         $maintenanceControls = $this->maintenanceRepository->getMaintenanceControlsByVehicle($id);
         return $maintenanceControls->map(fn(MaintenanceControl $maintenanceControl) => MaintenanceResponseDTO::fromEntity($maintenanceControl));
