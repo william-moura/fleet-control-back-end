@@ -32,6 +32,7 @@ readonly class VehicleResponseDTO
         public ?string $vehicleRenavamNumber = null,
         public ?string $vechicleColor = null,
         public ?string $vehicleTransmissionType = null,
+        public ?int $vehicleModelYear = null,
     ) {}
 
     /**
@@ -66,6 +67,7 @@ readonly class VehicleResponseDTO
             vehicleRenavamNumber: $vehicle->vehicle_renavam_number,
             vechicleColor: $vehicle->vechicle_color,
             vehicleTransmissionType: $vehicle->vehicle_transmission_type,
+            vehicleModelYear: $vehicle->vehicle_model_year,
         );
     }
 }
