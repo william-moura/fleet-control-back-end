@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::table('vehicles', function (Blueprint $table) {
             $table->string('vehicle_chassis_number')->nullable()->after('vehicle_plate');
             $table->string('vehicle_renavam_number')->nullable()->after('vehicle_chassis_number');
-            $table->string('vechicle_color')->nullable()->after('vehicle_renavam_number');
-            $table->enum('vehicle_transmission_type', ['manual', 'automatica'])->nullable()->after('vechicle_color');
+            $table->string('vehicle_color')->nullable()->after('vehicle_renavam_number');
+            $table->enum('vehicle_transmission_type', ['manual', 'automatico'])->nullable()->after('vehicle_color');
+            $table->integer('vehicle_model_year')->nullable()->after('vehicle_year');
         });
     }
 
