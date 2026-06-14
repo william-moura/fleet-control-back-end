@@ -7,6 +7,7 @@ use App\DTOs\VehicleFineResponseDTO;
 use App\Models\VehicleFine;
 use App\Repositories\Contracts\VehicleFineRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class VehicleFineService
 {
@@ -42,5 +43,10 @@ class VehicleFineService
     {
         $vehicleFine = $this->vehicleFineRepository->showVehicleFine($id);
         return VehicleFineResponseDTO::fromEntity($vehicleFine);
+    }
+    public function listFinesByDriver(int $driverId): Collection
+    {
+        $fines = $this->vehicleFineRepository->getFinesByDriver($driverId);
+        return $fines->map(fn(VehicleFine $vehicleFine) => VehicleFineResponseDTO::fromEntity($vehicleFine));
     }
 }

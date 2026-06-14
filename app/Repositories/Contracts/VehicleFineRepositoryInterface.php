@@ -22,4 +22,5 @@ interface VehicleFineRepositoryInterface
     public function showVehicleFine(int $id): VehicleFine;
     public function totalFinesByMonth(): float;
     public function nextFinesToPay(): Collection;
+    public function getFinesByDriver(int $driverId): Collection;
 }
