@@ -29,8 +29,8 @@ class StoreVehicleRequest extends FormRequest
             'photosIds.*'             => ['nullable', 'integer', 'exists:media,id'],
             'vehicleChassisNumber'    => ['nullable', 'string', 'max:255'],
             'vehicleRenavamNumber'    => ['nullable', 'string', 'max:255'],
-            'vechicleColor'           => ['nullable', 'string', 'max:255'],
-            'vehicleTransmissionType' => ['nullable', 'string', 'in:manual,automatica'],
+            'vehicleColor'           => ['nullable', 'string', 'max:255'],
+            'vehicleTransmissionType' => ['nullable', 'string', 'in:manual,automatico'],
             'vehicleModelYear'        => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
         ];
     }
