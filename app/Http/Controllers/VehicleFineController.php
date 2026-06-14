@@ -60,4 +60,13 @@ class VehicleFineController extends Controller
         $this->vehicleFineService->destroyVehicleFine($id);
         return response()->json(null, 204);
     }
+
+    public function listFinesByDriver(int $driverId): JsonResponse
+    {
+        $fines = $this->vehicleFineService->listFinesByDriver($driverId);
+        return response()->json(
+            $fines,
+            200
+        );
+    }
 }

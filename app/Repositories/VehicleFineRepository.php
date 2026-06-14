@@ -65,4 +65,8 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
             ->take(5)
             ->get();
     }
+    public function getFinesByDriver(int $driverId): Collection
+    {
+        return $this->model->with(['vehicle', 'driver'])->where('driver_id', $driverId)->get();
+    }
 }

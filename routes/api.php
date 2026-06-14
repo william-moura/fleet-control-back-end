@@ -81,6 +81,7 @@ Route::get('/reports/{id}', [ReportController::class, 'generateReport']);
 Route::get('/reports/{id}/pdf', [ReportController::class, 'generatePdfReport']);
 Route::get('/reports/{id}/excel', [ReportController::class, 'generateExcelReport']);
 Route::resource('vehicle-fines', VehicleFineController::class)->middleware(['auth:sanctum', 'permission:listar_multas_veiculos']);
+Route::get('/vehicle-fines/driver/{id}', [VehicleFineController::class, 'listFinesByDriver']);
 Route::post('/assign-role', [AuthController::class, 'assignRole']);
 Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::get('/', [RoleController::class, 'index']);
