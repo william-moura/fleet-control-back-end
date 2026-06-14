@@ -30,7 +30,7 @@ readonly class VehicleResponseDTO
         public ?float $totalKilometersCost = null,
         public ?string $vehicleChassisNumber = null,
         public ?string $vehicleRenavamNumber = null,
-        public ?string $vechicleColor = null,
+        public ?string $vehicleColor = null,
         public ?string $vehicleTransmissionType = null,
         public ?int $vehicleModelYear = null,
     ) {}
@@ -65,7 +65,7 @@ readonly class VehicleResponseDTO
             totalKilometersCost: $totalKilometersCost,
             vehicleChassisNumber: $vehicle->vehicle_chassis_number,
             vehicleRenavamNumber: $vehicle->vehicle_renavam_number,
-            vechicleColor: $vehicle->vechicle_color,
+            vehicleColor: $vehicle->vehicle_color,
             vehicleTransmissionType: $vehicle->vehicle_transmission_type,
             vehicleModelYear: $vehicle->vehicle_model_year,
         );

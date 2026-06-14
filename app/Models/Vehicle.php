@@ -28,7 +28,7 @@ class Vehicle extends Model
         'vehicle_notes',
         'vehicle_chassis_number',
         'vehicle_renavam_number',
-        'vechicle_color',
+        'vehicle_color',
         'vehicle_transmission_type',
         'vehicle_model_year',
     ];

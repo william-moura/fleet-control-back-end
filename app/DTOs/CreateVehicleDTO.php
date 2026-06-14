@@ -21,7 +21,7 @@ readonly class CreateVehicleDTO
         public ?array $photosIds = null,
         public ?string $vehicleChassisNumber = null,
         public ?string $vehicleRenavamNumber = null,
-        public ?string $vechicleColor = null,
+        public ?string $vehicleColor = null,
         public ?string $vehicleTransmissionType = null,
         public ?int $vehicleModelYear = null,
     ) {}
@@ -47,7 +47,7 @@ readonly class CreateVehicleDTO
             photosIds: $data['photosIds'] ?? null,
             vehicleChassisNumber: $data['vehicleChassisNumber'] ?? null,
             vehicleRenavamNumber: $data['vehicleRenavamNumber'] ?? null,
-            vechicleColor: $data['vechicleColor'] ?? null,
+            vehicleColor: $data['vehicleColor'] ?? null,
             vehicleTransmissionType: $data['vehicleTransmissionType'] ?? null,
             vehicleModelYear: $data['vehicleModelYear'] ?? null,
             
