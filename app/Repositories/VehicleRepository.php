@@ -20,7 +20,6 @@ class VehicleRepository implements VehicleRepositoryInterface
 
     public function createVehicle(CreateVehicleDTO $dto): Vehicle
     {
-        dd($dto);
         return $this->model->create([
             'vehicle_plate' => $dto->vehiclePlate,
             'brand_id' => $dto->brandId,
@@ -107,6 +106,11 @@ class VehicleRepository implements VehicleRepositoryInterface
             'vehicle_status' => $dto->vehicleStatus,
             'vehicle_purchase_date' => $dto->vehiclePurchaseDate,
             'vehicle_notes' => $dto->vehicleNotes,
+            'vehicle_chassis_number' => $dto->vehicleChassisNumber,
+            'vehicle_renavam_number' => $dto->vehicleRenavamNumber,
+            'vehicle_color' => $dto->vehicleColor,
+            'vehicle_transmission_type' => $dto->vehicleTransmissionType,
+            'vehicle_model_year' => $dto->vehicleModelYear,
         ]);
         return $vehicle;
     }
