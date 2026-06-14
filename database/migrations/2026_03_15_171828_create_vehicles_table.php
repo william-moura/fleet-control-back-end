@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained('vehicle_brands', 'id')
             ->onDelete('restrict')
             ->onUpdate('cascade');
-            $table->string('vehicle_model');
+            $table->integer('vehicle_model');
             $table->string('vehicle_year');
             $table->foreignId('fuel_type_id')->constrained('fuel_types', 'id')
             ->onDelete('restrict')

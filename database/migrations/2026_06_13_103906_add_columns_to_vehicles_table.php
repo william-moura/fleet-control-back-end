@@ -30,6 +30,7 @@ return new class extends Migration
             $table->dropColumn('vehicle_renavam_number');
             $table->dropColumn('vechicle_color');
             $table->dropColumn('vehicle_transmission_type');
+            $table->dropColumn('vehicle_model_year');
         });
     }
 };
