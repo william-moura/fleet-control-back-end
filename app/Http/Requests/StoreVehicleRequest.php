@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use DateTimeImmutable;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreVehicleRequest extends FormRequest
 {
@@ -30,7 +31,7 @@ class StoreVehicleRequest extends FormRequest
             'vehicleChassisNumber'    => ['nullable', 'string', 'max:255'],
             'vehicleRenavamNumber'    => ['nullable', 'string', 'max:255'],
             'vehicleColor'           => ['nullable', 'string', 'max:255'],
-            'vehicleTransmissionType' => ['nullable', 'string', 'in:manual,automatico'],
+            'vehicleTransmissionType' => ['nullable', Rule::in(['manual', 'automatica'])],
             'vehicleModelYear'        => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
         ];
     }
