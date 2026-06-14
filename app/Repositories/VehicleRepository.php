@@ -20,6 +20,7 @@ class VehicleRepository implements VehicleRepositoryInterface
 
     public function createVehicle(CreateVehicleDTO $dto): Vehicle
     {
+        dd($dto);
         return $this->model->create([
             'vehicle_plate' => $dto->vehiclePlate,
             'brand_id' => $dto->brandId,
