@@ -4,6 +4,7 @@ namespace App\DTOs;
 
 use App\Models\Media;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 
 class DriverResponseDTO
 {
@@ -24,7 +25,7 @@ class DriverResponseDTO
         public string $driverBirthDate,
         public string $driverPhone,
         public string $driverStatus,
-        public ?array $photos = null
+        public ?Collection $photos,
     ) {}
     public static function fromEntity(object $driver): self
     {
