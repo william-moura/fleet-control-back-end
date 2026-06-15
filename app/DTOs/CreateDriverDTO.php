@@ -22,7 +22,8 @@ class CreateDriverDTO
         public string $licenseCategory,
         public string $birthDate,
         public string $phone,
-        public string $status
+        public string $status,
+        public array $photosIds = []
     ) {}
     public static function fromRequest(StoreDriverRequest $request): self
     {
@@ -42,6 +43,7 @@ class CreateDriverDTO
             birthDate: $request->driverBirthDate,
             phone: $request->driverPhone,
             status: $request->driverStatus,
+            photosIds: $request->photosIds,
         );
     }
 }

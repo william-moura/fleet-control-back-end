@@ -40,6 +40,8 @@ class StoreDriverRequest extends FormRequest
             'driverBirthDate' => ['required', 'date'],
             'driverPhone' => ['required', 'string', 'max:15'],
             'driverStatus' => ['required', 'integer', 'in:0,1'],
+            'photosIds' => ['nullable', 'array'],
+            'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
         ];
     }
     public function failedValidation(Validator $validator) 
