@@ -2,6 +2,7 @@
 
 namespace App\DTOs;
 
+use App\Models\Media;
 use Illuminate\Support\Carbon;
 
 class DriverResponseDTO
@@ -23,6 +24,7 @@ class DriverResponseDTO
         public string $driverBirthDate,
         public string $driverPhone,
         public string $driverStatus,
+        public array $photos = []
     ) {}
     public static function fromEntity(object $driver): self
     {
@@ -43,6 +45,7 @@ class DriverResponseDTO
             driverBirthDate: Carbon::parse($driver->driver_birth_date)->format('Y-m-d'),
             driverPhone: $driver->driver_phone,
             driverStatus: $driver->driver_status,
+            photos: $driver->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
         );
     }
 }

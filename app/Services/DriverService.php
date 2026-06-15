@@ -5,9 +5,11 @@ namespace App\Services;
 use App\DTOs\CreateDriverDTO;
 use App\DTOs\DriverResponseDTO;
 use App\Models\Driver;
+use App\Models\Media;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class DriverService
 {
@@ -28,11 +30,25 @@ class DriverService
     }
     public function createDriver(CreateDriverDTO $dto): Driver
     {
-        return $this->driverRepository->createDriver($dto);
+        return DB::transaction(function () use ($dto) {
+            $driver = $this->driverRepository->createDriver($dto);
+            if (!empty($dto->photosIds)) {
+                $medias =Media::whereIn('id', $dto->photosIds)->get();
+                $driver->media()->saveMany($medias);
+            }            
+            return $driver;
+        });
     }
     public function updateDriver(int $id, CreateDriverDTO $dto): Driver
     {
-        return $this->driverRepository->updateDriver($id, $dto);
+        return DB::transaction(function () use ($id, $dto) {
+            $driver = $this->driverRepository->updateDriver($id, $dto);
+            if (!empty($dto->photosIds)) {
+                $medias =Media::whereIn('id', $dto->photosIds)->get();
+                $driver->media()->saveMany($medias);
+            }
+            return $driver;
+        });
     }
     public function destroyDriver(int $id): void
     {
