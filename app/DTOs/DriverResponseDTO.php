@@ -24,7 +24,7 @@ class DriverResponseDTO
         public string $driverBirthDate,
         public string $driverPhone,
         public string $driverStatus,
-        public array $photos = []
+        public ?array $photos = null
     ) {}
     public static function fromEntity(object $driver): self
     {
