@@ -51,6 +51,7 @@ class DriverRepository implements DriverRepositoryInterface
             'driver_birth_date' => $dto->birthDate,
             'driver_phone' => $dto->phone,
             'driver_status' => $dto->status,
+            'driver_neighborhood' => $dto->neighborhood,
         ]);
     }
     public function updateDriver(int $id, CreateDriverDTO $dto): Driver
@@ -70,7 +71,8 @@ class DriverRepository implements DriverRepositoryInterface
             'driver_license_category' => $dto->licenseCategory,
             'driver_birth_date' => $dto->birthDate,
             'driver_phone' => $dto->phone,
-            'driver_status' => $dto->status
+            'driver_status' => $dto->status,
+            'driver_neighborhood' => $dto->neighborhood,
         ]) ? $this->model->find($id) : null;
     }
     public function destroyDriver(int $id): void

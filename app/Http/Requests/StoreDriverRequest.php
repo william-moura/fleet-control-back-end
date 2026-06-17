@@ -42,6 +42,7 @@ class StoreDriverRequest extends FormRequest
             'driverStatus' => ['required', 'integer', 'in:0,1'],
             'photosIds' => ['nullable', 'array'],
             'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
+            'driverNeighborhood' => ['nullable', 'string', 'max:255'],
         ];
     }
     public function failedValidation(Validator $validator) 
