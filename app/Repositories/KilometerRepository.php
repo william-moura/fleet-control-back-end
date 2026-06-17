@@ -46,7 +46,8 @@ class KilometerRepository implements KilometerRepositoryInterface
                 'kilometers.kilometers_date', 
                 'kilometers.kilometers_notes', 
                 'kilometers.kilometers_status', 
-                'kilometers.kilometers_value'
+                'kilometers.kilometers_value',
+                'kilometers.driver_id',
             ])
             ->selectRaw('CONCAT(vehicles.vehicle_plate, " - ", vehicles.vehicle_model) as vehicle_name')
             ->orderBy('kilometers_date', 'desc')
