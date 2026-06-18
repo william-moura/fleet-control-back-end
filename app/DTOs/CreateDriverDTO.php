@@ -23,7 +23,8 @@ class CreateDriverDTO
         public string $birthDate,
         public string $phone,
         public string $status,
-        public array $photosIds = []
+        public array $photosIds = [],
+        public string $neighborhood,
     ) {}
     public static function fromRequest(StoreDriverRequest $request): self
     {
@@ -44,6 +45,7 @@ class CreateDriverDTO
             phone: $request->driverPhone,
             status: $request->driverStatus,
             photosIds: $request->photosIds,
+            neighborhood: $request->driverNeighborhood,
         );
     }
 }
