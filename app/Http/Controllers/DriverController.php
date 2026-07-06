@@ -60,4 +60,12 @@ class DriverController extends Controller
             200
         );
     }
+    public function getNextRegistration(): JsonResponse
+    {
+        $nextRegistration = $this->service->getNextRegistration();
+        return response()->json(
+            $nextRegistration,
+            200
+        );
+    }
 }

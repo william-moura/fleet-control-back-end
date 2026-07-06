@@ -12,6 +12,7 @@ class CreateUserDTO
         public string $email,
         public string $password,
         public int $role_id,
+        public ?string $cpf = null,
     ) {}
     public function toArray(): array
     {
@@ -20,6 +21,7 @@ class CreateUserDTO
             'email' => $this->email,
             'password' => $this->password,
             'role_id' => $this->role_id,
+            'cpf' => $this->cpf,
         ];
     }
     public static function fromRequest(CreateUserRequest $request): self
@@ -29,6 +31,7 @@ class CreateUserDTO
             email: $request->input('email'),
             password: $request->input('password'),
             role_id: (int) $request->input('role_id'),
+            cpf: $request->input('cpf') ?? null,
         );
     }
 }

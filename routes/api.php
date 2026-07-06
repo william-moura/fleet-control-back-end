@@ -95,4 +95,6 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
     Route::get('/permissions', [RoleController::class, 'getPermissionsForRole']);
     Route::post('/permissions', [AuthController::class, 'createPermission']);
 });
-
+Route::get('/next-registration', [DriverController::class, 'getNextRegistration'])
+->middleware(['auth:sanctum']);
+Route::post('fuel-types', [FuelTypeController::class, 'store']);

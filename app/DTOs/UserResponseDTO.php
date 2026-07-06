@@ -11,6 +11,7 @@ class UserResponseDTO
         public string $name,
         public string $email,
         public ?RoleResponseDTO $role,
+        public ?string $cpf = null,
     ) {}
     public static function fromEntity(User $user): self
     {
@@ -19,6 +20,7 @@ class UserResponseDTO
             name: $user->name,
             email: $user->email,
             role: $user->roles->first() ? RoleResponseDTO::fromEntity($user->roles->first()) : null,
+            cpf: $user->cpf,
         );
     }
 }

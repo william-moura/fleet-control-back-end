@@ -37,7 +37,7 @@ class DriverRepository implements DriverRepositoryInterface
     {
         return $this->model->create([
             'driver_name' => $dto->name,
-            'driver_registered_number' => $dto->registeredNumber,
+            'driver_registered_number' => $dto->registeredNumber ?? $this->getNextRegistration(),
             'driver_address' => $dto->address,
             'driver_city' => $dto->city,
             'driver_state' => $dto->state,
@@ -52,6 +52,7 @@ class DriverRepository implements DriverRepositoryInterface
             'driver_phone' => $dto->phone,
             'driver_status' => $dto->status,
             'driver_neighborhood' => $dto->neighborhood,
+            'driver_email' => $dto->email,
         ]);
     }
     public function updateDriver(int $id, CreateDriverDTO $dto): Driver
@@ -82,5 +83,10 @@ class DriverRepository implements DriverRepositoryInterface
     public function showDriver(int $id): Driver
     {
         return $this->model->find($id);
+    }
+
+    public function getNextRegistration(): int
+    {
+        return $this->model->max('driver_registered_number') + 1;
     }
 }

@@ -17,12 +17,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'login' => 'required|string',
             'password' => 'required',
            // 'device_name' => 'required', // Opcional, para identificar o dispositivo
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->login)->orWhere('cpf', $request->login)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([

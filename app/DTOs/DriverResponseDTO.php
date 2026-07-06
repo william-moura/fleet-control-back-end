@@ -26,13 +26,15 @@ class DriverResponseDTO
         public string $driverPhone,
         public string $driverStatus,
         public ?Collection $photos,
+        public ?string $driverEmail = null,
+        public ?string $driverNeighborhood = null,
     ) {}
     public static function fromEntity(object $driver): self
     {
         return new self(
             id: $driver->id,
             driverName: $driver->driver_name,
-            driverRegisteredNumber: $driver->driver_registered_number,
+            driverRegisteredNumber: str_pad($driver->driver_registered_number, 4, '0', STR_PAD_LEFT),
             driverAddress: $driver->driver_address,
             driverCity: $driver->driver_city,
             driverState: $driver->driver_state,
@@ -47,6 +49,8 @@ class DriverResponseDTO
             driverPhone: $driver->driver_phone,
             driverStatus: $driver->driver_status,
             photos: $driver->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
+            driverEmail: $driver->driver_email ?? null,
+            driverNeighborhood: $driver->driver_neighborhood ?? null,
         );
     }
 }
