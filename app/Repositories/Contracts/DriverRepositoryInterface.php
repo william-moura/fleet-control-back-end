@@ -20,4 +20,5 @@ interface DriverRepositoryInterface
     public function updateDriver(int $id, CreateDriverDTO $dto): Driver;
     public function destroyDriver(int $id): void;
     public function showDriver(int $id): Driver;
+    public function getNextRegistration(): int;
 }

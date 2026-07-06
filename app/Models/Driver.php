@@ -27,6 +27,7 @@ class Driver extends Model
         'driver_phone',
         'driver_status',
         'driver_neighborhood',
+        'driver_email',
     ];
 
     public function media(): MorphMany

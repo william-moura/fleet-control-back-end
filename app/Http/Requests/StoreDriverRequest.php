@@ -26,14 +26,14 @@ class StoreDriverRequest extends FormRequest
     {
         return [
             'driverName' => ['required', 'string', 'max:255'],
-            'driverRegisteredNumber' => ['required', 'string', 'max:255'],
+            'driverRegisteredNumber' => ['nullable', 'string', 'max:255'],
             'driverAddress' => ['required', 'string', 'max:255'],
             'driverCity' => ['required', 'string', 'max:255'],
             'driverState' => ['required', 'string', 'max:2'],
             'driverZipCode' => ['required', 'string', 'max:99999999'],
             'driverBloodType' => ['required', 'string', 'max:4'],
             'driverRg' => ['required', 'string', 'max:11'],
-            'driverCpf' => ['required', 'string', 'max:11'],
+            'driverCpf' => ['required', 'string', 'max:11', 'unique:drivers,driver_cpf'],
             'driverLicenseNumber' => ['required', 'string', 'max:255'],
             'driverLicenseExpirationDate' => ['required', 'date'],
             'driverLicenseCategory' => ['required', 'string', 'max:3'],
@@ -43,15 +43,16 @@ class StoreDriverRequest extends FormRequest
             'photosIds' => ['nullable', 'array'],
             'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
             'driverNeighborhood' => ['nullable', 'string', 'max:255'],
+            'driverEmail' => ['nullable', 'email', 'max:255', 'unique:drivers,driver_email'],
         ];
     }
     public function failedValidation(Validator $validator) 
     { 
         throw new HttpResponseException(response()->json([ 
             'success' => false, 
-            'message' => 'Erros de validação', 
+            'message' => 'Erros de validaçãos', 
             'data' => $validator->errors() 
-        ])); 
+        ], 422)); 
     }
 
 }

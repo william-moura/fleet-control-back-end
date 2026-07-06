@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenance_control_services', function (Blueprint $table) {
-            $table->id();
-            $table->string('maintenance_control_service_name');
-
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('cpf')->index()->nullable()->after('name');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maintenance_control_services');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('cpf');
+        });
     }
 };

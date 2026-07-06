@@ -58,4 +58,9 @@ class DriverService
     {
         return $this->driverRepository->showDriver($id);
     }
+    public function getNextRegistration(): string
+    {
+        $registration = $this->driverRepository->getNextRegistration();
+        return str_pad($registration, 4, '0', STR_PAD_LEFT);
+    }
 }

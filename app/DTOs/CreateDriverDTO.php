@@ -9,7 +9,7 @@ class CreateDriverDTO
 {
     public function __construct(
         public string $name,
-        public string $registeredNumber,
+        public ?string $registeredNumber = null,
         public string $address,
         public string $city,
         public string $state,
@@ -25,12 +25,13 @@ class CreateDriverDTO
         public string $status,
         public array $photosIds = [],
         public string $neighborhood,
+        public string $email,
     ) {}
     public static function fromRequest(StoreDriverRequest $request): self
     {
         return new self(
             name: $request->driverName,
-            registeredNumber: $request->driverRegisteredNumber,
+            registeredNumber: $request->driverRegisteredNumber ?? null,
             address: $request->driverAddress,
             city: $request->driverCity,
             state: $request->driverState,
@@ -46,6 +47,7 @@ class CreateDriverDTO
             status: $request->driverStatus,
             photosIds: $request->photosIds,
             neighborhood: $request->driverNeighborhood,
+            email: $request->driverEmail,
         );
     }
 }

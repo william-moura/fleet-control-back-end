@@ -18,4 +18,12 @@ class FuelTypeController extends Controller
             200
         );
     }
+    public function store(Request $request, FuelTypeService $service): JsonResponse
+    {
+        $fuelType = $service->store($request->fuelTypeName);
+        return response()->json(
+            FuelTypeResponseDTO::fromEntity($fuelType),
+            201
+        );
+    }
 }

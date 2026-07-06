@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('maintenance_control_services', function (Blueprint $table) {
-            $table->id();
-            $table->string('maintenance_control_service_name');
-
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('drivers', function (Blueprint $table) {
+            $table->string('driver_email')->index()->nullable()->after('driver_phone');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('maintenance_control_services');
+        Schema::table('drivers', function (Blueprint $table) {
+            $table->dropColumn('driver_email');
+        });
     }
 };
