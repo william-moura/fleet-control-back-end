@@ -59,8 +59,7 @@ class DriverRepository implements DriverRepositoryInterface
     public function updateDriver(int $id, UpdateDriverDTO $dto): Driver
     {
         return $this->model->find($id)->update([
-            'driver_name' => $dto->name,
-            'driver_registered_number' => $dto->registeredNumber,
+            'driver_name' => $dto->name,            
             'driver_address' => $dto->address,
             'driver_city' => $dto->city,
             'driver_state' => $dto->state,
@@ -75,6 +74,7 @@ class DriverRepository implements DriverRepositoryInterface
             'driver_phone' => $dto->phone,
             'driver_status' => $dto->status,
             'driver_neighborhood' => $dto->neighborhood,
+            'driver_email' => $dto->email,
         ]) ? $this->model->find($id) : null;
     }
     public function destroyDriver(int $id): void
