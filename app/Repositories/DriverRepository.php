@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\DTOs\CreateDriverDTO;
+use App\DTOs\UpdateDriverDTO;
 use App\Models\Driver;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
@@ -55,7 +56,7 @@ class DriverRepository implements DriverRepositoryInterface
             'driver_email' => $dto->email,
         ]);
     }
-    public function updateDriver(int $id, CreateDriverDTO $dto): Driver
+    public function updateDriver(int $id, UpdateDriverDTO $dto): Driver
     {
         return $this->model->find($id)->update([
             'driver_name' => $dto->name,

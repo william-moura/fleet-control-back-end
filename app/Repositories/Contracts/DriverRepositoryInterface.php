@@ -3,6 +3,7 @@
 namespace App\Repositories\Contracts;
 
 use App\DTOs\CreateDriverDTO;
+use App\DTOs\UpdateDriverDTO;
 use App\Models\Driver;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -17,7 +18,7 @@ interface DriverRepositoryInterface
         ?int $perPage = 5
     ): LengthAwarePaginator;
     public function createDriver(CreateDriverDTO $dto): Driver;
-    public function updateDriver(int $id, CreateDriverDTO $dto): Driver;
+    public function updateDriver(int $id, UpdateDriverDTO $dto): Driver;
     public function destroyDriver(int $id): void;
     public function showDriver(int $id): Driver;
     public function getNextRegistration(): int;
