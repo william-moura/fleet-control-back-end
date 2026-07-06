@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreateDriverDTO;
 use App\DTOs\DriverResponseDTO;
+use App\DTOs\UpdateDriverDTO;
 use App\Models\Driver;
 use App\Models\Media;
 use App\Repositories\Contracts\DriverRepositoryInterface;
@@ -39,7 +40,7 @@ class DriverService
             return $driver;
         });
     }
-    public function updateDriver(int $id, CreateDriverDTO $dto): Driver
+    public function updateDriver(int $id, UpdateDriverDTO $dto): Driver
     {
         return DB::transaction(function () use ($id, $dto) {
             $driver = $this->driverRepository->updateDriver($id, $dto);
