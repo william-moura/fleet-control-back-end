@@ -41,7 +41,7 @@ class DriverController extends Controller
     }
     public function update(UpdateDriverRequest $request, $id): JsonResponse
     {
-        $dto = CreateDriverDTO::fromRequest($request);
+        $dto = UpdateDriverRequest::fromRequest($request);
         $driver = $this->service->updateDriver($id, $dto);
         return response()->json(
             DriverResponseDTO::fromEntity($driver),
