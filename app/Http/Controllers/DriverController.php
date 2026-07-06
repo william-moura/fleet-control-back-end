@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTOs\CreateDriverDTO;
 use App\DTOs\DriverResponseDTO;
 use App\Http\Requests\StoreDriverRequest;
+use App\Http\Requests\UpdateDriverRequest;
 use App\Models\Driver;
 use App\Services\DriverService;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +39,7 @@ class DriverController extends Controller
             201
         );
     }
-    public function update(StoreDriverRequest $request, $id): JsonResponse
+    public function update(UpdateDriverRequest $request, $id): JsonResponse
     {
         $dto = CreateDriverDTO::fromRequest($request);
         $driver = $this->service->updateDriver($id, $dto);
