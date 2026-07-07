@@ -15,7 +15,7 @@ class CreateVehicleFineDTO
         public DateTimeImmutable $fineDate,
         public string $fineLevel,
         public float $finePoints,
-        public string $fineNotes,
+        public ?string $fineNotes = null,
         public int $fineStatus,
         public DateTimeImmutable $finePaidDate,
     ) {}
@@ -28,7 +28,7 @@ class CreateVehicleFineDTO
             fineDate: new DateTimeImmutable($request->fineDate),
             fineLevel: $request->fineLevel,
             finePoints: $request->finePoints,
-            fineNotes: $request->fineNotes,
+            fineNotes: $request->fineNotes ?? null,
             fineStatus: VehicleFineStatusEnum::fromLabel($request->fineStatus)->value(),
             finePaidDate: new DateTimeImmutable($request->finePaidDate),
         );
