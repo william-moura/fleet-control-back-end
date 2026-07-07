@@ -43,7 +43,7 @@ class UpdateDriverRequest extends FormRequest
             'photosIds' => ['nullable', 'array'],
             'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
             'driverNeighborhood' => ['nullable', 'string', 'max:255'],
-            'driverEmail' => ['nullable', 'email', 'max:255', 'unique:drivers,driver_email'],
+            'driverEmail' => ['nullable', 'email', 'max:255'],
         ];
     }
     public function failedValidation(Validator $validator) 
