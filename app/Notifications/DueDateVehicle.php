@@ -50,7 +50,7 @@ class DueDateVehicle extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'vehicle_id' => $this->vehicle->id,            
+            'vehicle_id' => $this->vehicle->id,
             'vehicle_plate' => $this->vehicle->plate,
             'vehicle_brand' => $this->vehicle->brand,
             'vehicle_model' => $this->vehicle->model,

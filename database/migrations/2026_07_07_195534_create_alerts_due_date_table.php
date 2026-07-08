@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('alerts_due_date', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users');
             $table->string('description');
             $table->date('due_date');
             $table->string('status')->default('pending');
             $table->morphs('alertable');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

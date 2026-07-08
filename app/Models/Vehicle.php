@@ -77,4 +77,9 @@ class Vehicle extends Model
     {
         return $this->fines()->sum('vehicle_fine_amount');
     }
+
+    public function alertsDueDate(): MorphMany
+    {
+        return $this->morphMany(AlertsDueDate::class, 'alertable');
+    }
 }

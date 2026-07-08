@@ -23,6 +23,7 @@ use App\Http\Controllers\VechicleSyncDriverController;
 use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use App\Http\Controllers\VehicleNotificationController;
+use App\Jobs\SendNotificationDue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

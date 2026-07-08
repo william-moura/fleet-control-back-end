@@ -13,10 +13,17 @@ class VehicleNotificationController extends Controller
     {
         $description = $request->input('notificationDescription');
         $expirationDate = DateTimeImmutable::createFromFormat('d/m/Y', $request->input('notificationExpirationDate'));
+        // dd($expirationDate);
         $user = $request->user();
         $vehicle = Vehicle::find($id);
+        $vehicle->alertsDueDate()->create([
+            'user_id' => $user->id,
+            'description' => $description,
+            'due_date' => $expirationDate,
+            'status' => 'pending',
+        ]);
         //$dueDate = new DateTimeImmutable($expirationDate);
-        $user->notify(new DueDateVehicle($vehicle, $description, $expirationDate));
+        // $user->notify(new DueDateVehicle($vehicle, $description, $expirationDate));
         return response()->json(['message' => 'Notification sent successfully']);
         // $vehicle = Vehicle::find($id);
         // $vehicle->notifications()->create($request->all());
