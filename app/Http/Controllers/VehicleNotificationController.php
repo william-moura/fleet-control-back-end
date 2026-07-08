@@ -9,12 +9,14 @@ use Illuminate\Http\Request;
 
 class VehicleNotificationController extends Controller
 {
-    public function store(Request $request, $id)
+    public function store(Request $request, int $id)
     {
+        $description = $request->input('notificationDescription');
+        $expirationDate = DateTimeImmutable::createFromFormat('d/m/Y', $request->input('notificationExpirationDate'));
         $user = $request->user();
         $vehicle = Vehicle::find($id);
-        $dueDate = new DateTimeImmutable($request->notificationExpirationDate);
-        $user->notify(new DueDateVehicle($vehicle, $request->notificationDescription, $dueDate));
+        //$dueDate = new DateTimeImmutable($expirationDate);
+        $user->notify(new DueDateVehicle($vehicle, $description, $expirationDate));
         return response()->json(['message' => 'Notification sent successfully']);
         // $vehicle = Vehicle::find($id);
         // $vehicle->notifications()->create($request->all());
