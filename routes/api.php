@@ -22,6 +22,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\VechicleSyncDriverController;
 use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
+use App\Http\Controllers\VehicleNotificationController;
+use App\Jobs\SendNotificationDue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -48,6 +50,7 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::get('/{id}/drivers', [VechicleSyncDriverController::class, 'showSyncedDrivers']);
     Route::get('/{id}/history', VehicleHistoryController::class);
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
+    Route::post('/{id}/notification', [VehicleNotificationController::class, 'store']);
 });
 
 Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);
