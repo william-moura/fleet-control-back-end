@@ -14,6 +14,7 @@ use App\Models\Vehicle;
 use App\Repositories\Contracts\KilometerRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -25,6 +26,10 @@ class VehicleService
     public function __construct(protected VehicleRepositoryInterface $vehicleRepository, protected KilometerRepositoryInterface $kilometerRepository){}
     public function createVehicle(CreateVehicleDTO $dto): Vehicle
     {
+        $existingVehicle = $this->vehicleRepository->getVehicleByPlate($dto->vehiclePlate);
+        if ($existingVehicle) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo com placa '.$dto->vehiclePlate.' já cadastrado'], 422));
+        }
         return DB::transaction(function () use ($dto) {
             $veiculo = $this->vehicleRepository->createVehicle($dto);
             if (!empty($dto->photosIds)) {
@@ -43,16 +48,34 @@ class VehicleService
         ?int $perPage = 5
     ): LengthAwarePaginator
     {
+        /*
+          
         $vehicles = Cache::remember('active_vehicles_'.md5($search.$sort.$sortDirection.$page.$perPage), weeks(1), function () use ($search, $sort, $sortDirection, $page, $perPage) {
-            return $this->vehicleRepository->index($search, $sort, $sortDirection, $page, $perPage);
-        });        
+        });
+        */
+        $vehicles =  $this->vehicleRepository->index($search, $sort, $sortDirection, $page, $perPage);
         return $vehicles->through(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle));
     }
     public function destroyVehicle(int $id): void
     {        
-        if ($this->vehicleRepository->checkVechicleHasRelationship($id)) {
-            throw new \Exception('Veículo não pode ser deletado porque tem relacionamentos com manutenções ou abastecimentos');
+        $vehicle = $this->vehicleRepository->showVehicle($id);
+        if ($vehicle->drivers) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo possui motoristas cadastrados'], 422));
         }
+        if ($vehicle->fines) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo possui multas cadastradas'], 422));
+        }
+        if ($vehicle->kilometers) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo possisi quilometragem cadastrada'], 422));
+        }
+        if ($vehicle->fuelSuppliers) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo possui abastecimentos cadastrados'], 422));
+        }
+
+        if ($vehicle->maintenances) {
+            throw new HttpResponseException(response()->json(['message' => 'Veículo possui manutenções cadastradas'], 422));
+        }
+        
         DB::transaction(function () use ($id) {
             $this->vehicleRepository->destroyVehicle($id);
         });

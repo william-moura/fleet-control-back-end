@@ -82,4 +82,9 @@ class Vehicle extends Model
     {
         return $this->morphMany(AlertsDueDate::class, 'alertable');
     }
+
+    public function kilometers(): HasMany
+    {
+        return $this->hasMany(Kilometer::class);
+    }
 }

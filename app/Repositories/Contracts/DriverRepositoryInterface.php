@@ -22,4 +22,5 @@ interface DriverRepositoryInterface
     public function destroyDriver(int $id): void;
     public function showDriver(int $id): Driver;
     public function getNextRegistration(): int;
+    public function getDriverByCpf(string $cpf): ?Driver;
 }

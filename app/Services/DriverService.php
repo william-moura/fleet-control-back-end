@@ -9,6 +9,7 @@ use App\Models\Driver;
 use App\Models\Media;
 use App\Repositories\Contracts\DriverRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +32,10 @@ class DriverService
     }
     public function createDriver(CreateDriverDTO $dto): Driver
     {
+        $existeDriver = $this->driverRepository->getDriverByCpf($dto->cpf);
+        if ($existeDriver) {            
+            throw new HttpResponseException(response()->json(['message' => 'Cpf já cadastrado'], 422));
+        }
         return DB::transaction(function () use ($dto) {
             $driver = $this->driverRepository->createDriver($dto);
             if (!empty($dto->photosIds)) {
@@ -53,6 +58,20 @@ class DriverService
     }
     public function destroyDriver(int $id): void
     {
+        $driver = $this->driverRepository->showDriver($id);
+        if ($driver->vehicles) {
+            throw new HttpResponseException(response()->json(['message' => 'Motorista possui veículo cadastrado'], 422));
+        }
+        if ($driver->vehicleFines) {
+            throw new HttpResponseException(response()->json(['message' => 'Motorista possui multas cadastradas'], 422));
+        }
+        if ($driver->kilometers) {
+            throw new HttpResponseException(response()->json(['message' => 'Motorista possui quilometragem cadastrada'], 422));
+        }
+        if ($driver->fuelSupplies) {
+            throw new HttpResponseException(response()->json(['message' => 'Motorista possui abastecimentos cadastrados'], 422));
+        }
+
         $this->driverRepository->destroyDriver($id);
     }
     public function showDriver(int $id): Driver

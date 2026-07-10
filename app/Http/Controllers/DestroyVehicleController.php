@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class DestroyVehicleController extends Controller
 {
-    public function __invoke($id, VehicleService $service)
+    public function __invoke(int $id, VehicleService $service)
     {
         try {
             $service->destroyVehicle($id);

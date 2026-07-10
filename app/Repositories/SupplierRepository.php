@@ -49,6 +49,10 @@ class SupplierRepository implements SupplierRepositoryInterface
     }
     public function showSupplier(int $id): Supplier
     {
-        return $this->model->find($id);
+        return $this->model->with(['fuelSuppliers', 'maintenances'])->find($id);
+    }
+    public function getSupplierByCnpj(string $cnpj): ?Supplier
+    {
+        return $this->model->where('supplier_cnpj', $cnpj)->whereNull('deleted_at')->first();
     }
 }

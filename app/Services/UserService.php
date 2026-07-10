@@ -29,4 +29,9 @@ class UserService
     {
         return $this->userRepository->createUser($dto);
     }
+    public function getUser(int $id): UserResponseDTO
+    {
+        $user = $this->userRepository->showUser($id);
+        return UserResponseDTO::fromEntity($user);
+    }
 }
