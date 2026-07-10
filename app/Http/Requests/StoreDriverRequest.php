@@ -33,7 +33,7 @@ class StoreDriverRequest extends FormRequest
             'driverZipCode' => ['required', 'string', 'max:99999999'],
             'driverBloodType' => ['required', 'string', 'max:4'],
             'driverRg' => ['required', 'string', 'max:11'],
-            'driverCpf' => ['required', 'string', 'max:11', 'unique:drivers,driver_cpf'],
+            'driverCpf' => ['required', 'string', 'max:11'],
             'driverLicenseNumber' => ['required', 'string', 'max:255'],
             'driverLicenseExpirationDate' => ['required', 'date'],
             'driverLicenseCategory' => ['required', 'string', 'max:3'],
@@ -43,7 +43,7 @@ class StoreDriverRequest extends FormRequest
             'photosIds' => ['nullable', 'array'],
             'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
             'driverNeighborhood' => ['nullable', 'string', 'max:255'],
-            'driverEmail' => ['nullable', 'email', 'max:255', 'unique:drivers,driver_email'],
+            'driverEmail' => ['nullable', 'email', 'max:255'],
         ];
     }
     public function failedValidation(Validator $validator) 

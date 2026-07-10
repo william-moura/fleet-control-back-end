@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\CnpjFormatter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
@@ -35,8 +36,12 @@ class Supplier extends Model
         'deleted_at' => 'datetime',
         'supplier_cnpj' => CnpjFormatter::class,
     ];
-    public function fuelSuppliers()
+    public function fuelSuppliers(): HasMany
     {
-        return $this->hasMany(FuelSupplier::class);
+        return $this->hasMany(FuelSupplier::class, 'supplier_id', 'id');
+    }
+    public function maintenances(): HasMany
+    {
+        return $this->hasMany(MaintenanceControl::class, 'supplier_id', 'id');
     }
 }

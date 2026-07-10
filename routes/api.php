@@ -24,6 +24,7 @@ use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use App\Http\Controllers\VehicleNotificationController;
 use App\Jobs\SendNotificationDue;
+use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -66,7 +67,7 @@ Route::middleware(['auth:sanctum'])->prefix('users')->group(function () {
     Route::post('/', [UserController::class, 'create'])->middleware(['permission:adicionar_usuarios']);
     Route::put('/{id}', [AuthController::class, 'updateUser'])->middleware(['permission:editar_usuarios']);
     Route::delete('/{id}', [AuthController::class, 'deleteUser'])->middleware(['permission:excluir_usuarios']);
-    Route::get('/{id}', [AuthController::class, 'getUser'])->middleware(['permission:visualizar_usuarios']);
+    Route::get('/{id}', [UserController::class, 'getUser'])->middleware(['permission:editar_usuarios']);
     Route::get('/{id}/roles', [AuthController::class, 'getUserRoles']);
     Route::get('/{id}/permissions', [AuthController::class, 'getUserPermissions']);
     Route::post('/assign-role', [AuthController::class, 'assignRole']);
@@ -101,3 +102,8 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
 Route::get('/next-registration', [DriverController::class, 'getNextRegistration'])
 ->middleware(['auth:sanctum']);
 Route::post('fuel-types', [FuelTypeController::class, 'store']);
+Route::get('blabla', function () {
+    $driver = Vehicle::find(1);
+    dd($driver);
+    return $driver->vehicles;
+});

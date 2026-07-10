@@ -83,11 +83,17 @@ class DriverRepository implements DriverRepositoryInterface
     }
     public function showDriver(int $id): Driver
     {
-        return $this->model->find($id);
+        return $this->model->with(['vehicles', 'vehicleFines', 'kilometers', 'fuelSupplies'])->find($id);
     }
 
     public function getNextRegistration(): int
     {
         return $this->model->max('driver_registered_number') + 1;
+    }
+    public function getDriverByCpf(string $cpf): ?Driver
+    {
+        return $this->model->where('driver_cpf', $cpf)
+        ->whereNull('deleted_at')
+        ->first();
     }
 }

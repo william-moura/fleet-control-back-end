@@ -59,7 +59,7 @@ class VehicleRepository implements VehicleRepositoryInterface
         })->paginate($perPage, ['*'], 'page', $page);
     }
 
-    public function destroyVehicle($id): void
+    public function destroyVehicle(int $id): void
     {
         $vehicle = $this->model->find($id);
         if (!$vehicle) {
@@ -77,9 +77,9 @@ class VehicleRepository implements VehicleRepositoryInterface
         $vehicle->delete();
     }
 
-    public function showVehicle($id): Vehicle
+    public function showVehicle(int $id): ?Vehicle
     {
-        return $this->model->with('brand', 'fuelType')->find($id);
+        return $this->model->with(['brand', 'fuelType', 'drivers', 'media', 'kilometers', 'fines', 'maintenances', 'fuelSuppliers'])->find($id);
     }
 
     /**
@@ -89,7 +89,7 @@ class VehicleRepository implements VehicleRepositoryInterface
      * @throws \Exception
      * @return Collection<int, Vehicle>|Vehicle|\stdClass
      */
-    public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle
+    public function updateVehicle(int $id, CreateVehicleDTO $dto): Vehicle
     {
         $vehicle = $this->model->find($id);
         if (!$vehicle) {
@@ -125,5 +125,12 @@ class VehicleRepository implements VehicleRepositoryInterface
             return true;
         }
         return false;
+    }
+
+    public function getVehicleByPlate(string $plate): ?Vehicle
+    {
+        return $this->model->where('vehicle_plate', $plate)
+        ->whereNull('deleted_at')
+        ->first();
     }
 }

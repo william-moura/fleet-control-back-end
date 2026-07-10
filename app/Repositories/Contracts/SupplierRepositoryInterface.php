@@ -20,4 +20,5 @@ interface SupplierRepositoryInterface
     public function updateSupplier(int $id, CreateSupplierDTO $dto): Supplier;
     public function destroySupplier(int $id): void;
     public function showSupplier(int $id): Supplier;
+    public function getSupplierByCnpj(string $cnpj): ?Supplier;
 }

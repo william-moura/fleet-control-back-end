@@ -16,9 +16,10 @@ interface VehicleRepositoryInterface
         ?int $page = 1,
         ?int $perPage = 5
     ): LengthAwarePaginator;
-    public function destroyVehicle($id): void;
-    public function showVehicle($id): Vehicle;
-    public function updateVehicle($id, CreateVehicleDTO $dto): Vehicle;
+    public function destroyVehicle(int $id): void;
+    public function showVehicle(int $id): ?Vehicle;
+    public function updateVehicle(int $id, CreateVehicleDTO $dto): Vehicle;
     public function count(): int;
     public function checkVechicleHasRelationship(int $id): bool;
+    public function getVehicleByPlate(string $plate): ?Vehicle;
 }

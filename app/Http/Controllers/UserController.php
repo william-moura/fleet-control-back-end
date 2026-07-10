@@ -32,4 +32,9 @@ class UserController extends Controller
         $user = $this->service->create($dto);
         return response()->json(UserResponseDTO::fromEntity($user), 201);
     }
+    public function getUser(int $id): JsonResponse
+    {
+        $user = $this->service->getUser($id);
+        return response()->json($user, 200);
+    }
 }
