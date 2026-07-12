@@ -53,6 +53,7 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
     Route::post('/{id}/notification', [VehicleNotificationController::class, 'store']);
     Route::post('/{id}/add-sync-driver', [VechicleSyncDriverController::class, 'addSyncDriver']);
+    Route::delete('/{id}/remove-sync-driver/{driverId}', [VechicleSyncDriverController::class, 'removeSyncDriver']);
 });
 
 Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);

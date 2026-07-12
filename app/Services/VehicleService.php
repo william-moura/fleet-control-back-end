@@ -188,7 +188,7 @@ class VehicleService
     {
         $this->kilometerRepository->destroyKilometer($id);
     }
-    public function addSyncDriver(int $vehicleId, array $driversId): void
+    public function addSyncDriver(int $vehicleId, int $driversId): void
     {
         $vehicle = Vehicle::findOrFail($vehicleId);
         $vehicle->drivers()->attach($driversId);
