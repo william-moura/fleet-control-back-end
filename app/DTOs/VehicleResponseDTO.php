@@ -3,8 +3,12 @@
 namespace App\DTOs;
 
 use App\Models\Driver;
+use App\Models\FuelSupplier;
+use App\Models\Kilometer;
+use App\Models\MaintenanceControl;
 use App\Models\Media;
 use App\Models\Vehicle;
+use App\Models\VehicleFine;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
@@ -32,7 +36,10 @@ readonly class VehicleResponseDTO
         public ?string $vehicleRenavamNumber = null,
         public ?string $vehicleColor = null,
         public ?string $vehicleTransmissionType = null,
-        public ?int $vehicleModelYear = null,
+        public ?int $vehicleModelYear = null,        
+        public ?Collection $maintenances = null,
+        public ?Collection $fuelSuppliers = null,
+        public ?Collection $fines = null,
     ) {}
 
     /**
@@ -67,7 +74,10 @@ readonly class VehicleResponseDTO
             vehicleRenavamNumber: $vehicle->vehicle_renavam_number,
             vehicleColor: $vehicle->vehicle_color,
             vehicleTransmissionType: $vehicle->vehicle_transmission_type,
-            vehicleModelYear: $vehicle->vehicle_model_year,
+            vehicleModelYear: $vehicle->vehicle_model_year,            
+            maintenances: $vehicle->maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)),
+            fuelSuppliers: $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)),
+            fines: $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)),
         );
     }
 }

@@ -35,4 +35,10 @@ class VechicleSyncDriverController extends Controller
             200
         );
     }
+    public function addSyncDriver(int $id, VehicleSyncDriverRequest $request)
+    {
+        $driversId = $request->input('driver_id');
+        $this->vehicleService->addSyncDriver($id, $driversId);
+        return response()->json(['message' => 'Vehicle and driver added to sync successfully'], 201);
+    }
 }

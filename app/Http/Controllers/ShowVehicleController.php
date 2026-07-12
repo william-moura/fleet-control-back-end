@@ -9,11 +9,11 @@ use Illuminate\Http\Request;
 
 class ShowVehicleController extends Controller
 {
-    public function __invoke($id, VehicleService $service): JsonResponse
+    public function __invoke(int $id, VehicleService $service): JsonResponse
     {
         $vehicle = $service->showVehicle($id);
         return response()->json(
-            VehicleResponseDTO::fromEntity($vehicle),
+            $vehicle,
             200
         );
     }
