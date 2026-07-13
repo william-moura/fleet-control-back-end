@@ -45,7 +45,7 @@ readonly class VehicleResponseDTO
     /**
      * Útil para instanciar a partir de um Model do Eloquent ou Doctrine
      */
-    public static function fromEntity(Vehicle $vehicle): self
+    public static function fromEntity(Vehicle $vehicle, bool $simple = false): self
     {
         $divisor = $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;
         if ($divisor == 0) {
@@ -75,7 +75,7 @@ readonly class VehicleResponseDTO
             vehicleColor: $vehicle->vehicle_color,
             vehicleTransmissionType: $vehicle->vehicle_transmission_type,
             vehicleModelYear: $vehicle->vehicle_model_year,            
-            maintenances: $vehicle->maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)),
+            maintenances: !$simple ? $vehicle->maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)) : null,
             fuelSuppliers: $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)),
             fines: $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)),
         );
