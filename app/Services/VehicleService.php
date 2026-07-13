@@ -61,23 +61,23 @@ class VehicleService
     public function destroyVehicle(int $id): void
     {        
         $vehicle = $this->vehicleRepository->showVehicle($id);
-        if ($vehicle->drivers) {
+        if ($vehicle->drivers->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possui motoristas cadastrados', 422);
         }
-        if ($vehicle->fines) {
+        if ($vehicle->fines->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possui multas cadastradas', 422);
         }
-        if ($vehicle->kilometers) {
+        if ($vehicle->kilometers->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possisi quilometragem cadastrada', 422);
         }
-        if ($vehicle->fuelSuppliers) {
+        if ($vehicle->fuelSuppliers->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possui abastecimentos cadastrados', 422);
         }
 
-        if ($vehicle->maintenances) {
+        if ($vehicle->maintenances->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possui manutenções cadastradas', 422);
         }        
-        
+        dd('oi');
         DB::transaction(function () use ($id) {
             $this->vehicleRepository->destroyVehicle($id);
         });
