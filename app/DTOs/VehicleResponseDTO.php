@@ -66,7 +66,7 @@ readonly class VehicleResponseDTO
             vehicleNotes: $vehicle->vehicle_notes,
             brand: strtoupper($vehicle->brand->brand_name),
             fuelType: $vehicle->fuelType->fuel_type_name,
-            drivers: $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)),
+            drivers: $vehicle->drivers->count() > 0 ? $vehicle->drivers->map(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver)) : null,
             photos: $vehicle->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
             totalFines: $vehicle->fines?->sum('vehicle_fine_amount') ?? 0,
             totalKilometersCost: $totalKilometersCost,
