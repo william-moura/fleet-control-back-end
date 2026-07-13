@@ -45,7 +45,7 @@ class FuelSupplierResponseDTO
             fuelSupplierInvoiceNumber: $fuelSupplier->fuel_supplier_invoice_number,
             supplier: $simple ? null : SupplierResponseDTO::fromEntity($fuelSupplier->supplier),
             fuelType: $simple ? null : FuelTypeResponseDTO::fromEntity($fuelSupplier->fuelType),
-            driver: $simple ? null : DriverResponseDTO::fromEntity($fuelSupplier->driver),
+            driver: $simple || $fuelSupplier->driver == null ? null : DriverResponseDTO::fromEntity($fuelSupplier->driver),
             vehicle: $simple ? null : ($fuelSupplier->vehicle ? VehicleResponseDTO::fromEntity($fuelSupplier->vehicle) : null),
         );
     }
