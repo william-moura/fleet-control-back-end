@@ -31,11 +31,12 @@ class MaintenanceRepository implements MaintenanceRepositoryInterface
     }
     public function createMaintenance(CreateMaintenanceControlDTO $dto): MaintenanceControl
     {
-        return DB::transaction(function () use ($dto) {
-            $maintenance = $this->model->create($dto->toArray());
+        $maintenance = DB::transaction(function () use ($dto) {
+            $maintenance = $this->model->create($dto->toArray());            
             $maintenance->maintenanceRelationServices()->createMany($dto->toMaintenanceServicesArray());
             return $maintenance->load('maintenanceRelationServices');
         });
+        return $maintenance;
     }
     public function updateMaintenance(int $id, CreateMaintenanceControlDTO $dto): MaintenanceControl
     {

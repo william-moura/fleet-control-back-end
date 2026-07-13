@@ -22,7 +22,7 @@ class VehicleFineResponseDTO
         public ?VehicleResponseDTO $vehicle = null,
         public ?DriverResponseDTO $driver = null,
     ) {}
-    public static function fromEntity(VehicleFine $vehicleFine): self
+    public static function fromEntity(VehicleFine $vehicleFine, bool $simple = false): self
     {
         return new self(
             id: $vehicleFine->id,
@@ -35,8 +35,8 @@ class VehicleFineResponseDTO
             fineNotes: $vehicleFine->vehicle_fine_notes ?? null,
             fineStatus: VehicleFineStatusEnum::from($vehicleFine->vehicle_fine_status)->label(),
             finePaidDate: Carbon::parse($vehicleFine->vehicle_fine_paid_date)->format('Y-m-d'),
-            vehicle: $vehicleFine->vehicle ? VehicleResponseDTO::fromEntity($vehicleFine->vehicle) : null,
-            driver: $vehicleFine->driver ? DriverResponseDTO::fromEntity($vehicleFine->driver) : null,
+            vehicle: $simple ? null : ($vehicleFine->vehicle ? VehicleResponseDTO::fromEntity($vehicleFine->vehicle) : null),
+            driver: $simple ? null : ($vehicleFine->driver ? DriverResponseDTO::fromEntity($vehicleFine->driver) : null),
         );
     }
 }

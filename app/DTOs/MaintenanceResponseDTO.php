@@ -34,7 +34,7 @@ class MaintenanceResponseDTO
             ->map(fn(MaintenanceRelationService $service) => MaintenanceServiceResponseDTO::fromEntity($service->maintenanceService))->toArray(),
             supplierId: $maintenance->supplier_id,            
             maintenanceKilometers: $maintenance->maintenance_control_kilometers,
-            vehicle: VehicleResponseDTO::fromEntity($maintenance->vehicle),
+            vehicle: VehicleResponseDTO::fromEntity($maintenance->vehicle, true),
             supplier: SupplierResponseDTO::fromEntity($maintenance->supplier),
             maintenanceDate: Carbon::parse($maintenance->maintenance_control_date)->format('Y-m-d'),
             maintenanceCost: $maintenance->maintenance_control_total_cost,

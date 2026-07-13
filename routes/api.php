@@ -52,6 +52,8 @@ Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
     Route::get('/{id}/history', VehicleHistoryController::class);
     Route::post('/{id}/kilometers', [KilometerController::class, 'store']);
     Route::post('/{id}/notification', [VehicleNotificationController::class, 'store']);
+    Route::post('/{id}/add-sync-driver', [VechicleSyncDriverController::class, 'addSyncDriver']);
+    Route::delete('/{id}/remove-sync-driver/{driverId}', [VechicleSyncDriverController::class, 'removeSyncDriver']);
 });
 
 Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);
@@ -102,8 +104,3 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
 Route::get('/next-registration', [DriverController::class, 'getNextRegistration'])
 ->middleware(['auth:sanctum']);
 Route::post('fuel-types', [FuelTypeController::class, 'store']);
-Route::get('blabla', function () {
-    $driver = Vehicle::find(1);
-    dd($driver);
-    return $driver->vehicles;
-});

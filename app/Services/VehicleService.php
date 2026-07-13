@@ -82,9 +82,11 @@ class VehicleService
         Cache::flush();
     }
 
-    public function showVehicle(int $id): Vehicle
+    public function showVehicle(int $id): VehicleResponseDTO
     {
-        return $this->vehicleRepository->showVehicle($id);
+        $vehicle = $this->vehicleRepository->showVehicle($id);
+        //dd($vehicle)
+        return VehicleResponseDTO::fromEntity($vehicle);
     }
 
     /**
@@ -185,5 +187,11 @@ class VehicleService
     public function destroyKilometer(int $id): void
     {
         $this->kilometerRepository->destroyKilometer($id);
+    }
+    public function addSyncDriver(int $vehicleId, int $driversId): void
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        $vehicle->drivers()->attach($driversId);
+        Cache::flush();
     }
 }
