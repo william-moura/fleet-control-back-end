@@ -21,9 +21,9 @@ class FuelSupplierResponseDTO
         public ?string $fuelSupplierNotes = null,
         public int $fuelSupplierStatus,
         public string $fuelSupplierInvoiceNumber,
-        public SupplierResponseDTO $supplier,
-        public FuelTypeResponseDTO $fuelType,
-        public DriverResponseDTO $driver,
+        public ?SupplierResponseDTO $supplier = null,
+        public ?FuelTypeResponseDTO $fuelType = null,
+        public ?DriverResponseDTO $driver = null,
         public ?VehicleResponseDTO $vehicle = null,
     ) {}
 
