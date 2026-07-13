@@ -104,8 +104,3 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
 Route::get('/next-registration', [DriverController::class, 'getNextRegistration'])
 ->middleware(['auth:sanctum']);
 Route::post('fuel-types', [FuelTypeController::class, 'store']);
-Route::get('blabla', function () {
-    $driver = Vehicle::find(1);
-    dd($driver);
-    return $driver->vehicles;
-});
