@@ -7,12 +7,14 @@ use App\DTOs\CreateVehicleDTO;
 use App\DTOs\HistoryResponseDTO;
 use App\DTOs\KilometerResponseDTO;
 use App\DTOs\VehicleResponseDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Driver;
 use App\Models\Kilometer;
 use App\Models\Media;
 use App\Models\Vehicle;
 use App\Repositories\Contracts\KilometerRepositoryInterface;
 use App\Repositories\Contracts\VehicleRepositoryInterface;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -60,21 +62,21 @@ class VehicleService
     {        
         $vehicle = $this->vehicleRepository->showVehicle($id);
         if ($vehicle->drivers) {
-            throw new HttpResponseException(response()->json(['message' => 'Veículo possui motoristas cadastrados'], 422));
+            throw new RuleAssociationException('Veículo possui motoristas cadastrados', 422);
         }
         if ($vehicle->fines) {
-            throw new HttpResponseException(response()->json(['message' => 'Veículo possui multas cadastradas'], 422));
+            throw new RuleAssociationException('Veículo possui multas cadastradas', 422);
         }
         if ($vehicle->kilometers) {
-            throw new HttpResponseException(response()->json(['message' => 'Veículo possisi quilometragem cadastrada'], 422));
+            throw new RuleAssociationException('Veículo possisi quilometragem cadastrada', 422);
         }
         if ($vehicle->fuelSuppliers) {
-            throw new HttpResponseException(response()->json(['message' => 'Veículo possui abastecimentos cadastrados'], 422));
+            throw new RuleAssociationException('Veículo possui abastecimentos cadastrados', 422);
         }
 
         if ($vehicle->maintenances) {
-            throw new HttpResponseException(response()->json(['message' => 'Veículo possui manutenções cadastradas'], 422));
-        }
+            throw new RuleAssociationException('Veículo possui manutenções cadastradas', 422);
+        }        
         
         DB::transaction(function () use ($id) {
             $this->vehicleRepository->destroyVehicle($id);
