@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\CreateDriverDTO;
 use App\DTOs\DriverResponseDTO;
 use App\DTOs\UpdateDriverDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Driver;
 use App\Models\Media;
 use App\Repositories\Contracts\DriverRepositoryInterface;
@@ -59,17 +60,17 @@ class DriverService
     public function destroyDriver(int $id): void
     {
         $driver = $this->driverRepository->showDriver($id);
-        if ($driver->vehicles) {
-            throw new HttpResponseException(response()->json(['message' => 'Motorista possui veículo cadastrado'], 422));
+        if ($driver->vehicles->isNotEmpty()) {
+            throw new RuleAssociationException('Motorista possui veículo cadastrado', 422);
         }
-        if ($driver->vehicleFines) {
-            throw new HttpResponseException(response()->json(['message' => 'Motorista possui multas cadastradas'], 422));
+        if ($driver->vehicleFines->isNotEmpty()) {
+            throw new RuleAssociationException('Motorista possui multas cadastradas', 422);
         }
-        if ($driver->kilometers) {
-            throw new HttpResponseException(response()->json(['message' => 'Motorista possui quilometragem cadastrada'], 422));
+        if ($driver->kilometers->isNotEmpty()) {
+            throw new RuleAssociationException('Motorista possui quilometragem cadastrada', 422);
         }
-        if ($driver->fuelSupplies) {
-            throw new HttpResponseException(response()->json(['message' => 'Motorista possui abastecimentos cadastrados'], 422));
+        if ($driver->fuelSupplies->isNotEmpty()) {
+            throw new RuleAssociationException('Motorista possui abastecimentos cadastrados', 422);
         }
 
         $this->driverRepository->destroyDriver($id);
