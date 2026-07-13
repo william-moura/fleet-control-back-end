@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreateSupplierDTO;
 use App\DTOs\SupplierResponseDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Supplier;
 use App\Repositories\Contracts\SupplierRepositoryInterface;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -30,7 +31,7 @@ class SupplierService
     {
         $existingSupplier = $this->supplierRepository->getSupplierByCnpj($dto->supplier_cnpj);
         if ($existingSupplier) {
-            throw new HttpResponseException(response()->json(['message' => 'Fornecedor com CNPJ '.$dto->supplier_cnpj.' já cadastrado'], 422));
+            throw new RuleAssociationException('Fornecedor com CNPJ '.$dto->supplier_cnpj.' já cadastrado', 422);
         }
         return $this->supplierRepository->createSupplier($dto);
     }
@@ -42,10 +43,10 @@ class SupplierService
     {
         $supplier = $this->supplierRepository->showSupplier($id);
         if ($supplier->fuelSuppliers) {
-            throw new HttpResponseException(response()->json(['message' => 'Fornecedor possui abastecimentos cadastrados'], 422));
+            throw new RuleAssociationException('Fornecedor possui abastecimentos cadastrados', 422);
         }
         if ($supplier->maintenances) {
-            throw new HttpResponseException(response()->json(['message' => 'Fornecedor possui manutenções cadastradas'], 422));
+            throw new RuleAssociationException('Fornecedor possui manutenções cadastradas', 422);
         }
         $this->supplierRepository->destroySupplier($id);
     }
