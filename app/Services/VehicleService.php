@@ -76,8 +76,7 @@ class VehicleService
 
         if ($vehicle->maintenances->isNotEmpty()) {
             throw new RuleAssociationException('Veículo possui manutenções cadastradas', 422);
-        }        
-        dd('oi');
+        }
         DB::transaction(function () use ($id) {
             $this->vehicleRepository->destroyVehicle($id);
         });
