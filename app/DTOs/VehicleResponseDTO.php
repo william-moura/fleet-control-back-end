@@ -76,8 +76,8 @@ readonly class VehicleResponseDTO
             vehicleTransmissionType: $vehicle->vehicle_transmission_type,
             vehicleModelYear: $vehicle->vehicle_model_year,            
             maintenances: !$simple ? $vehicle->maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)) : null,
-            fuelSuppliers: $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)),
-            fines: $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)),
+            fuelSuppliers: $vehicle->fuelSuppliers->count() > 0 ? $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)) : null,
+            fines: $vehicle->fines->count() > 0 ? $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)) : null,
         );
     }
 }
