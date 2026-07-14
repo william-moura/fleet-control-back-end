@@ -33,9 +33,9 @@ class CreateMaintenanceControlDTO
             maintenance_control_description: $request->input('maintenanceNotes') ?? null,
             maintenance_control_total_cost: $request->input('maintenanceCost'),
             maintenance_control_notes: $request->input('maintenanceNotes') ?? null,
-            maintenance_control_next_date: Carbon::parse($request->input('nextMaintenanceDate'))->format('Y-m-d'),
+            maintenance_control_next_date: Carbon::parse($request->input('maintenanceNextDate'))->format('Y-m-d'),
             maintenance_control_status: ($request->input('status') !== null) ? (int) $request->input('status') : 1,
-            maintenance_control_previous_date_finished: Carbon::parse($request->input('previsionDateFinish'))->format('Y-m-d'),
+            maintenance_control_previous_date_finished: Carbon::parse($request->input('maintenancePreviousDateFinished'))->format('Y-m-d'),
             maintenance_control_next_kilometers: $request->input('maintenanceNextKilometers'),
         );
     }
