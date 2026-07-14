@@ -220,8 +220,9 @@ class AuthController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'cpf' => $request->cpf??null,
         ]);
-        $user->syncRoles([$request->role_id]);
+        $user->syncRoles($request->role_id);
         return response()->json([
             'message' => 'User updated successfully',
         ]);
