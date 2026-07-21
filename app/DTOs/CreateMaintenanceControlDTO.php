@@ -62,6 +62,7 @@ class CreateMaintenanceControlDTO
             'maintenance_control_next_date' => $this->maintenance_control_next_date,
             'maintenance_control_status' => $this->maintenance_control_status,
             'maintenance_control_previous_date_finished' => $this->maintenance_control_previous_date_finished,
+            'maintenance_control_next_kilometers' => $this->maintenance_control_next_kilometers,
         ];
     }
 }
