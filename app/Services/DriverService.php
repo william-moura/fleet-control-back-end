@@ -84,4 +84,15 @@ class DriverService
         $registration = $this->driverRepository->getNextRegistration();
         return str_pad($registration, 4, '0', STR_PAD_LEFT);
     }
+    public function getDriversWithCnhExpired(
+        ?string $search = null,
+        ?string $sort = null,
+        ?string $sortDirection = null,
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
+    {
+        $drivers = $this->driverRepository->getDriversWithCnhExpired($search, $sort, $sortDirection, $page, $perPage);
+        return $drivers->through(fn(Driver $driver) => DriverResponseDTO::fromEntity($driver));
+    }
 }
