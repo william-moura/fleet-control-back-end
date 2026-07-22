@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Driver;
 use App\Models\User;
-use App\Notifications\cnhVencidaNotification;
+use App\Notifications\CnhVencidaNotification;
 use Illuminate\Console\Command;
 
 class VerificarCnhVencida extends Command
@@ -35,9 +35,9 @@ class VerificarCnhVencida extends Command
         }
         $admins = User::with('roles')->role('administrador')->get();
         foreach ($drivers as $driver) {
-            $driver->notify(new cnhVencidaNotification($driver));
+            $driver->notify(new CnhVencidaNotification($driver));
             foreach ($admins as $admin) {
-                $admin->notify(new cnhVencidaNotification($driver));
+                $admin->notify(new CnhVencidaNotification($driver));
             }
         }
         $this->info('E-mails disparados para ' . $drivers->count() . ' motoristas e ' . $admins->count() . ' administradores notificados');
