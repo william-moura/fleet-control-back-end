@@ -8,12 +8,12 @@ class NotificationController extends Controller
 {
     //
     public function unread(Request $request)
-    {
-        $user = $request->user() ?? auth()->user();
+    {        
+        $user = $request->user() ?? auth()->user();        
         if (!$user) {
             return response()->json(['message' => 'Usuário não autenticado'], 401);
         }
-        $notifications = $user->unreadreadNotifications;
+        $notifications = $user->unreadNotifications;
         return response()->json($notifications);
     }
 

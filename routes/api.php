@@ -106,7 +106,7 @@ Route::middleware(['auth:sanctum'])->prefix('roles')->group(function () {
 Route::get('/next-registration', [DriverController::class, 'getNextRegistration'])
 ->middleware(['auth:sanctum']);
 Route::post('fuel-types', [FuelTypeController::class, 'store']);
-Route::prefix('admin/notifications')->group(function () {
+Route::middleware(['auth:sanctum'])->prefix('admin/notifications')->group(function () {
     Route::get('/unread', [NotificationController::class, 'unread']);    
     Route::put('/{id}/read', [NotificationController::class, 'markAsRead']);
     // Route::delete('/{id}', [NotificationController::class, 'destroy']);
