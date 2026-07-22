@@ -96,4 +96,27 @@ class DriverRepository implements DriverRepositoryInterface
         ->whereNull('deleted_at')
         ->first();
     }
+    public function getDriversWithCnhExpired(
+        ?string $search = null,
+        ?string $sort = 'driver_name',
+        ?string $sortDirection = 'asc',
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator
+    {
+        return $this->model->query()
+            ->where('driver_license_expiration_date', '<', now())
+            ->when($search, function($query) use ($search){
+                return $query->where('driver_name', 'like', "%$search%")
+                    ->orWhere('driver_registered_number', 'like', "%$search%")
+                    ->orWhere('driver_address', 'like', "%$search%")
+                    ->orWhere('driver_city', 'like', "%$search%")
+                    ->orWhere('driver_state', 'like', "%$search%")
+                    ->orWhere('driver_zip_code', 'like', "%$search%");
+            })->when($sort, function($query) use ($sort, $sortDirection){
+                return $query->orderBy($sort, $sortDirection);
+            })->when($page && $perPage, function($query) use ($page, $perPage){
+                return $query->skip(($page - 1) * $perPage)->take($perPage);
+            })->paginate($perPage, ['*'], 'page', $page);
+    }
 }

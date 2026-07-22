@@ -70,4 +70,18 @@ class DriverController extends Controller
             200
         );
     }
+    public function getDriversWithCnhExpired(Request $request): JsonResponse
+    {
+        $drivers = $this->service->getDriversWithCnhExpired(
+            $request->search??null,
+            $request->sort??null,
+            $request->sortDirection??null,
+            $request->page??1,
+            $request->per_page??5
+        );
+        return response()->json(
+            $drivers,
+            200
+        );
+    }
 }

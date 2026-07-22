@@ -23,4 +23,11 @@ interface DriverRepositoryInterface
     public function showDriver(int $id): Driver;
     public function getNextRegistration(): int;
     public function getDriverByCpf(string $cpf): ?Driver;
+    public function getDriversWithCnhExpired(
+        ?string $search = null,
+        ?string $sort = 'driver_name',
+        ?string $sortDirection = 'asc',
+        ?int $page = 1,
+        ?int $perPage = 5
+    ): LengthAwarePaginator;
 }
