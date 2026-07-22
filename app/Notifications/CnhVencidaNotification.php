@@ -61,8 +61,8 @@ class CnhVencidaNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'Atenção: sua CNH está vencida',
-            'message' => 'Sua CNH está vencida. Por favor, renove-a o mais rápido possível.',
+            'title' => 'Atenção: CNH está vencida',
+            'message' => 'A CNH do motorista ' . $this->driver->driver_name . ' está vencida.',
             'driver_id' => $this->driver->id,
             'driver_name' => $this->driver->driver_name,
             'driver_license_expiration_date' => $this->driver->driver_license_expiration_date,
