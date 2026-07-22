@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('app:notification-vehicle-fine-expire')->dailyAt('10:00');
 Schedule::job(new SendNotificationDue())->everyMinute();
-Schedule::command('app:verificar-cnh-vencida')->dailyAt('11:35');
+Schedule::command('app:verificar-cnh-vencida')->dailyAt('08:00');
