@@ -51,8 +51,10 @@ class DriverService
         return DB::transaction(function () use ($id, $dto) {
             $driver = $this->driverRepository->updateDriver($id, $dto);
             if (!empty($dto->photosIds)) {
-                $medias =Media::whereIn('id', $dto->photosIds)->get();
+                $medias = Media::whereIn('id', $dto->photosIds)->get();
                 $driver->media()->saveMany($medias);
+            } else {
+                $driver->media()->delete();
             }
             return $driver;
         });
