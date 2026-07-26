@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('prefeituras', function (Blueprint $table) {
             $table->id();
-            $table->string('prefeitura_name')->nullable();
+            $table->string('prefeitura_razao_social')->nullable();
+            $table->string('prefeitura_nome_fantasia')->nullable();
             $table->string('prefeitura_cnpj')->nullable();
             $table->string('prefeitura_address')->nullable();
             $table->string('prefeitura_city')->nullable();

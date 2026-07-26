@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\DTOs\CreatePrefeituraDTO;
+use App\DTOs\PrefeituraResponseDTO;
 use App\Models\Prefeitura;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PrefeituraService
 {
@@ -25,5 +28,26 @@ class PrefeituraService
     public function getPrefeituraById(int $id): Prefeitura
     {
         return Prefeitura::find($id);
+    }
+
+    public function getAllPrefeituras(
+        int $limit = 10, 
+        int $page = 1, 
+        string $search = '', 
+        string $sort = 'created_at', 
+        string $sortDirection = 'desc'
+    ): LengthAwarePaginator
+    {
+        $prefeituras = Prefeitura::when($search, function ($query) use ($search) {
+            $query->where('prefeitura_name', 'like', '%' . $search . '%');
+        })
+        ->orderBy($sort, $sortDirection)
+        ->paginate($limit, ['*'], 'page', $page);
+        return $prefeituras->through(fn(Prefeitura $prefeitura) => PrefeituraResponseDTO::fromEntity($prefeitura));
+    }
+
+    public function getNextRegistration(): int
+    {
+        return Prefeitura::max('id') + 1;
     }
 }

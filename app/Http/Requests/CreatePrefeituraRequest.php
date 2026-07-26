@@ -9,25 +9,27 @@ class CreatePrefeituraRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'prefeitura_name' => 'required|string|max:255',
-            'prefeitura_cnpj' => 'required|string|max:14',
-            'prefeitura_address' => 'required|string|max:255',
-            'prefeitura_city' => 'required|string|max:255',
-            'prefeitura_state' => 'required|string|max:255',
-            'prefeitura_zip_code' => 'required|string|max:8',
-            'prefeitura_phone' => 'required|string|max:15',
-            'prefeitura_email' => 'required|email|max:255',
-            'prefeitura_website' => 'required|url|max:255',
-            'prefeitura_status' => 'required|string|max:255',
+            'razaoSocial' => 'required|string|max:255',
+            'nomeFantasia' => 'required|string|max:255',
+            'cnpj' => 'required|string|max:14',
+            'endereco' => 'required|string|max:255',
+            'bairro' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'uf' => 'required|string|max:255',
+            'cep' => 'required|string|max:8',
+            'telefone' => 'required|string|max:15',
+            'email' => 'nullable|email|max:255',
+            'site' => 'nullable|string|max:255',
+            'status' => 'nullable|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'prefeitura_name.required' => 'O nome da prefeitura é obrigatório',
-            'prefeitura_name.string' => 'O nome da prefeitura deve ser uma string',
-            'prefeitura_name.max' => 'O nome da prefeitura deve ter no máximo 255 caracteres',
+            'razaoSocial.required' => 'O nome da prefeitura é obrigatório',
+            'razaoSocial.string' => 'O nome da prefeitura deve ser uma string',
+            'razaoSocial.max' => 'O nome da prefeitura deve ter no máximo 255 caracteres',
         ];
     }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('orgao_id')->constrained('orgaos');
             $table->string('secretaria_name')->nullable();
             $table->string('secretaria_email')->nullable();
-            $table->string('secretria_responsible_name')->nullable();
+            $table->string('secretaria_responsible_name')->nullable();
             $table->string('secretaria_description')->nullable();
             $table->string('secretaria_sigla')->nullable();
             $table->enum('secretaria_status', ['active', 'inactive'])->default('active');

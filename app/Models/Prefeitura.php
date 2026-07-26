@@ -10,7 +10,8 @@ class Prefeitura extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'prefeitura_name',
+        'prefeitura_razao_social',
+        'prefeitura_nome_fantasia',
         'prefeitura_cnpj',
         'prefeitura_address',
         'prefeitura_city',
