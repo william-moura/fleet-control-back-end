@@ -31,6 +31,14 @@ class Driver extends Model
         'driver_status',
         'driver_neighborhood',
         'driver_email',
+        'driver_admission_date',
+        'driver_resignation_date',
+    ];
+    protected $casts = [
+        'driver_admission_date' => 'date',
+        'driver_resignation_date' => 'date',
+        'driver_license_expiration_date' => 'date',
+        'driver_birth_date' => 'date',
     ];
 
     public function media(): MorphMany

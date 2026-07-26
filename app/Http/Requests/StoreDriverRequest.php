@@ -44,6 +44,8 @@ class StoreDriverRequest extends FormRequest
             'photosIds.*' => ['nullable', 'integer', 'exists:media,id'],
             'driverNeighborhood' => ['nullable', 'string', 'max:255'],
             'driverEmail' => ['nullable', 'email', 'max:255'],
+            'driverAdmissionDate' => ['required', 'date'],
+            'driverResignationDate' => ['nullable', 'date'],
         ];
     }
     public function failedValidation(Validator $validator) 

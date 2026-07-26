@@ -26,6 +26,8 @@ class CreateDriverDTO
         public array $photosIds = [],
         public string $neighborhood,
         public string $email,
+        public ?string $admissionDate = null,
+        public ?string $resignationDate = null,
     ) {}
     public static function fromRequest(StoreDriverRequest $request): self
     {
@@ -48,6 +50,8 @@ class CreateDriverDTO
             photosIds: $request->photosIds,
             neighborhood: $request->driverNeighborhood,
             email: $request->driverEmail,
+            admissionDate: $request->driverAdmissionDate,
+            resignationDate: $request->driverResignationDate,
         );
     }
 }
