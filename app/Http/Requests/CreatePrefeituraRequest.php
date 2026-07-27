@@ -21,6 +21,10 @@ class CreatePrefeituraRequest extends FormRequest
             'email' => 'nullable|email|max:255',
             'site' => 'nullable|string|max:255',
             'status' => 'nullable|string|max:255',
+            'numero' => 'nullable|string|max:255',
+            'complemento' => 'nullable|string|max:255',
+            'fotoId' => 'nullable|array',
+            'fotoId.*' => 'nullable|integer',
         ];
     }
 

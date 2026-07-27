@@ -118,3 +118,4 @@ Route::resource('orgaos', OrgaoController::class)->middleware(['auth:sanctum']);
 Route::resource('secretarias', SecretariaController::class)->middleware(['auth:sanctum']);
 Route::resource('prefeituras', PrefeituraController::class)->middleware(['auth:sanctum']);
 Route::get('/prefeituras-next-registration', [PrefeituraController::class, 'getNextRegistration']);
+Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistration']);

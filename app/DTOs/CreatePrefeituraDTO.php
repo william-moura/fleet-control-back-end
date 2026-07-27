@@ -17,7 +17,11 @@ class CreatePrefeituraDTO
         public string $prefeituraPhone,
         public ?string $prefeituraEmail,
         public ?string $prefeituraWebsite,
-        public string $prefeituraStatus,
+        public ?string $prefeituraStatus,
+        public ?string $prefeituraAddressNumber,
+        public ?string $prefeituraComplement,
+        public ?string $prefeituraNeighborhood,
+        public ?array $photoId,
     ) {
     }
 
@@ -35,6 +39,9 @@ class CreatePrefeituraDTO
             'prefeitura_email' => $this->prefeituraEmail,
             'prefeitura_website' => $this->prefeituraWebsite,
             'prefeitura_status' => $this->prefeituraStatus,
+            'prefeitura_address_number' => $this->prefeituraAddressNumber,
+            'prefeitura_complement' => $this->prefeituraComplement,
+            'prefeitura_neighborhood' => $this->prefeituraNeighborhood
         ];
     }
 
@@ -52,6 +59,10 @@ class CreatePrefeituraDTO
             prefeituraEmail: $request->input('email'),
             prefeituraWebsite: $request->input('site'),
             prefeituraStatus: $request->input('status', 'active'),
+            prefeituraAddressNumber: $request->string('numero')->toString(),
+            prefeituraComplement: $request->string('complemento')->toString(),
+            prefeituraNeighborhood: $request->string('bairro')->toString(),
+            photoId: $request->input('fotoId'),
         );
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Casts\CnpjFormatter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prefeitura extends Model
@@ -21,10 +23,21 @@ class Prefeitura extends Model
         'prefeitura_email',
         'prefeitura_website',
         'prefeitura_status',
+        'prefeitura_address_number',
+        'prefeitura_complement',
+        'prefeitura_neighborhood',
+    ];
+    protected $casts = [
+        'prefeitura_cnpj' => CnpjFormatter::class,
     ];
 
     public function orgaos()
     {
         return $this->hasMany(Orgao::class);
+    }
+
+    public function media(): MorphMany
+    {
+        return $this->morphMany(Media::class, 'mediable');
     }
 }

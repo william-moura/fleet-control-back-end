@@ -20,11 +20,13 @@ return new class extends Migration
             $table->string('prefeitura_city')->nullable();
             $table->string('prefeitura_state')->nullable();
             $table->string('prefeitura_zip_code')->nullable();
+            $table->string('prefeitura_address_number')->nullable();
+            $table->string('prefeitura_complement')->nullable();
+            $table->string('prefeitura_neighborhood')->nullable();
             $table->string('prefeitura_phone')->nullable();
             $table->string('prefeitura_email')->nullable();
-            $table->string('prefeitura_website')->nullable();
+            $table->string('prefeitura_website')->nullable();            
             $table->enum('prefeitura_status', ['active', 'inactive'])->default('active');
-
             $table->timestamps();
             $table->softDeletes();
         });

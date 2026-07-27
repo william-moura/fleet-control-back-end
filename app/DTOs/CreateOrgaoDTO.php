@@ -20,20 +20,20 @@ class CreateOrgaoDTO
         return [
             'prefeitura_id' => $this->prefeituraId,
             'orgao_name' => $this->orgaoName,
-            'orgao_description' => $this->orgaoDescription,
+            // 'orgao_description' => $this->orgaoDescription,
             'orgao_sigla' => $this->orgaoSigla,
-            'orgao_status' => $this->orgaoStatus,
+            // 'orgao_status' => $this->orgaoStatus ?? 'active',
         ];
     }
 
     public static function fromRequest(CreateOrgaoRequest $request): self
     {
         return new self(
-            prefeituraId: $request->integer('prefeitura_id'),
-            orgaoName: $request->string('orgao_name')->toString(),
-            orgaoDescription: $request->input('orgao_description'),
-            orgaoSigla: $request->input('orgao_sigla'),
-            orgaoStatus: $request->string('orgao_status')->toString(),
+            prefeituraId: $request->integer('prefeituraId'),
+            orgaoName: $request->string('nome')->toString(),
+            orgaoDescription: $request->input('descricao'),
+            orgaoSigla: $request->input('sigla'),
+            orgaoStatus: $request->string('status')->toString(),
         );
     }
 }

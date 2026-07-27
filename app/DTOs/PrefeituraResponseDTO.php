@@ -2,49 +2,67 @@
 
 namespace App\DTOs;
 
+use App\Models\Media;
 use App\Models\Prefeitura;
 
 class PrefeituraResponseDTO
 {
-    public int $id;
-    public ?string $name;
-    public ?string $email;
-    public ?string $phone;
-    public ?string $address;
-    public ?string $city;
-    public ?string $state;
-    public ?string $zip_code;
-    public ?string $country;
-    public ?string $website;
-
     public function __construct(
-        int $id,
-        ?string $name,
-        ?string $email,
-        ?string $phone,
-        ?string $address,
-        ?string $city,
-        ?string $state,
+        public int $id,
+        public ?string $razaoSocial,
+        public ?string $nomeFantasia,
+        public ?string $cnpj,
+        public ?string $email,
+        public ?string $telefone,
+        public ?string $endereco,
+        public ?string $bairro,
+        public ?string $numero,
+        public ?string $complemento,
+        public ?string $cidade,
+        public ?string $uf,
+        public ?string $cep,        
+        public ?string $site,
+        public ?string $status,
+        public ?array $photos,
     )
     {
         $this->id = $id;
-        $this->name = $name;
+        $this->razaoSocial = $razaoSocial;
+        $this->nomeFantasia = $nomeFantasia;
+        $this->cnpj = $cnpj;
         $this->email = $email;
-        $this->phone = $phone;
-        $this->address = $address;
-        $this->city = $city;
-        $this->state = $state;
+        $this->telefone = $telefone;
+        $this->endereco = $endereco;
+        $this->bairro = $bairro;
+        $this->numero = $numero;
+        $this->complemento = $complemento;
+        $this->cidade = $cidade;
+        $this->uf = $uf;
+        $this->cep = $cep;        
+        $this->site = $site;
+        $this->status = $status;
+        $this->photos = $photos;
     }
     public static function fromEntity(Prefeitura $prefeitura): self
     {
+        // dd($prefeitura->media->map(fn(Media $media) => $media->toArray())->toArray());
         return new self(
-            id: $prefeitura->id,
-            name: $prefeitura->prefeitura_name,
-            email: $prefeitura->prefeitura_email,
-            phone: $prefeitura->prefeitura_phone,
-            address: $prefeitura->prefeitura_address,
-            city: $prefeitura->prefeitura_city,
-            state: $prefeitura->prefeitura_state,
+            id: (int)$prefeitura->id,
+            razaoSocial: (string)$prefeitura->prefeitura_razao_social,
+            nomeFantasia: (string)$prefeitura->prefeitura_nome_fantasia,
+            cnpj: (string)$prefeitura->prefeitura_cnpj,
+            email: (string)$prefeitura->prefeitura_email,
+            telefone: (string)$prefeitura->prefeitura_phone,
+            endereco: (string)$prefeitura->prefeitura_address,
+            bairro: (string)$prefeitura->prefeitura_neighborhood,
+            numero: (string)$prefeitura->prefeitura_address_number,
+            complemento: (string)$prefeitura->prefeitura_complement,
+            cidade: (string)$prefeitura->prefeitura_city,
+            uf: (string)$prefeitura->prefeitura_state,
+            cep: (string)$prefeitura->prefeitura_zip_code,            
+            site: (string)$prefeitura->prefeitura_website,
+            status: (string)$prefeitura->prefeitura_status,
+            photos: $prefeitura->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media))->toArray(),
         );
     }
 }

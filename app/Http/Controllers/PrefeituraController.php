@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTOs\CreatePrefeituraDTO;
 use App\Http\Requests\CreatePrefeituraRequest;
 use App\Services\PrefeituraService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PrefeituraController extends Controller
@@ -15,14 +16,14 @@ class PrefeituraController extends Controller
         $this->prefeituraService = $prefeituraService;
     }
 
-    public function store(CreatePrefeituraRequest $request)
+    public function store(CreatePrefeituraRequest $request): JsonResponse
     {
-        return $this->prefeituraService->createPrefeitura(CreatePrefeituraDTO::fromRequest($request));
+        return response()->json($this->prefeituraService->createPrefeitura(CreatePrefeituraDTO::fromRequest($request)), 201);
     }
 
-    public function update(Request $request, int $id)
+    public function update(CreatePrefeituraRequest $request, int $id)
     {
-        return $this->prefeituraService->updatePrefeitura(CreatePrefeituraDTO::fromRequest($request), $id);
+        return response()->json($this->prefeituraService->updatePrefeitura(CreatePrefeituraDTO::fromRequest($request), $id));
     }
 
     public function destroy(int $id)
@@ -30,9 +31,9 @@ class PrefeituraController extends Controller
         return $this->prefeituraService->deletePrefeitura($id);
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
-        return $this->prefeituraService->getPrefeituraById($id);
+        return response()->json($this->prefeituraService->getPrefeituraById($id));
     }
 
     public function index(Request $request)
@@ -49,5 +50,10 @@ class PrefeituraController extends Controller
     public function getNextRegistration()
     {
         return $this->prefeituraService->getNextRegistration();
+    }
+
+    public function uploadPhotos(Request $request)
+    {
+        return $this->prefeituraService->uploadPhotos($request);
     }
 }

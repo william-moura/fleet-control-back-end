@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::table('drivers', function (Blueprint $table) {
             $table->string('driver_neighborhood')->nullable()->after('driver_zip_code');
+            $table->string('driver_address_number')->nullable()->after('driver_neighborhood');
+            $table->string('driver_complement')->nullable()->after('driver_address_number');
         });
     }
 
