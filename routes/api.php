@@ -119,3 +119,5 @@ Route::resource('secretarias', SecretariaController::class)->middleware(['auth:s
 Route::resource('prefeituras', PrefeituraController::class)->middleware(['auth:sanctum']);
 Route::get('/prefeituras-next-registration', [PrefeituraController::class, 'getNextRegistration']);
 Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistration']);
+Route::get('/secretarias-next-registration', [SecretariaController::class, 'getNextRegistration']);
+Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefeitura']);

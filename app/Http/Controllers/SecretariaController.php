@@ -6,6 +6,7 @@ use App\DTOs\CreateSecretariaDTO;
 use App\Http\Requests\CreateSecretariaRequest;
 use App\Services\SecretariaService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SecretariaController extends Controller
 {
@@ -13,9 +14,14 @@ class SecretariaController extends Controller
     {
     }
 
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json($this->secretariaService->getAllSecretarias(), 200);
+        $limit = $request->input('limit', 10);
+        $page = $request->input('page', 1);
+        $search = $request->input('search', '');
+        $sort = $request->input('sort', 'created_at');
+        $sortDirection = $request->input('sort_direction', 'desc');
+        return response()->json($this->secretariaService->getAllSecretarias($limit, $page, $search, $sort, $sortDirection), 200);
     }
 
     public function store(CreateSecretariaRequest $request): JsonResponse
@@ -42,5 +48,10 @@ class SecretariaController extends Controller
         $this->secretariaService->deleteSecretaria($id);
 
         return response()->json(null, 204);
+    }
+
+    public function getNextRegistration(): JsonResponse
+    {
+        return response()->json($this->secretariaService->getNextRegistration(), 200);
     }
 }

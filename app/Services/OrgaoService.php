@@ -35,9 +35,9 @@ class OrgaoService
         });
     }
 
-    public function getOrgaoById(int $id): Orgao
+    public function getOrgaoById(int $id): OrgaoResponseDTO
     {
-        return Orgao::findOrFail($id);
+        return OrgaoResponseDTO::fromEntity(Orgao::findOrFail($id));
     }
 
     public function updateOrgao(CreateOrgaoDTO $dto, int $id): Orgao
@@ -56,5 +56,11 @@ class OrgaoService
     public function getNextRegistration(): int
     {
         return Orgao::max('id') + 1;
+    }
+
+    public function getOrgaosByPrefeitura(int $id): \Illuminate\Support\Collection
+    {
+        $orgaos = Orgao::where('prefeitura_id', $id)->get();
+        return $orgaos->map(fn(Orgao $orgao) => OrgaoResponseDTO::fromEntity($orgao));
     }
 }

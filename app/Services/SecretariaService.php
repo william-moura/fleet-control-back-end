@@ -3,14 +3,19 @@
 namespace App\Services;
 
 use App\DTOs\CreateSecretariaDTO;
+use App\DTOs\SecretariaResponseDTO;
 use App\Models\Secretaria;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class SecretariaService
 {
-    public function getAllSecretarias(): Collection
+    public function getAllSecretarias(int $limit, int $page, string $search, string $sort, string $sortDirection): LengthAwarePaginator
     {
-        return Secretaria::all();
+        $secreatrias = Secretaria::where('secretaria_name', 'like', "%$search%")
+        ->orderBy($sort, $sortDirection)
+        ->paginate($limit, ['*'], 'page', $page);
+        return $secreatrias->through(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria));
     }
 
     public function createSecretaria(CreateSecretariaDTO $dto): Secretaria
@@ -34,5 +39,10 @@ class SecretariaService
     public function deleteSecretaria(int $id): void
     {
         Secretaria::findOrFail($id)->delete();
+    }
+
+    public function getNextRegistration(): int
+    {
+        return Secretaria::max('id') + 1;
     }
 }

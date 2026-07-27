@@ -54,4 +54,9 @@ class OrgaoController extends Controller
     {
         return response()->json($this->orgaoService->getNextRegistration(), 200);
     }
+
+    public function getOrgaosByPrefeitura(int $id): JsonResponse
+    {
+        return response()->json($this->orgaoService->getOrgaosByPrefeitura($id), 200);
+    }
 }
