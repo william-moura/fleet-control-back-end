@@ -13,6 +13,7 @@ class SecretariaService
     public function getAllSecretarias(int $limit, int $page, string $search, string $sort, string $sortDirection): LengthAwarePaginator
     {
         $secreatrias = Secretaria::where('secretaria_name', 'like', "%$search%")
+        ->with(['orgao', 'orgao.prefeitura'])
         ->orderBy($sort, $sortDirection)
         ->paginate($limit, ['*'], 'page', $page);
         return $secreatrias->through(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria));
@@ -23,9 +24,9 @@ class SecretariaService
         return Secretaria::create($dto->toArray());
     }
 
-    public function getSecretariaById(int $id): Secretaria
+    public function getSecretariaById(int $id): SecretariaResponseDTO
     {
-        return Secretaria::findOrFail($id);
+        return SecretariaResponseDTO::fromEntity(Secretaria::findOrFail($id));
     }
 
     public function updateSecretaria(CreateSecretariaDTO $dto, int $id): Secretaria

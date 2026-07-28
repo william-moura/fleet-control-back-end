@@ -27,7 +27,6 @@ class SecretariaController extends Controller
     public function store(CreateSecretariaRequest $request): JsonResponse
     {
         $secretaria = $this->secretariaService->createSecretaria(CreateSecretariaDTO::fromRequest($request));
-
         return response()->json($secretaria, 201);
     }
 

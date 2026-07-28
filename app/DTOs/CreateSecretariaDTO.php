@@ -10,7 +10,7 @@ class CreateSecretariaDTO
         public int $orgaoId,
         public string $secretariaName,
         public ?string $secretariaEmail,
-        public ?string $secretriaResponsibleName,
+        public ?string $secretariaResponsibleName,
         public ?string $secretariaDescription,
         public ?string $secretariaSigla,        
     ) {
@@ -22,7 +22,7 @@ class CreateSecretariaDTO
             'orgao_id' => $this->orgaoId,
             'secretaria_name' => $this->secretariaName,
             'secretaria_email' => $this->secretariaEmail,
-            'secretria_responsible_name' => $this->secretriaResponsibleName,
+            'secretaria_responsible_name' => $this->secretariaResponsibleName,
             'secretaria_description' => $this->secretariaDescription,
             'secretaria_sigla' => $this->secretariaSigla,
         ];
@@ -34,7 +34,7 @@ class CreateSecretariaDTO
             orgaoId: $request->integer('orgaoId'),
             secretariaName: $request->string('nome')->toString(),
             secretariaEmail: $request->input('email'),
-            secretriaResponsibleName: $request->input('responsavel'),
+            secretariaResponsibleName: $request->input('responsavel'),
             secretariaDescription: $request->input('descricao'),
             secretariaSigla: $request->input('sigla'),
         );

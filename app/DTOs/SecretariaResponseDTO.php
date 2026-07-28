@@ -13,6 +13,9 @@ class SecretariaResponseDTO
         public ?string $responsavel,
         public ?string $descricao,
         public ?string $sigla,
+        public ?OrgaoResponseDTO $orgao = null,
+        public ?int $orgaoId = null,
+        public ?int $prefeituraId = null
     ) {}
 
     public static function fromEntity(Secretaria $secretaria): self
@@ -24,6 +27,9 @@ class SecretariaResponseDTO
             responsavel: $secretaria->secretria_responsible_name,
             descricao: $secretaria->secretaria_description,
             sigla: $secretaria->secretaria_sigla,
+            orgao: $secretaria->orgao ? OrgaoResponseDTO::fromEntity($secretaria->orgao) : null,
+            orgaoId: $secretaria->orgao_id,
+            prefeituraId: $secretaria->orgao->prefeitura_id
         );
     }
 }
