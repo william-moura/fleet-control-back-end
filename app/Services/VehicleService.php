@@ -85,8 +85,7 @@ class VehicleService
 
     public function showVehicle(int $id): VehicleResponseDTO
     {
-        $vehicle = $this->vehicleRepository->showVehicle($id);
-        //dd($vehicle)
+        $vehicle = $this->vehicleRepository->showVehicle($id);        
         return VehicleResponseDTO::fromEntity($vehicle);
     }
 

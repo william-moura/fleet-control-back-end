@@ -24,6 +24,7 @@ readonly class CreateVehicleDTO
         public ?string $vehicleColor = null,
         public ?string $vehicleTransmissionType = null,
         public ?int $vehicleModelYear = null,
+        public int $secretariaId,
     ) {}
 
     /**
@@ -50,7 +51,7 @@ readonly class CreateVehicleDTO
             vehicleColor: $data['vehicleColor'] ?? null,
             vehicleTransmissionType: $data['vehicleTransmissionType'] ?? null,
             vehicleModelYear: $data['vehicleModelYear'] ?? null,
-            
+            secretariaId: $data['secretariaId'],
         );
     }
 

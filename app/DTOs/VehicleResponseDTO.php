@@ -40,6 +40,10 @@ readonly class VehicleResponseDTO
         public ?Collection $maintenances = null,
         public ?Collection $fuelSuppliers = null,
         public ?Collection $fines = null,
+        public ?SecretariaResponseDTO $secretaria = null,
+        public ?int $secretariaId = null,
+        public ?int $orgaoId = null,
+        public ?int $prefeituraId = null,
     ) {}
 
     /**
@@ -78,6 +82,10 @@ readonly class VehicleResponseDTO
             maintenances: !$simple ? $vehicle->maintenances->map(fn(MaintenanceControl $maintenance) => MaintenanceResponseDTO::fromEntity($maintenance)) : null,
             fuelSuppliers: $vehicle->fuelSuppliers->count() > 0 ? $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)) : null,
             fines: $vehicle->fines->count() > 0 ? $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)) : null,
+            secretaria: $vehicle->secretaria ? SecretariaResponseDTO::fromEntity($vehicle->secretaria) : null,
+            secretariaId: $vehicle->secretaria_id,
+            orgaoId: $vehicle->secretaria->orgao_id,
+            prefeituraId: $vehicle->secretaria->orgao->prefeitura_id,
         );
     }
 }
