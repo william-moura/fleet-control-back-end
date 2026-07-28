@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlertSettingsController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CreateVehicleController;
@@ -122,3 +123,4 @@ Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistr
 Route::get('/secretarias-next-registration', [SecretariaController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);
 Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefeitura'])->middleware(['auth:sanctum']);
 Route::get('/secretarias/orgao/{id}', [SecretariaController::class, 'getSecretariaByOrgaoId'])->middleware(['auth:sanctum']);
+Route::post('/alert-settings', [AlertSettingsController::class, 'store'])->middleware(['auth:sanctum']);
