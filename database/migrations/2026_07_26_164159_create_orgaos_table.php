@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alerts_due_date', function (Blueprint $table) {
+        Schema::create('orgaos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('description');
-            $table->date('due_date');
-            $table->string('status')->default('pending');
-            $table->morphs('alertable');
+            $table->foreignId('prefeitura_id')->constrained('prefeituras');
+            $table->string('orgao_name')->nullable();
+            $table->string('orgao_description')->nullable();
+            $table->string('orgao_sigla')->nullable();
+            $table->enum('orgao_status', ['active', 'inactive'])->default('active');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alerts_due_date');
+        Schema::dropIfExists('orgaos');
     }
 };

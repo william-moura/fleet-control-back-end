@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('drivers', function (Blueprint $table) {
-            $table->string('driver_neighborhood')->nullable()->after('driver_zip_code');
-            $table->string('driver_address_number')->nullable()->after('driver_neighborhood');
-            $table->string('driver_complement')->nullable()->after('driver_address_number');
+        Schema::table('drivers', function (Blueprint $table) {            
+            $table->date('driver_admission_date')->nullable();
+            $table->date('driver_resignation_date')->nullable();
         });
     }
 
@@ -24,7 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('drivers', function (Blueprint $table) {
-            $table->dropColumn('driver_neighborhood');
+            $table->dropColumn('driver_admission_date');
+            $table->dropColumn('driver_resignation_date');
         });
     }
 };
