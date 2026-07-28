@@ -117,7 +117,8 @@ Route::middleware(['auth:sanctum'])->prefix('admin/notifications')->group(functi
 Route::resource('orgaos', OrgaoController::class)->middleware(['auth:sanctum']);
 Route::resource('secretarias', SecretariaController::class)->middleware(['auth:sanctum']);
 Route::resource('prefeituras', PrefeituraController::class)->middleware(['auth:sanctum']);
-Route::get('/prefeituras-next-registration', [PrefeituraController::class, 'getNextRegistration']);
-Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistration']);
-Route::get('/secretarias-next-registration', [SecretariaController::class, 'getNextRegistration']);
-Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefeitura']);
+Route::get('/prefeituras-next-registration', [PrefeituraController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);
+Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);
+Route::get('/secretarias-next-registration', [SecretariaController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);
+Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefeitura'])->middleware(['auth:sanctum']);
+Route::get('/secretarias/orgao/{id}', [SecretariaController::class, 'getSecretariaByOrgaoId'])->middleware(['auth:sanctum']);

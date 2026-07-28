@@ -36,6 +36,7 @@ class VehicleRepository implements VehicleRepositoryInterface
             'vehicle_color' => $dto->vehicleColor,
             'vehicle_transmission_type' => $dto->vehicleTransmissionType,
             'vehicle_model_year' => $dto->vehicleModelYear,
+            'secretaria_id' => $dto->secretariaId,
         ]);
 
     }
@@ -79,7 +80,8 @@ class VehicleRepository implements VehicleRepositoryInterface
 
     public function showVehicle(int $id): ?Vehicle
     {
-        return $this->model->with(['brand', 'fuelType', 'drivers', 'media', 'kilometers', 'fines', 'maintenances', 'fuelSuppliers'])->find($id);
+        return $this->model->with(['brand', 'fuelType', 'drivers', 'media', 'kilometers', 'fines', 'maintenances', 'fuelSuppliers', 'secretaria',
+        'secretaria.orgao', 'secretaria.orgao.prefeitura'])->find($id);
     }
 
     /**

@@ -46,4 +46,10 @@ class SecretariaService
     {
         return Secretaria::max('id') + 1;
     }
+
+    public function getSecretariaByOrgaoId(int $orgaoId): \Illuminate\Support\Collection
+    {
+        $secretarias = Secretaria::with('orgao', 'orgao.prefeitura')->where('orgao_id', $orgaoId)->get();
+        return $secretarias->map(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria));
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -31,6 +32,7 @@ class Vehicle extends Model
         'vehicle_color',
         'vehicle_transmission_type',
         'vehicle_model_year',
+        'secretaria_id',
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts = [
@@ -86,5 +88,10 @@ class Vehicle extends Model
     public function kilometers(): HasMany
     {
         return $this->hasMany(Kilometer::class);
+    }
+
+    public function secretaria(): BelongsTo
+    {
+        return $this->belongsTo(Secretaria::class);
     }
 }

@@ -33,6 +33,7 @@ class StoreVehicleRequest extends FormRequest
             'vehicleColor'           => ['nullable', 'string', 'max:255'],
             'vehicleTransmissionType' => ['nullable', Rule::in(['manual', 'automatico'])],
             'vehicleModelYear'        => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
+            'secretariaId'            => ['required', 'integer', 'exists:secretarias,id'],
         ];
     }
 
@@ -41,6 +42,12 @@ class StoreVehicleRequest extends FormRequest
         $data = $this->all();
         if ($this->has('vehiclePurchaseDate')) {
             $data['vehiclePurchaseDate'] = new DateTimeImmutable($this->vehiclePurchaseDate);
+        }
+        if ($this->has('prefeituraId')) {
+            unset($data['prefeituraId']);
+        }
+        if ($this->has('orgaoId')) {
+            unset($data['orgaoId']);
         }
         return $data;
     }
