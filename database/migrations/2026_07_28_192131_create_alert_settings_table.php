@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('alert_settings', function (Blueprint $table) {
             $table->id();
             $table->string('alert_type');
-            $table->integer('days_before')->default(30);
+            $table->decimal('days_before')->default(30);
             $table->timestamps();
             $table->unique(['alert_type']);
         });

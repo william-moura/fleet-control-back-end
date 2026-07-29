@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AlertsSetting;
 use App\Models\Driver;
 use App\Models\User;
 use App\Notifications\CnhVencidaNotification;
@@ -28,7 +29,8 @@ class VerificarCnhVencida extends Command
      */
     public function handle()
     {
-        $drivers = Driver::where('driver_license_expiration_date', '<', now())->get();
+        $alertSettings = AlertsSetting::where('alert_type', 'cnh')->first();
+        $drivers = Driver::where('driver_license_expiration_date', '<', now()->addDays($alertSettings->days_before))->get();
         if ($drivers->isEmpty()) {
             $this->info('Nenhum motorista encontrado com CNH vencida');
             return;
