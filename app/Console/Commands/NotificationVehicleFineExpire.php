@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AlertsSetting;
 use App\Models\User;
 use App\Models\VehicleFine;
 use App\Notifications\VehicleFineNotification;
@@ -30,18 +31,19 @@ class NotificationVehicleFineExpire extends Command
      */
     public function handle()
     {
+        $alertSettings = AlertsSetting::where('alert_type', 'multa')->first();
+        if (!$alertSettings) {
+            $this->error('Configuração de alerta para multas não encontrada');
+            return;
+        }
         $vehicleFines = VehicleFine::with(['vehicle'])
             ->with(['vehicle', 'driver'])
-            ->where('vehicle_fine_paid_date', '<=', now()->addDays(10))
-            // ->where('vehicle_fine_paid_date', '>=', now()->addDays(5))
+            ->where('vehicle_fine_paid_date', '<', now()->addDays($alertSettings->days_before))
             ->where('vehicle_fine_status', VehicleFineStatusEnum::PENDING)
             ->get();
         $users = User::whereHas('roles', function($query) {
             $query->where('name', 'administrador');
         })->get();
-        // foreach ($vehicleFines as $vehicleFine) {
-        //     $vehicleFine->driver->notify(new VehicleFineNotification($vehicleFine));
-        // }
         if ($vehicleFines->isNotEmpty()) {
             $users = User::whereHas('roles', function($query) {
                 $query->where('name', 'administrador');
