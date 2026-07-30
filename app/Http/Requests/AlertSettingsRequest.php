@@ -11,7 +11,7 @@ class AlertSettingsRequest extends FormRequest
         return [
             'alerts' => 'required|array',
             'alerts.*.alertType' => 'required|string|max:255',
-            'alerts.*.daysBefore' => 'required|integer',
+            'alerts.*.daysBefore' => 'required|numeric',
         ];
     }
 
@@ -23,7 +23,7 @@ class AlertSettingsRequest extends FormRequest
             'alerts.*.alert_type.string' => 'O tipo de alerta deve ser uma string.',
             'alerts.*.alertType.max' => 'O tipo de alerta deve ter menos de 255 caracteres.',
             'alerts.*.daysBefore.required' => 'O número de dias antes é obrigatório.',
-            'alerts.*.daysBefore.integer' => 'O número de dias antes deve ser um número inteiro.',
+            'alerts.*.daysBefore.decimal' => 'O número de dias antes deve ser um número.',
         ];
     }
 }

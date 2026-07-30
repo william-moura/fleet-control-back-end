@@ -124,3 +124,4 @@ Route::get('/secretarias-next-registration', [SecretariaController::class, 'getN
 Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefeitura'])->middleware(['auth:sanctum']);
 Route::get('/secretarias/orgao/{id}', [SecretariaController::class, 'getSecretariaByOrgaoId'])->middleware(['auth:sanctum']);
 Route::post('/alert-settings', [AlertSettingsController::class, 'store'])->middleware(['auth:sanctum']);
+Route::get('/alert-settings', [AlertSettingsController::class, 'index'])->middleware(['auth:sanctum']);
