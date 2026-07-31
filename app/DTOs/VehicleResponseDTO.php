@@ -83,9 +83,9 @@ readonly class VehicleResponseDTO
             fuelSuppliers: $vehicle->fuelSuppliers->count() > 0 ? $vehicle->fuelSuppliers->map(fn(FuelSupplier $fuelSupplier) => FuelSupplierResponseDTO::fromEntity($fuelSupplier, true)) : null,
             fines: $vehicle->fines->count() > 0 ? $vehicle->fines->map(fn(VehicleFine $fine) => VehicleFineResponseDTO::fromEntity($fine, true)) : null,
             secretaria: $vehicle->secretaria ? SecretariaResponseDTO::fromEntity($vehicle->secretaria) : null,
-            secretariaId: $vehicle->secretaria_id,
-            orgaoId: $vehicle->secretaria->orgao_id,
-            prefeituraId: $vehicle->secretaria->orgao->prefeitura_id,
+            secretariaId: $vehicle->secretaria_id??null,
+            orgaoId: $vehicle->secretaria->orgao_id??null,
+            prefeituraId: $vehicle->secretaria->orgao->prefeitura_id??null,
         );
     }
 }
