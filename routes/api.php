@@ -28,6 +28,7 @@ use App\Http\Controllers\VechicleSyncDriverController;
 use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use App\Http\Controllers\VehicleNotificationController;
+use App\Http\Controllers\ViagemController;
 use App\Jobs\SendNotificationDue;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
@@ -125,3 +126,4 @@ Route::get('/orgaos/prefeitura/{id}', [OrgaoController::class, 'getOrgaosByPrefe
 Route::get('/secretarias/orgao/{id}', [SecretariaController::class, 'getSecretariaByOrgaoId'])->middleware(['auth:sanctum']);
 Route::post('/alert-settings', [AlertSettingsController::class, 'store'])->middleware(['auth:sanctum']);
 Route::get('/alert-settings', [AlertSettingsController::class, 'index'])->middleware(['auth:sanctum']);
+Route::resource('viagens', ViagemController::class)->middleware(['auth:sanctum']);
