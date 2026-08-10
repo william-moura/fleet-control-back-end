@@ -23,12 +23,12 @@ class CreateViagemDTO
         return new self(
             vehicleId: $request->integer('vehicleId'),
             driverId: $request->integer('driverId'),
-            dataHoraSaida: $request->string('dataHoraSaida')->toString(),
-            dataHoraChegada: $request->input('dataHoraChegada'),
-            odometroSaida: $request->integer('odometroSaida'),
-            odometroChegada: $request->filled('odometroChegada') ? $request->integer('odometroChegada') : null,
-            enderecoOrigem: $request->string('enderecoOrigem')->toString(),
-            enderecoDestino: $request->string('enderecoDestino')->toString(),
+            dataHoraSaida: $request->string('departureDate')->toString(),
+            dataHoraChegada: $request->string('returnDate')->toString(),
+            odometroSaida: $request->integer('odometerDeparture'),
+            odometroChegada: $request->filled('odometerEntry') ? $request->integer('odometerEntry') : null,
+            enderecoOrigem: $request->string('origin')->toString(),
+            enderecoDestino: $request->string('destination')->toString(),
         );
     }
 

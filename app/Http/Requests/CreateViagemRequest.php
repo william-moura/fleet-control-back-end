@@ -20,12 +20,10 @@ class CreateViagemRequest extends FormRequest
         return [
             'vehicleId' => ['required', 'integer', 'exists:vehicles,id'],
             'driverId' => ['required', 'integer', 'exists:drivers,id'],
-            'dataHoraSaida' => ['required', 'date'],
-            'dataHoraChegada' => ['nullable', 'date', 'after_or_equal:dataHoraSaida'],
-            'odometroSaida' => ['required', 'integer', 'min:0'],
-            'odometroChegada' => ['nullable', 'integer', 'gte:odometroSaida'],
-            'enderecoOrigem' => ['required', 'string', 'max:255'],
-            'enderecoDestino' => ['required', 'string', 'max:255'],
+            'departureDate' => ['required', 'date'],
+            'returnDate' => ['nullable', 'date', 'after_or_equal:dataHoraSaida'],
+            'odometerDeparture' => ['required', 'numeric', 'min:0'],
+            'odometerEntry' => ['required', 'numeric', 'min:0'],
         ];
     }
 
