@@ -19,6 +19,9 @@ class ViagemResponseDTO
         public string $destination,
         public ?VehicleResponseDTO $vehicle = null,
         public ?DriverResponseDTO $driver = null,
+        public ?int $prefeituraId = null,
+        public ?int $orgaoId = null,
+        public ?int $secretariaId = null
     ) {
     }
 
@@ -28,9 +31,9 @@ class ViagemResponseDTO
             id: $viagem->id,
             vehicleId: $viagem->vehicle_id,
             driverId: $viagem->driver_id,
-            departureDate: Carbon::parse($viagem->viagem_data_hora_saida)->format('Y-m-d H:i:s'),
+            departureDate: Carbon::parse($viagem->viagem_data_hora_saida)->format('d/m/Y H:i:s'),
             returnDate: $viagem->viagem_data_hora_chegada
-                ? Carbon::parse($viagem->viagem_data_hora_chegada)->format('Y-m-d H:i:s')
+                ? Carbon::parse($viagem->viagem_data_hora_chegada)->format('d/m/Y')
                 : null,
             odometerDeparture: $viagem->viagem_odometro_saida,
             odometerEntry: $viagem->viagem_odometro_chegada,
@@ -38,6 +41,9 @@ class ViagemResponseDTO
             destination: $viagem->viagem_endereco_destino,
             vehicle: $simple ? null : ($viagem->vehicle ? VehicleResponseDTO::fromEntity($viagem->vehicle) : null),
             driver: $simple ? null : ($viagem->driver ? DriverResponseDTO::fromEntity($viagem->driver) : null),
+            prefeituraId: $viagem->vehicle->secretaria->orgao->prefeitura_id,
+            orgaoId: $viagem->vehicle->secretaria->orgao_id,
+            secretariaId: $viagem->vehicle->secretaria_id,
         );
     }
 }
