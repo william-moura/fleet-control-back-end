@@ -54,7 +54,8 @@ class VehicleFineRepository implements VehicleFineRepositoryInterface
     public function totalFinesByMonth(): float
     {
         return $this->model
-        ->whereBetween('vehicle_fine_date', [now()->startOfMonth(), now()->endOfMonth()])
+        ->whereBetween('vehicle_fine_date', [now()->startOfMonth()->format('Y-m-d'), now()->endOfMonth()->format('Y-m-d')])
+        ->whereNull('deleted_at')
         ->sum('vehicle_fine_amount');
     }
     public function nextFinesToPay(): Collection
