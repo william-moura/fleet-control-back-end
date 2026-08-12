@@ -24,7 +24,7 @@ class SecretariaResponseDTO
             id: $secretaria->id,
             nome: $secretaria->secretaria_name,
             email: $secretaria->secretaria_email,
-            responsavel: $secretaria->secretria_responsible_name,
+            responsavel: $secretaria->secretaria_responsible_name,
             descricao: $secretaria->secretaria_description,
             sigla: $secretaria->secretaria_sigla,
             orgao: $secretaria->orgao ? OrgaoResponseDTO::fromEntity($secretaria->orgao) : null,
