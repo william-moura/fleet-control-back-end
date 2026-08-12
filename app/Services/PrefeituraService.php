@@ -32,8 +32,10 @@ class PrefeituraService
             $prefeitura = Prefeitura::find($id);
             $prefeitura->update($dto->toArray());
             if ($dto->photoId) {
-                $media = Media::find($dto->photoId);
-                $prefeitura->media()->save($media);
+                $media = Media::find($dto->photoId)->first();
+                if ($media) {
+                    $prefeitura->media()->save($media);
+                }
             }
             return PrefeituraResponseDTO::fromEntity($prefeitura);
         });
