@@ -53,8 +53,8 @@ class DriverResponseDTO
             photos: $driver->media->map(fn(Media $media) => PhotoResponseDTO::fromEntity($media)),
             driverEmail: $driver->driver_email ?? null,
             driverNeighborhood: $driver->driver_neighborhood ?? null,
-            driverAdmissionDate: $driver->driver_admission_date ? Carbon::parse($driver->driver_admission_date)->format('Y-m-d') : null,
-            driverResignationDate: $driver->driver_resignation_date ? Carbon::parse($driver->driver_resignation_date)->format('Y-m-d') : null,
+            driverAdmissionDate: $driver->driver_admission_date ? Carbon::parse($driver->driver_admission_date)->format('d/m/Y') : null,
+            driverResignationDate: $driver->driver_resignation_date ? Carbon::parse($driver->driver_resignation_date)->format('d/m/Y') : null,
         );
     }
 }
