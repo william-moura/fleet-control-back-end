@@ -63,7 +63,8 @@ class MaintenanceRepository implements MaintenanceRepositoryInterface
     public function totalMaintenancesByMonth(): float
     {
         return $this->model
-        ->whereBetween('maintenance_control_date', [now()->startOfMonth(), now()->endOfMonth()])
+        ->whereBetween('maintenance_control_date', [now()->startOfMonth()->format('Y-m-d'), now()->endOfMonth()->format('Y-m-d')])
+        ->whereNull('deleted_at')
         ->sum('maintenance_control_total_cost');
     }
 

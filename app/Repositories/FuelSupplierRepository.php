@@ -61,7 +61,9 @@ class FuelSupplierRepository implements FuelSupplierRepositoryInterface
     public function totalFuelSuppliersByMonth(): float
     {
         return $this->model
-        ->whereBetween('fuel_supplier_date', [now()->startOfMonth(), now()->endOfMonth()])->sum('fuel_supplier_total');
+        ->whereBetween('fuel_supplier_date', [now()->startOfMonth()->format('Y-m-d'), now()->endOfMonth()->format('Y-m-d')])
+        ->whereNull('deleted_at')
+        ->sum('fuel_supplier_total');
     }
     public function getFuelSuppliersByVehicle(int $id): Collection
     {
