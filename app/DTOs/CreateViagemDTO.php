@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Http\Requests\CreateViagemRequest;
+use Illuminate\Support\Carbon;
 
 class CreateViagemDTO
 {
@@ -25,8 +26,8 @@ class CreateViagemDTO
         return new self(
             vehicleId: $request->integer('vehicleId'),
             driverId: $request->integer('driverId'),
-            dataHoraSaida: $request->string('departureDate')->toString(),
-            dataHoraChegada: $request->string('returnDate')->toString(),
+            dataHoraSaida: Carbon::createFromFormat('d/m/Y', $request->string('departureDate')->toString())->format('Y-m-d'),
+            dataHoraChegada: Carbon::createFromFormat('d/m/Y', $request->string('returnDate')->toString())->format('Y-m-d'),
             odometroSaida: $request->integer('odometerDeparture'),
             odometroChegada: $request->filled('odometerEntry') ? $request->integer('odometerEntry') : null,
             enderecoOrigem: $request->string('origin')->toString(),
