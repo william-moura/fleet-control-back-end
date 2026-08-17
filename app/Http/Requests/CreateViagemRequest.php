@@ -24,6 +24,8 @@ class CreateViagemRequest extends FormRequest
             'returnDate' => ['nullable', 'date', 'after_or_equal:dataHoraSaida'],
             'odometerDeparture' => ['required', 'numeric', 'min:0'],
             'odometerEntry' => ['required', 'numeric', 'min:0'],
+            'distanceKm' => ['nullable', 'string'],
+            'travelTime' => ['nullable', 'string'],
         ];
     }
 

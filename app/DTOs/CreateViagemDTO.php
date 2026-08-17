@@ -15,6 +15,8 @@ class CreateViagemDTO
         public ?int $odometroChegada,
         public string $enderecoOrigem,
         public string $enderecoDestino,
+        public ?string $distanceKm,
+        public ?string $travelTime,
     ) {
     }
 
@@ -29,6 +31,8 @@ class CreateViagemDTO
             odometroChegada: $request->filled('odometerEntry') ? $request->integer('odometerEntry') : null,
             enderecoOrigem: $request->string('origin')->toString(),
             enderecoDestino: $request->string('destination')->toString(),
+            distanceKm: $request->string('distanceKm')->toString(),
+            travelTime: $request->string('travelTime')->toString(),
         );
     }
 
@@ -43,6 +47,8 @@ class CreateViagemDTO
             'viagem_odometro_chegada' => $this->odometroChegada,
             'viagem_endereco_origem' => $this->enderecoOrigem,
             'viagem_endereco_destino' => $this->enderecoDestino,
+            'distancia_Km' => $this->distanceKm,
+            'tempo_viagem' => $this->travelTime,
         ];
     }
 }
