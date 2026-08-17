@@ -31,7 +31,7 @@ class NotificationVehicleFineExpire extends Command
      */
     public function handle()
     {
-        $alertSettings = AlertsSetting::where('alert_type', 'multa')->first();
+        $alertSettings = AlertsSetting::where('alert_type', 'multas')->first();
         if (!$alertSettings) {
             $this->error('Configuração de alerta para multas não encontrada');
             return;
