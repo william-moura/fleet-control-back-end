@@ -21,7 +21,9 @@ class ViagemResponseDTO
         public ?DriverResponseDTO $driver = null,
         public ?int $prefeituraId = null,
         public ?int $orgaoId = null,
-        public ?int $secretariaId = null
+        public ?int $secretariaId = null,
+        public ?string $distanceKm = null,
+        public ?string $travelTime = null,
     ) {
     }
 
@@ -44,6 +46,8 @@ class ViagemResponseDTO
             prefeituraId: $viagem->vehicle->secretaria->orgao->prefeitura_id,
             orgaoId: $viagem->vehicle->secretaria->orgao_id,
             secretariaId: $viagem->vehicle->secretaria_id,
+            distanceKm: $viagem->distancia_Km,
+            travelTime: $viagem->tempo_viagem,
         );
     }
 }

@@ -21,6 +21,8 @@ class Viagem extends Model
         'viagem_odometro_chegada',
         'viagem_endereco_origem',
         'viagem_endereco_destino',
+        'distancia_Km',
+        'tempo_viagem',
     ];
 
     protected $casts = [
@@ -28,6 +30,8 @@ class Viagem extends Model
         'viagem_data_hora_chegada' => 'datetime',
         'viagem_odometro_saida' => 'integer',
         'viagem_odometro_chegada' => 'integer',
+        'distancia_Km' => 'string',
+        'tempo_viagem' => 'string',
     ];
 
     public function vehicle(): BelongsTo
