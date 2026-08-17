@@ -79,8 +79,7 @@ class PrefeituraService
 
     public function getOnePrefeitura(): PrefeituraResponseDTO
     {
-        // $prefeitura = Prefeitura::first();
-        $prefeitura = null;
+        $prefeitura = Prefeitura::first();
         if (!$prefeitura) {
             throw new \Exception('Prefeitura não encontrada');
         }
