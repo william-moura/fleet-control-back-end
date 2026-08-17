@@ -118,6 +118,7 @@ Route::middleware(['auth:sanctum'])->prefix('admin/notifications')->group(functi
 });
 Route::resource('orgaos', OrgaoController::class)->middleware(['auth:sanctum']);
 Route::resource('secretarias', SecretariaController::class)->middleware(['auth:sanctum']);
+Route::get('prefeituras/one', [PrefeituraController::class, 'onePrefeitura']);
 Route::resource('prefeituras', PrefeituraController::class)->middleware(['auth:sanctum']);
 Route::get('/prefeituras-next-registration', [PrefeituraController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);
 Route::get('/orgaos-next-registration', [OrgaoController::class, 'getNextRegistration'])->middleware(['auth:sanctum']);

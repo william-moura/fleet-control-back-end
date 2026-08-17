@@ -56,4 +56,9 @@ class PrefeituraController extends Controller
     {
         return $this->prefeituraService->uploadPhotos($request);
     }
+
+    public function onePrefeitura()
+    {
+        return response()->json($this->prefeituraService->getOnePrefeitura());
+    }
 }
