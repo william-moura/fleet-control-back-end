@@ -76,4 +76,13 @@ class PrefeituraService
     {
         return Prefeitura::max('id') + 1;
     }
+
+    public function getOnePrefeitura(): PrefeituraResponseDTO
+    {
+        $prefeitura = Prefeitura::first();
+        if (!$prefeitura) {
+            throw new \Exception('Prefeitura não encontrada');
+        }
+        return PrefeituraResponseDTO::fromEntity($prefeitura);
+    }
 }
