@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Tenant;
 
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -18,9 +18,9 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         $this->call([
-            // PermissionSeeder::class,
-            // RoleSeeder::class,
-            // FuelTypeSeeder::class,
+            PermissionSeeder::class,
+            RoleSeeder::class,
+            FuelTypeSeeder::class,
         ]);
 
     }

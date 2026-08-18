@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Tenant;
 
 use App\Models\FuelType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
