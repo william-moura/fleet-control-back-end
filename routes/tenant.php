@@ -63,6 +63,11 @@ Route::middleware([
 ])
 ->prefix('api')
 ->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    })->middleware('auth:sanctum');
+    Route::post('/login', [AuthController::class, 'login']);
+
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/dashboard', DashboardController::class)->middleware(['auth:sanctum', 'permission:acessar_dashboards']);
     Route::middleware(['auth:sanctum'])->prefix('vehicles')->group(function () {
