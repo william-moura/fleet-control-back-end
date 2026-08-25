@@ -155,4 +155,5 @@ Route::middleware([
     Route::post('/alert-settings', [AlertSettingsController::class, 'store'])->middleware(['auth:sanctum']);
     Route::get('/alert-settings', [AlertSettingsController::class, 'index'])->middleware(['auth:sanctum']);
     Route::resource('travels', ViagemController::class)->middleware(['auth:sanctum']);
+    Route::post('/assign-role', [AuthController::class, 'assignRole']);
 });
