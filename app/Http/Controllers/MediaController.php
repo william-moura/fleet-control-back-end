@@ -11,9 +11,11 @@ class MediaController extends Controller
 {
     public function upload(Request $request)
     {
+        $tenantId = $request->header('X-Tenant-Id');
+
         $request->hasFile('file');
         $file = $request->file('file');
-        $path = $file->store('uploads', 'public');
+        $path = $file->store('uploads/' . $tenantId, 'public');
         $media = Media::create([
             'name' => $file->getClientOriginalName(),
             'file_name' => basename($path),
@@ -25,7 +27,7 @@ class MediaController extends Controller
         ]);
         return response()->json(PhotoResponseDTO::fromEntity($media));
     }
-    public function destroy(int$id)
+    public function destroy(int $id)
     {
         $media = Media::find($id);
         Storage::disk('public')->delete($media->path);
