@@ -24,7 +24,7 @@ class PhotoResponseDTO
             size: $media->size,
             name: $media->name,
             fileName: $media->file_name,
-            path: Storage::disk('public')->url('storage/' . $media->path),
+            path: tenant_asset($media->path),
             disk: $media->disk
         );
     }
