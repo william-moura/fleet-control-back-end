@@ -11,11 +11,9 @@ class MediaController extends Controller
 {
     public function upload(Request $request)
     {
-        $tenantId = $request->header('X-Tenant-Id');
-
         $request->hasFile('file');
         $file = $request->file('file');
-        $path = $file->store('uploads/' . $tenantId, 'public');
+        $path = $file->store('uploads', 'public');
         $media = Media::create([
             'name' => $file->getClientOriginalName(),
             'file_name' => basename($path),
