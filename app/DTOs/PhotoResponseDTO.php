@@ -3,7 +3,6 @@
 namespace App\DTOs;
 
 use App\Models\Media;
-use Illuminate\Support\Facades\Storage;
 
 class PhotoResponseDTO
 {
@@ -24,7 +23,7 @@ class PhotoResponseDTO
             size: $media->size,
             name: $media->name,
             fileName: $media->file_name,
-            path: tenant()->asset($media->path),
+            path: asset('storage/' . $media->path),
             disk: $media->disk
         );
     }
