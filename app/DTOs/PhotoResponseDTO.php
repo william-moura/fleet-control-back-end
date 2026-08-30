@@ -24,7 +24,7 @@ class PhotoResponseDTO
             size: $media->size,
             name: $media->name,
             fileName: $media->file_name,
-            path: tenant_asset($media->path),
+            path: tenant()->asset($media->path),
             disk: $media->disk
         );
     }
