@@ -13,12 +13,12 @@ class MediaController extends Controller
     {
         $request->hasFile('file');
         $file = $request->file('file');
-        $path = $file->store('uploads', 'tenant');
+        $path = $file->store('uploads', 'public');
         $media = Media::create([
             'name' => $file->getClientOriginalName(),
             'file_name' => basename($path),
             'path' => $path,
-            'disk' => 'tenant',
+            'disk' => 'public',
             'mime_type' => $file->getClientMimeType(),
             'size' => $file->getSize(),
             'user_id' => auth()->id(),
