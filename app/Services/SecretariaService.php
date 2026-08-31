@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreateSecretariaDTO;
 use App\DTOs\SecretariaResponseDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Secretaria;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -41,7 +42,7 @@ class SecretariaService
     {
         $secretaria = Secretaria::findOrFail($id);
         if ($secretaria->veiculos->count() > 0) {
-            throw new \Exception('Secretaria nao pode ser deletada pois tem orgaos associadas');
+            throw new RuleAssociationException('Secretaria nao pode ser deletada pois tem orgaos associadas');
         }
         $secretaria->delete();
     }

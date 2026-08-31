@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreateOrgaoDTO;
 use App\DTOs\OrgaoResponseDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Orgao;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -52,7 +53,7 @@ class OrgaoService
     {
         $orgao = Orgao::findOrFail($id);
         if ($orgao->secretarias->count() > 0) {
-            throw new \Exception('Orgao nao pode ser deletado pois tem secretarias associadas');
+            throw new RuleAssociationException('Orgao nao pode ser deletado pois tem secretarias associadas');
         }
         $orgao->delete();
     }
