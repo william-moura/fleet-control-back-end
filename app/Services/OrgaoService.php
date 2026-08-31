@@ -50,7 +50,11 @@ class OrgaoService
 
     public function deleteOrgao(int $id): void
     {
-        Orgao::findOrFail($id)->delete();
+        $orgao = Orgao::findOrFail($id);
+        if ($orgao->secretarias->count() > 0) {
+            throw new \Exception('Orgao nao pode ser deletado pois tem secretarias associadas');
+        }
+        $orgao->delete();
     }
 
     public function getNextRegistration(): int

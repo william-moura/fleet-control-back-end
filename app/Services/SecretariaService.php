@@ -39,7 +39,11 @@ class SecretariaService
 
     public function deleteSecretaria(int $id): void
     {
-        Secretaria::findOrFail($id)->delete();
+        $secretaria = Secretaria::findOrFail($id);
+        if ($secretaria->veiculos->count() > 0) {
+            throw new \Exception('Secretaria nao pode ser deletada pois tem orgaos associadas');
+        }
+        $secretaria->delete();
     }
 
     public function getNextRegistration(): int

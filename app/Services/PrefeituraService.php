@@ -43,7 +43,11 @@ class PrefeituraService
 
     public function deletePrefeitura(int $id): void
     {
-        Prefeitura::find($id)->delete();
+        $prefeitura = Prefeitura::find($id);
+        if ($prefeitura->orgaos->count() > 0) {
+            throw new \Exception('Prefeitura nao pode ser deletada pois tem orgaos associados');
+        }
+        $prefeitura->delete();
     }
 
     public function getPrefeituraById(int $id): PrefeituraResponseDTO
