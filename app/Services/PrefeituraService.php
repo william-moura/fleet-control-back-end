@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTOs\CreatePrefeituraDTO;
 use App\DTOs\PrefeituraResponseDTO;
+use App\Exceptions\RuleAssociationException;
 use App\Models\Media;
 use App\Models\Prefeitura;
 use Illuminate\Database\Eloquent\Collection;
@@ -45,7 +46,7 @@ class PrefeituraService
     {
         $prefeitura = Prefeitura::find($id);
         if ($prefeitura->orgaos->count() > 0) {
-            throw new \Exception('Prefeitura nao pode ser deletada pois tem orgaos associados');
+            throw new RuleAssociationException('Prefeitura nao pode ser deletada pois tem orgaos associados');
         }
         $prefeitura->delete();
     }
