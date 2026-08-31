@@ -104,6 +104,7 @@ return [
         'disks' => [
             'local',
             'public',
+            'tenant',
             // 's3',
         ],
 
@@ -116,6 +117,7 @@ return [
             // Disks whose roots should be overridden after storage_path() is suffixed.
             'local' => '%storage_path%/app/',
             'public' => '%storage_path%/app/public/',
+            'tenant' => '%storage_path%/app/public/',
         ],
 
         /**
@@ -136,7 +138,7 @@ return [
          * disable asset() helper tenancy and explicitly use tenant_asset() calls in places
          * where you want to use tenant-specific assets (product images, avatars, etc).
          */
-        'asset_helper_tenancy' => true,
+        'asset_helper_tenancy' => false,
     ],
 
     /**

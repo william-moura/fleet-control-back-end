@@ -59,6 +59,13 @@ return [
             'throw' => false,
             'report' => false,
         ],
+        'tenant' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'), // O pacote altera isso dinamicamente em runtime
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
 
     ],
 
