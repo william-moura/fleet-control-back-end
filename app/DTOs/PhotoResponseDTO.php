@@ -3,6 +3,7 @@
 namespace App\DTOs;
 
 use App\Models\Media;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoResponseDTO
 {
@@ -17,13 +18,16 @@ class PhotoResponseDTO
     ) {}
     public static function fromEntity(Media $media): self
     {
+        $tenantId = tenancy()->tenant->id;
+        $urlPhoto = asset('storage/tenant' . $tenantId . '/app/public/' . $media->path);
+        // dd($urlPhoto);
         return new self(
             id: $media->id,            
             mimeType: $media->mime_type,
             size: $media->size,
             name: $media->name,
             fileName: $media->file_name,
-            path: asset('storage/' . $media->path),
+            path: $urlPhoto,
             disk: $media->disk
         );
     }
