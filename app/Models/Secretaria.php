@@ -23,4 +23,9 @@ class Secretaria extends Model
     {
         return $this->belongsTo(Orgao::class);
     }
+
+    public function veiculos()
+    {
+        return $this->hasMany(Vehicle::class);
+    }
 }
