@@ -26,7 +26,7 @@ class PhotoResponseDTO
             size: $media->size,
             name: $media->name,
             fileName: $media->file_name,
-            path: 'https://sysmanager.tech/storage/tenant' . $tenantId . '/app/public/' . $media->path,
+            path: $urlPhoto,
             disk: $media->disk
         );
     }
