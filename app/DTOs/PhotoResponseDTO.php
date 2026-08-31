@@ -19,8 +19,7 @@ class PhotoResponseDTO
     public static function fromEntity(Media $media): self
     {
         $tenantId = tenancy()->tenant->id;
-        $urlPhoto = asset('storage/tenant' . $tenantId . '/app/public/' . $media->path);
-        // dd($urlPhoto);
+        $urlPhoto = asset('storage/tenant' . $tenantId . '/app/public/' . $media->path);        
         return new self(
             id: $media->id,            
             mimeType: $media->mime_type,
