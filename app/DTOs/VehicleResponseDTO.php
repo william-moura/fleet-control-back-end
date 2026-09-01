@@ -44,6 +44,7 @@ readonly class VehicleResponseDTO
         public ?int $secretariaId = null,
         public ?int $orgaoId = null,
         public ?int $prefeituraId = null,
+        public ?string $vehiclePlateAndModel = null,
     ) {}
 
     /**
@@ -57,6 +58,7 @@ readonly class VehicleResponseDTO
         }
         $totalKilometersCost = ($vehicle->fines?->sum('vehicle_fine_amount') ?? 0 + $vehicle->fuelSuppliers?->sum('fuel_supplier_total') ?? 0 + $vehicle->maintenances?->sum('maintenance_control_total_cost') ?? 0 ) / $divisor;
         $maxKilometer = $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;
+        $vehiclePlateAndModel = strtoupper($vehicle->vehicle_plate . ' - ' . $vehicle->vehicle_model);
         return new self(
             id: $vehicle->id,
             vehiclePlate: $vehicle->vehicle_plate,
@@ -87,6 +89,7 @@ readonly class VehicleResponseDTO
             secretariaId: $vehicle->secretaria_id??null,
             orgaoId: $vehicle->secretaria->orgao_id??null,
             prefeituraId: $vehicle->secretaria->orgao->prefeitura_id??null,
+            vehiclePlateAndModel: $vehiclePlateAndModel,
         );
     }
 }
