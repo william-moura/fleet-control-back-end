@@ -63,7 +63,7 @@ class FuelSupplierRepository implements FuelSupplierRepositoryInterface
         return $this->model
         ->whereBetween('fuel_supplier_date', [now()->startOfMonth()->format('Y-m-d'), now()->endOfMonth()->format('Y-m-d')])
         ->whereNull('deleted_at')
-        ->sum('fuel_supplier_total');
+        ->sum('fuel_supplier_quantity');
     }
     public function getFuelSuppliersByVehicle(int $id): Collection
     {
