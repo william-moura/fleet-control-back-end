@@ -32,7 +32,7 @@ class DashboardService
         $vehicleCount = $this->vehicleRepository->count();
         $nextMaintenances = $this->maintenanceRepository->findUpcomingMaintenances();
         $lastsFuelSuppliers = $this->fuelSupplierRepository->lastsFuelSuppliers();
-        $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
+        $mediaConsumption = $this->fuelSupplierRepository->totalFuelSuppliers();
         $totalCost = $this->fuelSupplierRepository->totalFuelSuppliersByMonth();
         $totalMaintenances = $this->maintenanceRepository->totalMaintenancesByMonth();
         $evolutionExpenses = $this->getEvolutionExpenses();
