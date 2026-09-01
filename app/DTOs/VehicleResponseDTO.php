@@ -22,7 +22,7 @@ readonly class VehicleResponseDTO
         public int $vehicleYear,
         public int $fuelTypeId,
         public float $vehicleTankCapacity,
-        public int $vehicleCurrentMileage,
+        public string $vehicleCurrentMileage,
         public string $vehicleStatus,
         public ?string $vehiclePurchaseDate, // Formatado como string para JSON
         public ?string $vehicleNotes,
