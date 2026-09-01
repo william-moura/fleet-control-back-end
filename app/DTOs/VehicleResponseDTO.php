@@ -56,7 +56,7 @@ readonly class VehicleResponseDTO
             $divisor = 1;
         }
         $totalKilometersCost = ($vehicle->fines?->sum('vehicle_fine_amount') ?? 0 + $vehicle->fuelSuppliers?->sum('fuel_supplier_total') ?? 0 + $vehicle->maintenances?->sum('maintenance_control_total_cost') ?? 0 ) / $divisor;
-        $maxKilometer = floatval($vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage);
+        $maxKilometer = $vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage;
         return new self(
             id: $vehicle->id,
             vehiclePlate: $vehicle->vehicle_plate,
@@ -65,7 +65,7 @@ readonly class VehicleResponseDTO
             vehicleYear: $vehicle->vehicle_year,
             fuelTypeId: $vehicle->fuelType->id,
             vehicleTankCapacity: (float) $vehicle->vehicle_tank_capacity,
-            vehicleCurrentMileage: number_format($maxKilometer, 0, ',', '.'),
+            vehicleCurrentMileage: number_format($maxKilometer, 2, ',', '.'),
             vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
             vehiclePurchaseDate: Carbon::parse($vehicle->vehicle_purchase_date)->format('Y-m-d'),
             vehicleNotes: $vehicle->vehicle_notes,
