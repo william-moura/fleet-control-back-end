@@ -57,4 +57,10 @@ class SecretariaService
         $secretarias = Secretaria::with('orgao', 'orgao.prefeitura')->where('orgao_id', $orgaoId)->get();
         return $secretarias->map(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria));
     }
+
+    public function allSecretarias(): \Illuminate\Support\Collection
+    {
+        $secretarias = Secretaria::with('orgao', 'orgao.prefeitura')->get();
+        return $secretarias->map(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria));
+    }
 }
