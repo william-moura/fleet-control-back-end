@@ -25,6 +25,7 @@ class FuelSupplierResponseDTO
         public ?FuelTypeResponseDTO $fuelType = null,
         public ?DriverResponseDTO $driver = null,
         public ?VehicleResponseDTO $vehicle = null,
+        public ?SecretariaResponseDTO $secretaria = null,
     ) {}
 
     public static function fromEntity(FuelSupplier $fuelSupplier, bool $simple = false): self
@@ -47,6 +48,7 @@ class FuelSupplierResponseDTO
             fuelType: $simple ? null : FuelTypeResponseDTO::fromEntity($fuelSupplier->fuelType),
             driver: $simple || $fuelSupplier->driver == null ? null : DriverResponseDTO::fromEntity($fuelSupplier->driver),
             vehicle: $simple ? null : ($fuelSupplier->vehicle ? VehicleResponseDTO::fromEntity($fuelSupplier->vehicle) : null),
+            secretaria: $simple ? null : SecretariaResponseDTO::fromEntity($fuelSupplier->secretaria),
         );
     }
 }

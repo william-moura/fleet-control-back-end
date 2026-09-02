@@ -20,6 +20,7 @@ class CreateFuelSupplierDTO
         public ?string $fuel_supplier_notes = null,
         public int $fuel_supplier_status,
         public string $fuel_supplier_invoice_number,
+        public int $secretaria_id,
     ) {}
     public function toArray(): array
     {
@@ -36,6 +37,7 @@ class CreateFuelSupplierDTO
             'fuel_supplier_notes' => $this->fuel_supplier_notes,
             'fuel_supplier_status' => $this->fuel_supplier_status,
             'fuel_supplier_invoice_number' => $this->fuel_supplier_invoice_number,
+            'secretaria_id' => $this->secretaria_id,
         ];
     }
     public static function fromRequest(StoreFuelSupplierRequest $request): self
@@ -53,6 +55,7 @@ class CreateFuelSupplierDTO
             fuel_supplier_notes: $request->fuelSupplierNotes,
             fuel_supplier_status: $request->fuelSupplierStatus?? 1,
             fuel_supplier_invoice_number: $request->fuelSupplierInvoiceNumber?? null,
+            secretaria_id: $request->secretariaId,
         );
     }
 }

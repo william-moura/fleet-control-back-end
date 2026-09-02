@@ -21,7 +21,8 @@ class FuelSupplier extends Model
         'fuel_supplier_kilometers', 
         'fuel_supplier_notes', 
         'fuel_supplier_status', 
-        'fuel_supplier_invoice_number'
+        'fuel_supplier_invoice_number',
+        'secretaria_id'
     ];
     protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
     protected $casts = [
@@ -45,5 +46,9 @@ class FuelSupplier extends Model
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
+    }
+    public function secretaria()
+    {
+        return $this->belongsTo(Secretaria::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Repositories\Contracts;
 use App\DTOs\CreateVehicleDTO;
 use App\Models\Vehicle;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Collection;
 
 interface VehicleRepositoryInterface
 {
@@ -22,4 +23,5 @@ interface VehicleRepositoryInterface
     public function count(): int;
     public function checkVechicleHasRelationship(int $id): bool;
     public function getVehicleByPlate(string $plate): ?Vehicle;
+    public function getVehiclesBySecreatariaId(int $secretariaId): Collection;
 }

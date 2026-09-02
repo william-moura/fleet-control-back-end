@@ -35,6 +35,7 @@ class StoreFuelSupplierRequest extends FormRequest
             'fuelSupplierNotes' => ['nullable', 'string', 'max:1000'],
             'fuelSupplierStatus' => ['nullable', 'integer', 'in:0,1'],
             'fuelSupplierInvoiceNumber' => ['nullable', 'string', 'max:255'],
+            'secretariaId' => ['required', 'integer', 'exists:secretarias,id'],
         ];
     }
 }
