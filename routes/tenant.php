@@ -27,6 +27,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UpdateVehicleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VechicleSyncDriverController;
+use App\Http\Controllers\VechicleSyncSecretariaController;
 use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use App\Http\Controllers\VehicleNotificationController;
