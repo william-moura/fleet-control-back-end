@@ -88,6 +88,8 @@ Route::middleware([
         Route::post('/{id}/notification', [VehicleNotificationController::class, 'store']);
         Route::post('/{id}/add-sync-driver', [VechicleSyncDriverController::class, 'addSyncDriver']);
         Route::delete('/{id}/remove-sync-driver/{driverId}', [VechicleSyncDriverController::class, 'removeSyncDriver']);
+        Route::post('/{id}/add-sync-secretaria', [VechicleSyncSecretariaController::class, 'addSyncSecretaria']);
+        Route::delete('/{id}/remove-sync-secretaria/{secretariaId}', [VechicleSyncSecretariaController::class, 'removeSyncSecretaria']);
     });
 
     Route::resource('kilometers', KilometerController::class)->middleware(['auth:sanctum', 'permission:listar_quilometragem']);

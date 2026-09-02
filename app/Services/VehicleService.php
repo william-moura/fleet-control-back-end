@@ -194,4 +194,16 @@ class VehicleService
         $vehicle->drivers()->attach($driversId);
         Cache::flush();
     }
+    public function addSyncSecretaria(int $vehicleId, int $secretariasId): void
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        $vehicle->secretarias()->attach($secretariasId);
+        Cache::flush();
+    }
+    public function removeSyncSecretaria(int $vehicleId, int $secretariasId): void
+    {
+        $vehicle = Vehicle::findOrFail($vehicleId);
+        $vehicle->secretarias()->detach($secretariasId);
+        Cache::flush();
+    }
 }
