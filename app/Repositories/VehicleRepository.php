@@ -135,4 +135,16 @@ class VehicleRepository implements VehicleRepositoryInterface
         ->whereNull('deleted_at')
         ->first();
     }
+
+    public function getVehiclesBySecreatariaId(int $secretariaId): Collection
+    {
+        return $this->model->query()
+        ->with(['brand', 'fuelType', 'drivers', 'media', 'kilometers', 'fines', 'maintenances', 'fuelSuppliers', 'secretaria',
+        'secretaria.orgao', 'secretaria.orgao.prefeitura', 'secretarias'])
+        ->join('vehicle_relationship_secretarias', 'vehicles.id', '=', 'vehicle_relationship_secretarias.vehicle_id')
+        ->where('vehicle_relationship_secretarias.secretaria_id', $secretariaId)
+        ->whereNull('vehicles.deleted_at')
+        ->whereNull('vehicle_relationship_secretarias.deleted_at')
+        ->get();
+    }
 }

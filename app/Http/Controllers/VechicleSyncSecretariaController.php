@@ -22,4 +22,8 @@ class VechicleSyncSecretariaController extends Controller
         $this->vehicleService->removeSyncSecretaria($vehicleId, $secretariasId);
         return response()->json(['message' => 'Veículo desincronizado com a secretaria com sucesso'], 204);
     }
+    public function getVehiclesBySecreatariaId(int $secretariaId): JsonResponse
+    {
+        return response()->json($this->vehicleService->getVehiclesBySecreatariaId($secretariaId), 200);
+    }
 }
