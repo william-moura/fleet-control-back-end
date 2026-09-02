@@ -206,7 +206,7 @@ class VehicleService
         $vehicle->secretarias()->detach($secretariasId);
         Cache::flush();
     }
-    public function getVehiclesBySecreatariaId(int $secretariaId): Collection
+    public function getVehiclesBySecreatariaId(int $secretariaId): \Illuminate\Support\Collection
     {
         $vehicles = $this->vehicleRepository->getVehiclesBySecreatariaId($secretariaId);
         return $vehicles->map(fn(Vehicle $vehicle) => VehicleResponseDTO::fromEntity($vehicle));
