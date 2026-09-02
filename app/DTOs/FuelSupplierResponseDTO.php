@@ -48,7 +48,7 @@ class FuelSupplierResponseDTO
             fuelType: $simple ? null : FuelTypeResponseDTO::fromEntity($fuelSupplier->fuelType),
             driver: $simple || $fuelSupplier->driver == null ? null : DriverResponseDTO::fromEntity($fuelSupplier->driver),
             vehicle: $simple ? null : ($fuelSupplier->vehicle ? VehicleResponseDTO::fromEntity($fuelSupplier->vehicle) : null),
-            secretaria: $simple ? null : SecretariaResponseDTO::fromEntity($fuelSupplier->secretaria),
+            secretaria: $simple ? null : ($fuelSupplier->secretaria ? SecretariaResponseDTO::fromEntity($fuelSupplier->secretaria) : null),
         );
     }
 }
