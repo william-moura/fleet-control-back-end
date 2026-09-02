@@ -7,6 +7,7 @@ use App\Models\FuelSupplier;
 use App\Models\Kilometer;
 use App\Models\MaintenanceControl;
 use App\Models\Media;
+use App\Models\Secretaria;
 use App\Models\Vehicle;
 use App\Models\VehicleFine;
 use Illuminate\Support\Carbon;
@@ -45,6 +46,7 @@ readonly class VehicleResponseDTO
         public ?int $orgaoId = null,
         public ?int $prefeituraId = null,
         public ?string $vehiclePlateAndModel = null,
+        public ?Collection $secretarias = null,
     ) {}
 
     /**
@@ -90,6 +92,7 @@ readonly class VehicleResponseDTO
             orgaoId: $vehicle->secretaria->orgao_id??null,
             prefeituraId: $vehicle->secretaria->orgao->prefeitura_id??null,
             vehiclePlateAndModel: $vehiclePlateAndModel,
+            secretarias: $vehicle->secretarias->count() > 0 ? $vehicle->secretarias->map(fn(Secretaria $secretaria) => SecretariaResponseDTO::fromEntity($secretaria)) : null,
         );
     }
 }

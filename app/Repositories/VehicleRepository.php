@@ -81,7 +81,7 @@ class VehicleRepository implements VehicleRepositoryInterface
     public function showVehicle(int $id): ?Vehicle
     {
         return $this->model->with(['brand', 'fuelType', 'drivers', 'media', 'kilometers', 'fines', 'maintenances', 'fuelSuppliers', 'secretaria',
-        'secretaria.orgao', 'secretaria.orgao.prefeitura'])->find($id);
+        'secretaria.orgao', 'secretaria.orgao.prefeitura', 'secretarias'])->find($id);
     }
 
     /**

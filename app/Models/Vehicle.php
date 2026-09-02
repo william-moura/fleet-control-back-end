@@ -94,4 +94,8 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Secretaria::class);
     }
+    public function secretarias(): BelongsToMany
+    {
+        return $this->belongsToMany(Secretaria::class, 'vehicle_relationship_secretarias', 'vehicle_id', 'secretaria_id')->distinct();
+    }
 }
