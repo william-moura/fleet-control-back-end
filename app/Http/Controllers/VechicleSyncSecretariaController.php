@@ -13,11 +13,11 @@ class VechicleSyncSecretariaController extends Controller
     }
     public function addSyncSecretaria(int $vehicleId, Request $request): JsonResponse
     {
-        $secretariasId = $request->input('secretarias_id');
-        $this->vehicleService->addSyncSecretaria($vehicleId, $secretariasId);
+        $secretariasId = $request->input('secretaria_id');
         if (!$secretariasId) {
-            return response()->json(['message' => 'Secretaria não encontrada'], 404);
+            return response()->json(['message' => 'Secretaria não informada'], 400);
         }
+        $this->vehicleService->addSyncSecretaria($vehicleId, (int) $secretariasId);
         return response()->json(['message' => 'Veículo sincronizado com a secretaria com sucesso'], 201);
     }
     public function removeSyncSecretaria(int $vehicleId, int $secretariasId): JsonResponse
