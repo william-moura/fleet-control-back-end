@@ -144,6 +144,7 @@ Route::middleware([
         // Route::delete('/{id}', [NotificationController::class, 'destroy']);
     });
     Route::resource('orgaos', OrgaoController::class)->middleware(['auth:sanctum']);
+    Route::get('secretarias/all', [SecretariaController::class, 'allSecretarias'])->middleware(['auth:sanctum']);
     Route::resource('secretarias', SecretariaController::class)->middleware(['auth:sanctum']);
     Route::get('prefeituras/one', [PrefeituraController::class, 'onePrefeitura']);
     Route::resource('prefeituras', PrefeituraController::class)->middleware(['auth:sanctum']);

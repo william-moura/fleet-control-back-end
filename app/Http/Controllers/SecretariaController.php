@@ -58,4 +58,9 @@ class SecretariaController extends Controller
     {
         return response()->json($this->secretariaService->getSecretariaByOrgaoId($orgaoId), 200);
     }
+
+    public function allSecretarias(): JsonResponse
+    {
+        return response()->json($this->secretariaService->allSecretarias(), 200);
+    }
 }
