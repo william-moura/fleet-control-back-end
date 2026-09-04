@@ -32,8 +32,7 @@ class StoreVehicleRequest extends FormRequest
             'vehicleRenavamNumber'    => ['nullable', 'string', 'max:255'],
             'vehicleColor'           => ['nullable', 'string', 'max:255'],
             'vehicleTransmissionType' => ['nullable', Rule::in(['manual', 'automatico'])],
-            'vehicleModelYear'        => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],
-            'secretariaId'            => ['required', 'integer', 'exists:secretarias,id'],
+            'vehicleModelYear'        => ['nullable', 'integer', 'min:1900', 'max:' . (date('Y') + 1)],            
         ];
     }
 
