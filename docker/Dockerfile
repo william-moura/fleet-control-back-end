@@ -38,7 +38,7 @@ WORKDIR /var/www/html
 COPY . .
 
 # 6. Instala as dependências do Laravel
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 # 7. Ajusta permissões de escrita do Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
