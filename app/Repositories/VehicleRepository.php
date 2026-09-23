@@ -35,8 +35,7 @@ class VehicleRepository implements VehicleRepositoryInterface
             'vehicle_renavam_number' => $dto->vehicleRenavamNumber,
             'vehicle_color' => $dto->vehicleColor,
             'vehicle_transmission_type' => $dto->vehicleTransmissionType,
-            'vehicle_model_year' => $dto->vehicleModelYear,
-            'secretaria_id' => $dto->secretariaId,
+            'vehicle_model_year' => $dto->vehicleModelYear,            
         ]);
 
     }

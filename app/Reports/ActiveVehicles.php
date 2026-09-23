@@ -12,8 +12,8 @@ class ActiveVehicles implements ReportContract
     public function getDados(GenerateReportDTO $dto): Collection
     {
         $result = Vehicle::query()
-            ->with(['brand', 'fuelType', 'maxKilometer'])
-            ->where('vehicle_status', 1)
+            ->with(['brand', 'fuelType', 'maxKilometer', 'secretarias'])
+            // ->where('vehicle_status', 1)
             ->get()
             ->map(fn(object $vehicle) => [
                 'vehicle_plate' => $vehicle->vehicle_plate,
@@ -23,6 +23,8 @@ class ActiveVehicles implements ReportContract
                 'vehicle_fuel_type' => $vehicle->fuelType->fuel_type_name,
                 'vehicle_tank_capacity' => number_format($vehicle->vehicle_tank_capacity, 2, ',', '.'),
                 'vehicle_current_mileage' => number_format($vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage, 2, ',', '.'),
+                'vehicle_status' => $this->getStatus($vehicle->vehicle_status),
+                'secretaria' => $vehicle->secretarias->pluck('secretaria_name')->implode(', '),                
             ]);
         return new Collection($result);
     }
@@ -37,11 +39,23 @@ class ActiveVehicles implements ReportContract
             'vehicle_fuel_type' => 'Tipo de Combustível',
             'vehicle_tank_capacity' => 'Capacidade do Tanque',
             'vehicle_current_mileage' => 'Kilometragem Atual',
+            'vehicle_status' => 'Status',
+            'secretaria' => 'Secretaria/setor',
         ];
     }
 
     public function getTitle(): string
     {
         return 'Veículos Ativos';
+    }
+
+    private function getStatus(string $status): string
+    {
+        return match ($status) {
+            '1' => 'Ativo',
+            '0' => 'Inativo',
+            '2' => 'Manutenção',
+            default => $status,
+        };
     }
 }
