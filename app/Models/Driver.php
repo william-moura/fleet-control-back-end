@@ -65,4 +65,8 @@ class Driver extends Model
     {
         return $this->hasMany(FuelSupplier::class, 'driver_id', 'id');
     }
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Viagem::class, 'driver_id', 'id');
+    }
 }

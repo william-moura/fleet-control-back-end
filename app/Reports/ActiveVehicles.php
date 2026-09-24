@@ -34,19 +34,18 @@ class ActiveVehicles implements ReportContract
         return [
             'vehicle_plate' => 'Placa',
             'vehicle_model' => 'Modelo',
-            'vehicle_year' => 'Ano',
             'vehicle_brand' => 'Marca',
-            'vehicle_fuel_type' => 'Tipo de Combustível',
-            'vehicle_tank_capacity' => 'Capacidade do Tanque',
-            'vehicle_current_mileage' => 'Kilometragem Atual',
-            'vehicle_status' => 'Status',
+            'vehicle_year' => 'Ano',
             'secretaria' => 'Secretaria/setor',
+            'vehicle_status' => 'Situação',
+            'vehicle_current_mileage' => 'Kilometragem Atual',
+            'vehicle_fuel_type' => 'Combustível',            
         ];
     }
 
     public function getTitle(): string
     {
-        return 'Veículos Ativos';
+        return 'Relatório geral de Veículos';
     }
 
     private function getStatus(string $status): string
