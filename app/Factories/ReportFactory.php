@@ -12,6 +12,8 @@ use App\Reports\TotalCostByVehicle;
 use App\Reports\VehicleHigherCost;
 use App\Reports\DriverWithFineVehicles;
 use App\Reports\VehiclesTravels;
+use App\Reports\ConsumptionGeneralReport;
+use App\Reports\VehicleMaintenanceReport;
 
 class ReportFactory
 {
@@ -26,6 +28,8 @@ class ReportFactory
         'driver_general_report' => DriverGeneralReport::class,
         'vehicles_travels' => VehiclesTravels::class,
         'usage-report' => VehiclesTravels::class,
+        'consumption_general_report' => ConsumptionGeneralReport::class,
+        'vehicle_maintenance_report' => VehicleMaintenanceReport::class,
     ];
     public static function make(string $id): ReportContract
     {
