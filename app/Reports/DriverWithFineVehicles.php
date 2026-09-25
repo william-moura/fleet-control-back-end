@@ -29,6 +29,10 @@ class DriverWithFineVehicles implements ReportContract
                 'driver' => $vehicleFine->driver_name?? 'Não informado',
                 'total_amount' => 'R$ ' . number_format($vehicleFine->total_fines, 2, ',', '.'),
                 'total_points' => $vehicleFine->total_points,
+                'vehicle' => $vehicleFine->vehicle->vehicle_plate . ' - ' . $vehicleFine->vehicle->vehicle_model ?? '',
+                'vehicle_fine_date' => $vehicleFine->vehicle_fine_date->format('d/m/Y'),
+                'vehicle_fine_level' => $vehicleFine->vehicle_fine_level,
+                'description' => $vehicleFine->vehicle_fine_notes,
             ]);
         return new Collection($result);
     }
@@ -38,6 +42,10 @@ class DriverWithFineVehicles implements ReportContract
             'driver' => 'Nome do Motorista',
             'total_amount' => 'Total de Multas',
             'total_points' => 'Total de Pontos',
+            'vehicle' => 'Veículo',
+            'vehicle_fine_date' => 'Data da Multa',
+            'vehicle_fine_level' => 'Tipo de Infração',
+            'description' => 'Descrição',
         ];
     }
     public function getTitle(): string
