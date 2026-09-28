@@ -31,11 +31,11 @@ RUN pecl install redis \
 
 WORKDIR /var/www/html
 
+COPY . .
 # 4. Copia o binário oficial do Composer (mais rápido e seguro do que usar curl)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 5. Copia o código da aplicação
-COPY . .
 
 # 6. Instala as dependências do Laravel
 RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
