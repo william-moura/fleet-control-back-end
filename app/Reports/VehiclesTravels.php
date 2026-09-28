@@ -16,7 +16,7 @@ class VehiclesTravels implements ReportContract
         }
         $result = Viagem::query()
             ->with(['vehicle', 'driver'])
-            ->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            // ->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
             ->get()
             ->map(fn(Viagem $viagem) => [
                 'vehicle' => $viagem->vehicle->vehicle_plate,
