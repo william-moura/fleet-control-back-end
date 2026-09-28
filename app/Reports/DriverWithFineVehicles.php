@@ -20,9 +20,9 @@ class DriverWithFineVehicles implements ReportContract
             ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_fines.vehicle_id')
             ->join('drivers', 'drivers.id', '=', 'vehicle_fines.driver_id')
-            ->select(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id'])
+            ->select(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id', 'vehicle_fines.vehicle_fine_date', 'vehicle_fines.vehicle_fine_level', 'vehicle_fines.vehicle_fine_notes'])
             ->selectRaw('SUM(vehicle_fines.vehicle_fine_amount) as total_fines, SUM(vehicle_fines.vehicle_fine_points) as total_points')
-            ->groupBy(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id'])
+            ->groupBy(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id', 'vehicle_fines.vehicle_fine_date', 'vehicle_fines.vehicle_fine_level', 'vehicle_fines.vehicle_fine_notes'])
             ->orderBy('total_fines', 'desc')
             ->get()        
             ->map(fn(VehicleFine $vehicleFine) => [
@@ -30,7 +30,7 @@ class DriverWithFineVehicles implements ReportContract
                 'total_amount' => 'R$ ' . number_format($vehicleFine->total_fines, 2, ',', '.'),
                 'total_points' => $vehicleFine->total_points,
                 'vehicle' => $vehicleFine->vehicle->vehicle_plate . ' - ' . $vehicleFine->vehicle->vehicle_model ?? '',
-                'vehicle_fine_date' => $vehicleFine->vehicle_fine_date->format('d/m/Y'),
+                'vehicle_fine_date' => $vehicleFine->vehicle_fine_date?->format('d/m/Y'),
                 'vehicle_fine_level' => $vehicleFine->vehicle_fine_level,
                 'description' => $vehicleFine->vehicle_fine_notes,
             ]);
