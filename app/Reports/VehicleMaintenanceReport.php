@@ -13,7 +13,7 @@ class VehicleMaintenanceReport implements ReportContract
     public function getDados(GenerateReportDTO $dto): Collection
     {
         $result = MaintenanceControl::query()
-            ->with(['vehicle', 'driver', 'maintenanceRelationServices', 'supplier'])            
+            ->with(['vehicle', 'maintenanceRelationServices', 'supplier'])            
             ->get()
             ->map(fn(MaintenanceControl $vehicleMaintenance) => [
                 'vehicle' => $vehicleMaintenance->vehicle->vehicle_plate . ' ' . $vehicleMaintenance->vehicle->vehicle_model ?? '',                
