@@ -21,8 +21,8 @@ class VehiclesTravels implements ReportContract
             ->map(fn(Viagem $viagem) => [
                 'vehicle' => $viagem->vehicle->vehicle_plate,
                 'driver' => $viagem->driver->driver_name,
-                'viagem_data_hora_saida' => $viagem->viagem_data_hora_saida,
-                'viagem_data_hora_chegada' => $viagem->viagem_data_hora_chegada,
+                'viagem_data_hora_saida' => $viagem->viagem_data_hora_saida->format('d/m/Y H:i:s'),
+                'viagem_data_hora_chegada' => $viagem->viagem_data_hora_chegada->format('d/m/Y H:i:s'),
                 'viagem_odometro_saida' => $viagem->viagem_odometro_saida,
                 'viagem_odometro_chegada' => $viagem->viagem_odometro_chegada,
                 'kilometers' => $viagem->distancia_Km,
