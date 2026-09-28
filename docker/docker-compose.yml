@@ -9,6 +9,9 @@ services:
       - db
     networks:
       - app_network
+    extra_hosts:
+      - "localhost:host-gateway"
+      - "*.localhost:host-gateway"
   web-nginx:
     image: nginx:latest
     ports:
