@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class VehicleFine extends Model
@@ -29,7 +30,7 @@ class VehicleFine extends Model
         'vehicle_fine_date' => 'datetime',
         'vehicle_fine_paid_date' => 'datetime',
     ];
-    public function vehicle(): BelongsTo
+    public function vehicle()
     {
         return $this->belongsTo(Vehicle::class);
     }
