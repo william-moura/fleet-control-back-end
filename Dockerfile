@@ -1,24 +1,47 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 
-# Instalar dependências do sistema
+# 1. Instala as dependências do sistema usando o gerenciador de pacotes do Alpine (apk)
 RUN apk add --no-cache \
-    libpng-dev libzip-dev zip unzip git oniguruma-dev libxml2-dev icu-dev
+    git \
+    curl \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libzip-dev \
+    oniguruma-dev \
+    zip \
+    unzip \
+    $PHPIZE_DEPS
 
-RUN apk add --no-cache $PHPIZE_DEPS \
-    && pecl install redis \
+# 2. Configura e instala as extensões nativas do PHP
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
+        mbstring \
+        exif \
+        pcntl \
+        bcmath \
+        gd \
+        zip \
+        opcache
+
+# 3. Compila e ativa a extensão do Redis
+RUN pecl install redis \
     && docker-php-ext-enable redis
 
-# Instalar extensões PHP
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
+WORKDIR /var/www/html
 
-# Instalar Composer
+# 4. Copia o binário oficial do Composer (mais rápido e seguro do que usar curl)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www
+# 5. Copia o código da aplicação
 
-# Copiar arquivos e configurar permissões
+# 6. Instala as dependências do Laravel
+# RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 COPY . .
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
+# 7. Ajusta permissões de escrita do Laravel
+# RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 9000
 CMD ["php-fpm"]
