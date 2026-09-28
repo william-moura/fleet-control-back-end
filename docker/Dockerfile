@@ -41,7 +41,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
 
 # 7. Ajusta permissões de escrita do Laravel
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 9000
 CMD ["php-fpm"]
