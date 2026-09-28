@@ -31,7 +31,6 @@ RUN pecl install redis \
 
 WORKDIR /var/www/html
 
-COPY . .
 # 4. Copia o binário oficial do Composer (mais rápido e seguro do que usar curl)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -39,6 +38,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # 6. Instala as dependências do Laravel
 # RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs
+COPY . .
 
 # 7. Ajusta permissões de escrita do Laravel
 # RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
