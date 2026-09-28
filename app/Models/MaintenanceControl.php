@@ -49,6 +49,6 @@ class MaintenanceControl extends Model
     }
     public function maintenanceRelationServices()
     {
-        return $this->hasManyThrough(MaintenanceRelationService::class, MaintenanceControlService::class, 'maintenance_control_id', 'maintenance_control_service_id', 'id', 'id');
+        return $this->hasMany(MaintenanceRelationService::class, 'maintenance_control_id', 'id');
     }
 }
