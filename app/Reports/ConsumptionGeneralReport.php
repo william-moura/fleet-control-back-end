@@ -25,7 +25,7 @@ class ConsumptionGeneralReport implements ReportContract
                 'fuelSupplierPrice' => $viagem->fuel_supplier_total,
                 'fuelSupplierLiters' => $viagem->fuel_supplier_quantity,
                 'fuelSupplierKilometers' => $viagem->fuel_supplier_kilometers,
-                'supplier' => $viagem->supplier->supplier_name,
+                'supplier' => $viagem->supplier->supplier_corporate_name,
                 'fuelSupplierDate' => $viagem->fuel_supplier_date->format('d/m/Y'),
             ]);
         return new Collection($result);
