@@ -20,12 +20,12 @@ class DriverWithFineVehicles implements ReportContract
             ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_fines.vehicle_id')
             ->join('drivers', 'drivers.id', '=', 'vehicle_fines.driver_id')
-            ->select(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount'])
+            ->select(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id'])
             ->selectRaw('SUM(vehicle_fines.vehicle_fine_amount) as total_fines, SUM(vehicle_fines.vehicle_fine_points) as total_points')
-            ->groupBy(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount'])
+            ->groupBy(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id'])
             ->orderBy('total_fines', 'desc')
-            ->get()
-            ->map(fn(object $vehicleFine) => [
+            ->get()        
+            ->map(fn(VehicleFine $vehicleFine) => [
                 'driver' => $vehicleFine->driver_name?? 'Não informado',
                 'total_amount' => 'R$ ' . number_format($vehicleFine->total_fines, 2, ',', '.'),
                 'total_points' => $vehicleFine->total_points,
