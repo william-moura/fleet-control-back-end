@@ -29,7 +29,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 RUN pecl install redis \
     && docker-php-ext-enable redis
 
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 # 4. Copia o binário oficial do Composer (mais rápido e seguro do que usar curl)
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
