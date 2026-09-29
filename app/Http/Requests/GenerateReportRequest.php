@@ -31,7 +31,7 @@ class GenerateReportRequest extends FormRequest
             'driverId' => ['nullable', 'exists:drivers,id'],
             'supplierId' => ['nullable', 'exists:suppliers,id'],
             'maintenanceId' => ['nullable', 'exists:maintenance_controls,id'],
-            'brandId' => ['nullable', 'exists:brands,id'],
+            'brandId' => ['nullable', 'exists:vehicle_brands,id'],
         ];
     }
     public function messages(): array
