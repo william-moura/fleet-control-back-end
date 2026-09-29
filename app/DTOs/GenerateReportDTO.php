@@ -11,6 +11,7 @@ class GenerateReportDTO
         public DateTimeImmutable $endDate,
         public ?int $vehicleId = null,
         public string $type,
+        public ?int $brandId = null,
     ) {}
 
     public static function fromRequest(GenerateReportRequest $request): self
@@ -20,6 +21,7 @@ class GenerateReportDTO
             endDate: new DateTimeImmutable($request->input('endDate')),
             vehicleId: $request->input('vehicleId'),
             type: $request->input('type')?? 'json',
+            brandId: $request->input('brandId') ?? null,
         );
     }
 }
