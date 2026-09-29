@@ -11,12 +11,14 @@ class ConsuptionByDriver implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
-        if (!$dto->startDate || !$dto->endDate) {
-            throw new \Exception('Data de início e fim são obrigatórias');
-        }
         $result = FuelSupplier::query()
             ->join('drivers AS d', 'd.id', '=', 'fuel_suppliers.driver_id')
-            ->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->driverId !== null, function($query) use ($dto) {
+                $query->where('fuel_suppliers.driver_id', $dto->driverId);
+            })
             ->select([
                 'd.id',
                 'd.driver_name'

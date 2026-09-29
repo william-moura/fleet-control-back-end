@@ -11,12 +11,17 @@ class ConsumptionGeneralReport implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
-        if (!$dto->startDate || !$dto->endDate) {
-            throw new \Exception('Data de início e fim são obrigatórias');
-        }
         $result = FuelSupplier::query()
             ->with(['vehicle', 'driver', 'fuelType', 'supplier'])
-            // ->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->driverId !== null, function($query) use ($dto) {
+                $query->where('fuel_suppliers.driver_id', $dto->driverId);
+            })
+            ->when($dto->vehicleId !== null, function($query) use ($dto) {
+                $query->where('fuel_suppliers.vehicle_id', $dto->vehicleId);
+            })
             ->get()
             ->map(fn(FuelSupplier $viagem) => [
                 'vehicle' => $viagem->vehicle->vehicle_plate . '' . $viagem->vehicle->vehicle_model ?? '',

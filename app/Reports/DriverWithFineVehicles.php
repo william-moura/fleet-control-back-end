@@ -12,12 +12,17 @@ class DriverWithFineVehicles implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
-        if (!$dto->startDate || !$dto->endDate) {
-            throw new \Exception('Data de início e fim são obrigatórias');
-        }
         $result = VehicleFine::query()
             ->with(['vehicle', 'driver'])
-            ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->driverId !== null, function($query) use ($dto) {
+                $query->where('vehicle_fines.driver_id', $dto->driverId);
+            })
+            ->when($dto->vehicleId !== null, function($query) use ($dto) {
+                $query->where('vehicle_fines.vehicle_id', $dto->vehicleId);
+            })
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_fines.vehicle_id')
             ->join('drivers', 'drivers.id', '=', 'vehicle_fines.driver_id')
             ->select(['drivers.id', 'drivers.driver_name', 'vehicle_fines.vehicle_fine_amount', 'vehicle_fines.vehicle_id', 'vehicle_fines.driver_id', 'vehicle_fines.vehicle_fine_date', 'vehicle_fines.vehicle_fine_level', 'vehicle_fines.vehicle_fine_notes'])
