@@ -22,9 +22,9 @@ class ConsumptionGeneralReport implements ReportContract
                 'vehicle' => $viagem->vehicle->vehicle_plate . '' . $viagem->vehicle->vehicle_model ?? '',
                 'driver' => $viagem->driver->driver_name,
                 'fuelType' => $viagem->fuelType->fuel_type_name,
-                'fuelSupplierPrice' => $viagem->fuel_supplier_total,
-                'fuelSupplierLiters' => $viagem->fuel_supplier_quantity,
-                'fuelSupplierKilometers' => $viagem->fuel_supplier_kilometers,
+                'fuelSupplierPrice' => 'R$ ' . number_format($viagem->fuel_supplier_total, 2, ',', '.'),
+                'fuelSupplierLiters' => number_format($viagem->fuel_supplier_quantity, 2, ',', '.'),
+                'fuelSupplierKilometers' => number_format($viagem->fuel_supplier_kilometers, 2, ',', '.'),
                 'supplier' => $viagem->supplier->supplier_corporate_name,
                 'fuelSupplierDate' => $viagem->fuel_supplier_date->format('d/m/Y'),
             ]);
