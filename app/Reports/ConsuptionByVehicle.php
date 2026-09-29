@@ -20,6 +20,9 @@ class ConsuptionByVehicle implements ReportContract
             ->when($dto->vehicleId, function($query) use ($dto) {
                 $query->where('fuel_suppliers.vehicle_id', $dto->vehicleId);
             })
+            ->when($dto->driverId, function($query) use ($dto) {
+                $query->where('fuel_suppliers.driver_id', $dto->driverId);
+            })
             ->select([
                 'v.id'
             ])
