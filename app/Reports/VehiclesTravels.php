@@ -11,12 +11,18 @@ class VehiclesTravels implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
-        if (!$dto->startDate || !$dto->endDate) {
-            throw new \Exception('Data de início e fim são obrigatórias');
-        }
         $result = Viagem::query()
             ->with(['vehicle', 'driver'])
             // ->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->driverId !== null, function($query) use ($dto) {
+                $query->where('viagem.driver_id', $dto->driverId);
+            })
+            ->when($dto->vehicleId !== null, function($query) use ($dto) {
+                $query->where('viagem.vehicle_id', $dto->vehicleId);
+            })
             ->get()
             ->map(fn(Viagem $viagem) => [
                 'vehicle' => $viagem->vehicle->vehicle_plate,

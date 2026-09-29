@@ -11,12 +11,14 @@ class DriverGeneralReport implements ReportContract
 {
     public function getDados(GenerateReportDTO $dto): Collection
     {
-        if (!$dto->startDate || !$dto->endDate) {
-            throw new \Exception('Data de início e fim são obrigatórias');
-        }
         $result = Driver::query()
             ->with(['vehicles', 'vehicleFines', 'trips'])
-            // ->whereBetween('driver_hire_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('driver_hire_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->driverId !== null, function($query) use ($dto) {
+                $query->where('drivers.id', $dto->driverId);
+            })
             ->get()
             ->map(fn(Driver $driver) => [
                 'driver' => $driver->driver_name,
