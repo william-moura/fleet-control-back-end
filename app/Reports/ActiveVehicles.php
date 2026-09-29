@@ -15,7 +15,7 @@ class ActiveVehicles implements ReportContract
             ->with(['brand', 'fuelType', 'maxKilometer', 'secretarias'])
             // ->where('vehicle_status', 1)
             ->when($dto->brandId !== null, function ($query) use ($dto) {
-                $query->where('brand_id', $dto->brandId);
+                $query->where('vehicles.brand_id', $dto->brandId);
             })
             ->get()
             ->map(fn(object $vehicle) => [

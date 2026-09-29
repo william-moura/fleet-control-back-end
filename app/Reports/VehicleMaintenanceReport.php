@@ -18,7 +18,7 @@ class VehicleMaintenanceReport implements ReportContract
             ->map(fn(MaintenanceControl $vehicleMaintenance) => [
                 'vehicle' => $vehicleMaintenance->vehicle->vehicle_plate . ' ' . $vehicleMaintenance->vehicle->vehicle_model ?? '',                
                 'services' => $vehicleMaintenance->maintenanceRelationServices->map(fn(MaintenanceRelationService $service) => $service->maintenanceService->maintenance_control_service_name)->implode(', '),
-                'supplier' => $vehicleMaintenance->supplier->supplier_name,
+                'supplier' => $vehicleMaintenance->supplier->supplier_fantasy_name,
                 'maintenanceControlDate' => $vehicleMaintenance->maintenance_control_date->format('d/m/Y'),
                 'maintenanceControlKilometers' => $vehicleMaintenance->maintenance_control_kilometers,
                 'maintenanceControlDescription' => $vehicleMaintenance->maintenance_control_description,
