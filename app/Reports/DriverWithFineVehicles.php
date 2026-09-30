@@ -20,8 +20,8 @@ class DriverWithFineVehicles implements ReportContract
             ->when($dto->driverId !== null, function($query) use ($dto) {
                 $query->where('vehicle_fines.driver_id', $dto->driverId);
             })
-            ->when($dto->vehicleId !== null, function($query) use ($dto) {
-                $query->where('vehicle_fines.vehicle_id', $dto->vehicleId);
+            ->when($dto->vehicleIds !== null, function($query) use ($dto) {
+                $query->whereIn('vehicle_fines.vehicle_id', $dto->vehicleIds);
             })
             ->join('vehicles', 'vehicles.id', '=', 'vehicle_fines.vehicle_id')
             ->join('drivers', 'drivers.id', '=', 'vehicle_fines.driver_id')

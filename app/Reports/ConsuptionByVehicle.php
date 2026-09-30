@@ -17,8 +17,8 @@ class ConsuptionByVehicle implements ReportContract
         $result = FuelSupplier::query()
             ->join('vehicles AS v', 'v.id', '=', 'fuel_suppliers.vehicle_id')            
             ->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
-            ->when($dto->vehicleId, function($query) use ($dto) {
-                $query->where('fuel_suppliers.vehicle_id', $dto->vehicleId);
+            ->when($dto->vehicleIds, function($query) use ($dto) {
+                $query->whereIn('fuel_suppliers.vehicle_id', $dto->vehicleIds);
             })
             ->when($dto->driverId, function($query) use ($dto) {
                 $query->where('fuel_suppliers.driver_id', $dto->driverId);

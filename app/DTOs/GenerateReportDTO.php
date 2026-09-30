@@ -9,7 +9,7 @@ class GenerateReportDTO
     public function __construct(
         public DateTimeImmutable $startDate,
         public DateTimeImmutable $endDate,
-        public ?int $vehicleId = null,
+        public array $vehicleIds = [],
         public string $type,
         public ?int $brandId = null,
         public ?int $driverId = null,
@@ -20,7 +20,7 @@ class GenerateReportDTO
         return new self(
             startDate: new DateTimeImmutable($request->input('startDate')),
             endDate: new DateTimeImmutable($request->input('endDate')),
-            vehicleId: $request->input('vehicleId'),
+            vehicleIds: $request->input('vehicleId') ?? [],
             type: $request->input('type')?? 'json',
             brandId: $request->input('brandId') ?? null,
             driverId: $request->input('driverId') ?? null,
