@@ -28,7 +28,7 @@ class GenerateReportRequest extends FormRequest
             'type' => ['nullable', 'string', 'in:daily,weekly,monthly,yearly'],
             'status' => ['nullable', 'string', 'in:pending,completed,cancelled'],
             'vehicleId' => ['nullable', 'array'],
-            'vehicleId.*' => ['integer'],
+            'vehicleId.*' => ['integer', 'exists:vehicles,id'],
             'driverId' => ['nullable', 'exists:drivers,id'],
             'supplierId' => ['nullable', 'exists:suppliers,id'],
             'maintenanceId' => ['nullable', 'exists:maintenance_controls,id'],

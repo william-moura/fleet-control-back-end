@@ -13,7 +13,7 @@ class ConsumptionGeneralReport implements ReportContract
     {
         $result = FuelSupplier::query()
             ->with(['vehicle', 'driver', 'fuelType', 'supplier'])
-            ->when($dto->startDate, function($query) use ($dto) {
+            ->when($dto->startDate !== null && $dto->endDate !== null, function($query) use ($dto) {
                 $query->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
             })
             ->when($dto->driverId !== null, function($query) use ($dto) {

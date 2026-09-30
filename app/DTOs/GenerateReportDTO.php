@@ -7,8 +7,8 @@ use DateTimeImmutable;
 class GenerateReportDTO
 {
     public function __construct(
-        public DateTimeImmutable $startDate,
-        public DateTimeImmutable $endDate,
+        public ?DateTimeImmutable $startDate,
+        public ?DateTimeImmutable $endDate,
         public array $vehicleIds = [],
         public string $type,
         public ?int $brandId = null,
@@ -18,8 +18,8 @@ class GenerateReportDTO
     public static function fromRequest(GenerateReportRequest $request): self
     {
         return new self(
-            startDate: new DateTimeImmutable($request->input('startDate')),
-            endDate: new DateTimeImmutable($request->input('endDate')),
+            startDate: $request->input('startDate') ? new DateTimeImmutable($request->input('startDate')) : null,
+            endDate: $request->input('endDate') ? new DateTimeImmutable($request->input('endDate')) : null,
             vehicleIds: $request->input('vehicleId') ?? [],
             type: $request->input('type')?? 'json',
             brandId: $request->input('brandId') ?? null,
