@@ -17,8 +17,8 @@ class VehicleMaintenanceReport implements ReportContract
             ->when($dto->startDate, function($query) use ($dto) {
                 $query->whereBetween('maintenance_control_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
             })
-            ->when($dto->vehicleId !== null, function($query) use ($dto) {
-                $query->where('maintenance_control.vehicle_id', $dto->vehicleId);
+            ->when($dto->vehicleIds !== null, function($query) use ($dto) {
+                $query->whereIn('maintenance_control.vehicle_id', $dto->vehicleIds);
             })
             ->get()
             ->map(fn(MaintenanceControl $vehicleMaintenance) => [

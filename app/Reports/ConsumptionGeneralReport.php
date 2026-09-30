@@ -19,8 +19,8 @@ class ConsumptionGeneralReport implements ReportContract
             ->when($dto->driverId !== null, function($query) use ($dto) {
                 $query->where('fuel_suppliers.driver_id', $dto->driverId);
             })
-            ->when($dto->vehicleId !== null, function($query) use ($dto) {
-                $query->where('fuel_suppliers.vehicle_id', $dto->vehicleId);
+            ->when($dto->vehicleIds !== null, function($query) use ($dto) {
+                $query->whereIn('fuel_suppliers.vehicle_id', $dto->vehicleIds);
             })
             ->get()
             ->map(fn(FuelSupplier $viagem) => [

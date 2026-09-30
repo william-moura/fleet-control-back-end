@@ -20,8 +20,8 @@ class VehiclesTravels implements ReportContract
             ->when($dto->driverId !== null, function($query) use ($dto) {
                 $query->where('viagem.driver_id', $dto->driverId);
             })
-            ->when($dto->vehicleId !== null, function($query) use ($dto) {
-                $query->where('viagem.vehicle_id', $dto->vehicleId);
+            ->when($dto->vehicleIds !== null, function($query) use ($dto) {
+                $query->whereIn('viagem.vehicle_id', $dto->vehicleIds);
             })
             ->get()
             ->map(fn(Viagem $viagem) => [
