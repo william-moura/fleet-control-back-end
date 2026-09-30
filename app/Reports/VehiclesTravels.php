@@ -18,10 +18,10 @@ class VehiclesTravels implements ReportContract
                 $query->whereBetween('viagem_data_hora_saida', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
             })
             ->when($dto->driverId !== null, function($query) use ($dto) {
-                $query->where('viagem.driver_id', $dto->driverId);
+                $query->where('driver_id', $dto->driverId);
             })
             ->when($dto->vehicleIds !== null, function($query) use ($dto) {
-                $query->whereIn('viagem.vehicle_id', $dto->vehicleIds);
+                $query->whereIn('vehicle_id', $dto->vehicleIds);
             })
             ->get()
             ->map(fn(Viagem $viagem) => [
