@@ -43,9 +43,9 @@ class ViagemResponseDTO
             destination: $viagem->viagem_endereco_destino,
             vehicle: $simple ? null : ($viagem->vehicle ? VehicleResponseDTO::fromEntity($viagem->vehicle) : null),
             driver: $simple ? null : ($viagem->driver ? DriverResponseDTO::fromEntity($viagem->driver) : null),
-            prefeituraId: $viagem->vehicle->secretaria->orgao->prefeitura_id,
-            orgaoId: $viagem->vehicle->secretaria->orgao_id,
-            secretariaId: $viagem->vehicle->secretaria_id,
+            prefeituraId: $viagem->vehicle?->secretaria?->orgao?->prefeitura_id,
+            orgaoId: $viagem->vehicle?->secretaria?->orgao_id,
+            secretariaId: $viagem->vehicle?->secretaria_id,
             distanceKm: $viagem->distancia_Km,
             travelTime: $viagem->tempo_viagem,
         );
