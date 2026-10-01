@@ -96,8 +96,8 @@ class ReportService
             'data' => $data->toArray(), 
             'title' => $title, 
             'headings' => $headings,
-            'startDate' => $dto->startDate->format('d/m/Y'),
-            'endDate' => $dto->endDate->format('d/m/Y'),
+            'startDate' => $dto->startDate?->format('d/m/Y'),
+            'endDate' => $dto->endDate?->format('d/m/Y'),
         ]);
         $pdf->setPaper('a4', 'portrait');
         return $pdf;

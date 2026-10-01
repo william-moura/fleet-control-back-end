@@ -28,7 +28,7 @@ class ConsuptionByDriver implements ReportContract
             ->selectRaw('COUNT(fuel_suppliers.id) as quantity_suppliers')            
             ->groupBy(['d.id', 'd.driver_name'])
             ->get()
-            ->map(fn(object $fuelSupplier) => [                
+            ->map(fn(object $fuelSupplier) => [
                 'driver_name' => $fuelSupplier->driver_name,
                 'quantity_liters' => number_format($fuelSupplier->quantity, 2, ',', '.'),
                 'total_cost' => 'R$ ' . number_format($fuelSupplier->total, 2, ',', '.'),
