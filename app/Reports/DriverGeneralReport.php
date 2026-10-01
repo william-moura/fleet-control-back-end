@@ -29,6 +29,7 @@ class DriverGeneralReport implements ReportContract
                 'total_fines' => $driver->vehicleFines->sum('vehicle_fine_amount'),
                 'total_points' => $driver->vehicleFines->sum('vehicle_fine_points'),
                 'occurrences' => $driver->vehicleFines->pluck('vehicle_fine_notes')->implode(', '),
+                'cnh' => $driver->driver_registered_number,
             ]);
         return new Collection($result);
     }
