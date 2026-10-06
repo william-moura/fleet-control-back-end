@@ -16,7 +16,12 @@ class MonthlyFuelCost implements ReportContract
         }
         $result = FuelSupplier::query()
             ->join('vehicles AS v', 'v.id', '=', 'fuel_suppliers.vehicle_id')
-            ->whereRaw('YEAR(fuel_supplier_date) = ?', [now()->year])            
+            ->when($dto->startDate, function($query) use ($dto) {
+                $query->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
+            ->when($dto->vehicleIds !== null && count($dto->vehicleIds) > 0, function($query) use ($dto) {
+                $query->whereIn('v.id', $dto->vehicleIds);
+            })
             ->selectRaw('DATE_FORMAT(fuel_supplier_date, "%m/%Y") as month')
             ->selectRaw('v.id as vehicle_id')
             ->selectRaw('SUM(fuel_supplier_total) as total_cost')
