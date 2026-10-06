@@ -38,7 +38,13 @@ class MaintenanceService
     }
     public function updateMaintenanceControl(int $id, CreateMaintenanceControlDTO $dto): MaintenanceControl
     {
-        return $this->maintenanceRepository->updateMaintenance($id, $dto);
+        $maintenance = $this->maintenanceRepository->updateMaintenance($id, $dto);
+        if (!$maintenance) {
+            throw new \Exception('Falha ao atualizar manutenção');
+        }
+        $maintenance->maintenanceRelationServices()->delete();
+        $maintenance->maintenanceRelationServices()->createMany($dto->toMaintenanceServicesArray());
+        return $maintenance;
     }
     public function destroyMaintenanceControl(int $id): void
     {
