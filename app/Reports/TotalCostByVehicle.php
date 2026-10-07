@@ -24,8 +24,12 @@ class TotalCostByVehicle implements ReportContract
                 $join->on('maintenance_control.vehicle_id', '=', 'vehicles.id')
                     ->whereBetween('maintenance_control_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
             })
+            ->leftJoin('vehicle_fines', function($join) use ($dto) {
+                $join->on('vehicle_fines.vehicle_id', '=', 'vehicles.id')
+                    ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+            })
             ->select(['vehicles.id', 'vehicles.vehicle_plate', 'vehicles.vehicle_model'])
-            ->selectRaw('COALESCE(SUM(fuel_suppliers.fuel_supplier_total), 0) + COALESCE(SUM(maintenance_control.maintenance_control_total_cost), 0) as total_cost')
+            ->selectRaw('COALESCE(SUM(fuel_suppliers.fuel_supplier_total), 0) + COALESCE(SUM(maintenance_control.maintenance_control_total_cost), 0) + COALESCE(SUM(vehicle_fines.vehicle_fine_amount), 0) as total_cost')
             ->groupBy(['vehicles.id', 'vehicles.vehicle_plate', 'vehicles.vehicle_model'])
             ->get()
             ->map(fn(Vehicle $vehicle) => [
