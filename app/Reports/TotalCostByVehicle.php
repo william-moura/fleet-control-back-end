@@ -18,15 +18,18 @@ class TotalCostByVehicle implements ReportContract
             ->with(['fuelSuppliers', 'maintenances', 'fines'])
             ->leftJoin('fuel_suppliers', function($join) use ($dto) {
                 $join->on('fuel_suppliers.vehicle_id', '=', 'vehicles.id')
-                    ->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+                    ->whereBetween('fuel_supplier_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+                    ->whereNull('fuel_suppliers.deleted_at');
             })
             ->leftJoin('maintenance_control', function($join) use ($dto) {
                 $join->on('maintenance_control.vehicle_id', '=', 'vehicles.id')
-                    ->whereBetween('maintenance_control_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+                    ->whereBetween('maintenance_control_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+                    ->whereNull('maintenance_control.deleted_at');
             })
             ->leftJoin('vehicle_fines', function($join) use ($dto) {
                 $join->on('vehicle_fines.vehicle_id', '=', 'vehicles.id')
-                    ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')]);
+                    ->whereBetween('vehicle_fine_date', [$dto->startDate->format('Y-m-d'), $dto->endDate->format('Y-m-d')])
+                    ->whereNull('vehicle_fines.deleted_at');
             })
             ->select(['vehicles.id', 'vehicles.vehicle_plate', 'vehicles.vehicle_model'])
             ->selectRaw('COALESCE(SUM(fuel_suppliers.fuel_supplier_total), 0) + COALESCE(SUM(maintenance_control.maintenance_control_total_cost), 0) + COALESCE(SUM(vehicle_fines.vehicle_fine_amount), 0) as total_cost')
