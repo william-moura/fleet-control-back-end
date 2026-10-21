@@ -28,7 +28,7 @@ class VehicleMaintenanceReport implements ReportContract
                 'maintenanceControlDate' => $vehicleMaintenance->maintenance_control_date->format('d/m/Y'),
                 'maintenanceControlKilometers' => $vehicleMaintenance->maintenance_control_kilometers,
                 'maintenanceControlDescription' => $vehicleMaintenance->maintenance_control_description,
-                'maintenanceControlTotalCost' => $vehicleMaintenance->maintenance_control_total_cost,
+                'maintenanceControlTotalCost' => number_format($vehicleMaintenance->maintenance_control_total_cost, 2, ',', '.'),
                 'maintenanceControlNextDate' => $vehicleMaintenance->maintenance_control_next_date->format('d/m/Y'),                
             ]);
         return new Collection($result);
