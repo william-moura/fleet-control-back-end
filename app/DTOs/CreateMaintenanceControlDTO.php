@@ -20,7 +20,7 @@ class CreateMaintenanceControlDTO
         public string $maintenance_control_next_date,
         public ?string $maintenance_control_status = null,
         public string $maintenance_control_previous_date_finished,
-        public float $maintenance_control_next_kilometers,
+        public ?float $maintenance_control_next_kilometers = null,
     ) {}
     public static function fromRequest(StoreMaintenanceControlRequest $request): self
     {
@@ -36,7 +36,7 @@ class CreateMaintenanceControlDTO
             maintenance_control_next_date: Carbon::parse($request->input('maintenanceNextDate'))->format('Y-m-d'),
             maintenance_control_status: ($request->input('status') !== null) ? (int) $request->input('status') : 1,
             maintenance_control_previous_date_finished: Carbon::parse($request->input('maintenancePreviousDateFinished'))->format('Y-m-d'),
-            maintenance_control_next_kilometers: $request->input('maintenanceNextKilometers'),
+            maintenance_control_next_kilometers: $request->input('maintenanceNextKilometers') ?? null,
         );
     }
 
