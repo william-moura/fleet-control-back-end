@@ -69,7 +69,7 @@ readonly class VehicleResponseDTO
             vehicleYear: $vehicle->vehicle_year,
             fuelTypeId: $vehicle->fuelType->id,
             vehicleTankCapacity: (float) $vehicle->vehicle_tank_capacity,
-            vehicleCurrentMileage: number_format($maxKilometer, 2, ',', '.'),
+            vehicleCurrentMileage: number_format($maxKilometer, 1, ',', ''),
             vehicleStatus: ($vehicle->vehicle_status == 1 ? 'ativo' : 'inativo'),
             vehiclePurchaseDate: Carbon::parse($vehicle->vehicle_purchase_date)->format('Y-m-d'),
             vehicleNotes: $vehicle->vehicle_notes,
