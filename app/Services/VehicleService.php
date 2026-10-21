@@ -156,7 +156,7 @@ class VehicleService
                 'fuel_supplier_date as date',
                 'fuel_supplier_total as totalCost',
                 DB::raw("'Abastecimento' as type"),
-                DB::raw("CONCAT('Abastecimento de ', fuel_supplier_quantity, ' litros') as description"),
+                DB::raw("CONCAT('Abastecimento de ', FORMAT(fuel_supplier_quantity, 2), ' litros') as description"),
             )
             ->union($maintenanceControls)
             ->orderBy('date', 'desc')
