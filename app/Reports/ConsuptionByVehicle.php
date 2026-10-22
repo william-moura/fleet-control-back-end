@@ -29,7 +29,7 @@ class ConsuptionByVehicle implements ReportContract
             ->selectRaw('CONCAT(v.vehicle_plate, " - ", v.vehicle_model) as veículo')
             ->selectRaw('SUM(fuel_supplier_quantity) as quantity')
             ->selectRaw('SUM(fuel_suppliers.fuel_supplier_total) as total_cost')
-            ->selectRaw('SUM(fuel_supplier_quantity) / SUM(fuel_supplier_total) as consumption')
+            ->selectRaw('SUM(fuel_supplier_total) / SUM(fuel_supplier_quantity) as consumption')
             ->selectRaw('SUM(fuel_supplier_quantity) / SUM(fuel_supplier_total) * 100 as consumption_percentage')
             ->selectRaw('(MAX(fuel_supplier_kilometers) - MIN(fuel_supplier_kilometers)) / SUM(fuel_supplier_quantity) as consumption_per_liter')
             ->selectRaw('count(fuel_suppliers.id) as total_fuel_suppliers')
