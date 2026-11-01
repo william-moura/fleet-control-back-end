@@ -13,6 +13,12 @@ class Tenant extends BaseTenant implements TenantWithDatabase
     use HasDatabase, HasDomains;
 
     protected $guarded = [];
+    protected $table = 'tenants';
+    protected $fillable = [
+        'company_name',
+        'email',
+        'expiration_date',
+    ];
 
     public function user()
     {
@@ -24,7 +30,8 @@ class Tenant extends BaseTenant implements TenantWithDatabase
         return [
             'id',
             'company_name',
-            'email',            
+            'email',
+            'expiration_date',
         ];
     }
 }

@@ -13,11 +13,11 @@ services:
       - "localhost:host-gateway"
       - "*.localhost:host-gateway"
   web-nginx:
-    image: nginx:latest
+    image: nginx:alpine
     ports:
       - 8080:8080
     volumes:
-      - ../site.conf:/etc/nginx/conf.d/site.conf
+      - ../site.conf:/etc/nginx/conf.d/default.conf
       - ../:/var/www/html
     restart: always
     depends_on:

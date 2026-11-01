@@ -12,9 +12,8 @@ class CompanyRegistrationController extends Controller
         $request->validate([
             'company_name' => 'required|string|max:255',
             'domain' => 'required|string',
-            'company_id' => 'required|string|max:255|unique:tenants,id',
         ]);
-
+        dd($request->all());
         $tenant = Tenant::create($request->all());
         $tenant->domains()->create([
             'domain' => $request->domain,
@@ -24,5 +23,28 @@ class CompanyRegistrationController extends Controller
             'message' => 'Cliente e Banco de Dados criados com sucesso!',
             'tenant' => $tenant
         ], 201);
+    }
+
+    public function index(Request $request)
+    {
+        $tenants = Tenant::paginate(10);
+        $tenants = Tenant::when($request->search, function ($query, $search) {
+            return $query->where('company_name', 'like', '%' . $search . '%')
+                ->orWhere('domain', 'like', '%' . $search . '%')
+                ->orWhere('company_id', 'like', '%' . $search . '%');
+        })->paginate(10);
+        return view('admin.index', [
+            'tenants' => $tenants
+        ]);
+    }
+
+    public function create()
+    {
+        return view('admin.admin');
+    }
+    public function edit(int $id)
+    {
+        $tenant = Tenant::find($id);
+        return view('admin.edit', compact('tenant'));
     }
 }
