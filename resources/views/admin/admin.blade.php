@@ -148,7 +148,7 @@
 
                         <div class="form-group">
                             <label for="expires_at">Período Ativo (Expiração)</label>
-                            <input type="date" name="expiration_date" id="expires_date" required value="{{ old('expiration_date') }}" min="{{ date('Y-m-d') }}" class="input-control">
+                            <input type="date" name="expiration_date" id="expires_date" value="{{ old('expiration_date') }}" min="{{ date('Y-m-d') }}" class="input-control">
                             <p class="help-text">Data limite em que o ambiente do tenant ficará ativo no sistema.</p>
                         </div>
 

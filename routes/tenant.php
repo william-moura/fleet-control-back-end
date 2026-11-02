@@ -32,6 +32,7 @@ use App\Http\Controllers\VehicleFineController;
 use App\Http\Controllers\VehicleHistoryController;
 use App\Http\Controllers\VehicleNotificationController;
 use App\Http\Controllers\ViagemController;
+use App\Http\Middleware\CheckTenantExpiration;
 use Illuminate\Support\Facades\Route;
 use Stancl\Tenancy\Middleware\InitializeTenancyByDomain;
 use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
@@ -60,13 +61,17 @@ Route::middleware([
 
 Route::middleware([
     'api',
-    InitializeTenancyByDomain::class,    
+    InitializeTenancyByDomain::class,
+    CheckTenantExpiration::class,    
 ])
 ->prefix('api')
 ->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     })->middleware('auth:sanctum');
+    Route::get('/teste', function () {
+        return 'test';
+    });
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 

@@ -112,11 +112,11 @@
                                 </td>
                                 <td>
                                     <!-- Formatação de data nativa do Blade/Carbon -->
-                                    {{ $tenant->expires_at ? \Carbon\Carbon::parse($tenant->expires_at)->format('d/m/Y') : 'Ilimitado' }}
+                                    {{ $tenant->expiration_date ? \Carbon\Carbon::parse($tenant->expiration_date)->format('d/m/Y') : 'Ilimitado' }}
                                 </td>
                                 <td>
                                     <!-- Lógica de Status baseado na data atual -->
-                                    @if($tenant->expires_at && \Carbon\Carbon::parse($tenant->expires_at)->isPast())
+                                    @if($tenant->expiration_date && \Carbon\Carbon::parse($tenant->expiration_date)->isPast())
                                         <span class="badge badge-danger">Expirado</span>
                                     @else
                                         <span class="badge badge-success">Ativo</span>
@@ -124,13 +124,16 @@
                                 </td>
                                 <td>
                                     <div class="actions-cell" style="justify-content: flex-end;">
+                                        <button class="btn-action btn-user" onclick="openUserModal('{{ $tenant->domains->first()->domain }}')">
+                                                + Usuário
+                                        </button>                                
                                         <!-- Botão Editar -->
                                         <a href="{{ route('admin.edit', $tenant->id) }}" class="btn-action btn-edit">
                                             Editar
                                         </a>
                                         
                                         <!-- Formulário de Deleção Seguro (Evita ataques CSRF) -->
-                                        <form action="{{ route('admin.destroy', $tenant->id) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este tenant? Todos os dados dele serão apagados permanentemente.');">
+                                        <form action="/admin/destroy/{{ $tenant->id }}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este tenant? Todos os dados dele serão apagados permanentemente.');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn-action btn-delete">
@@ -172,3 +175,167 @@
     </div>
 </body>
 </html>
+<div id="createUserModal" class="modal-overlay">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3 class="modal-title">Criar Usuário no Tenant</h3>
+            <button class="modal-close" onclick="closeUserModal()">&times;</button>
+        </div>
+        
+        <form id="createUserForm" onsubmit="submitUserForm(event)">
+            <!-- Input escondido para guardar o domínio do tenant selecionado -->
+            <input type="hidden" id="tenant_domain" name="tenant_domain">
+
+            <div class="modal-body">
+                <div class="form-group-modal">
+                    <label class="modal-label">Nome Completo</label>
+                    <input type="text" id="user_name" required class="modal-input" placeholder="João Silva">
+                </div>
+                
+                <div class="form-group-modal">
+                    <label class="modal-label">E-mail</label>
+                    <input type="email" id="user_email" required class="modal-input" placeholder="joao@empresa.com">
+                </div>
+
+                <div class="form-group-modal">
+                    <label class="modal-label">Senha Inicial</label>
+                    <input type="password" id="user_password" required class="modal-input" placeholder="••••••••">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button type="submit" class="btn-primary" id="btnSubmitText">Criar Usuário</button>
+                <button type="button" class="btn-secondary" onclick="closeUserModal()">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function openUserModal(domain) {
+        document.getElementById('tenant_domain').value = domain;
+        document.getElementById('createUserModal').classList.add('active');
+    }
+
+    function closeUserModal() {
+        document.getElementById('createUserModal').classList.remove('active');
+        document.getElementById('createUserForm').reset();
+    }
+
+    function submitUserForm(event) {
+        event.preventDefault();
+        
+        const domain = document.getElementById('tenant_domain').value;
+        const name = document.getElementById('user_name').value;
+        const email = document.getElementById('user_email').value;
+        const password = document.getElementById('user_password').value;
+        const btnSubmit = document.getElementById('btnSubmitText');
+
+        btnSubmit.innerText = "Criando...";
+        btnSubmit.disabled = true;
+
+        // Monta a URL apontando diretamente para o domínio do Tenant
+        // Exemplo: https://://seuapp.com/api/external-create-user
+        const url = `http://${domain}/api/register`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                // Como é uma requisição externa entre domínios, você precisará de um Token de Segurança (Bearer Token)
+                // gerado pelo seu painel central e conhecido pelo tenant para evitar ataques.
+                'Authorization': 'Bearer SEU_TOKEN_DE_SEGURANCA_GLOBAL_AQUI' 
+            },
+            body: JSON.stringify({ name, email, password })
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Erro na requisição');
+            return response.json();
+        })
+        .then(data => {
+            alert('Usuário criado com sucesso no tenant!');
+            closeUserModal();
+        })
+        .catch(error => {
+            console.error(error);
+            alert('Falha ao criar usuário. Verifique as configurações de CORS.');
+        })
+        .finally(() => {
+            btnSubmit.innerText = "Criar Usuário";
+            btnSubmit.disabled = false;
+        });
+    }
+</script>
+<!-- CSS DO MODAL E BOTÕES -->
+<style>
+    /* Estilos rápidos para os botões de ação da tabela */
+    .btn-action {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.825rem;
+        font-weight: 600;
+        border-radius: 6px;
+        border: none;
+        cursor: pointer;
+        margin-right: 0.25rem;
+        transition: background 0.15s;
+    }
+    .btn-edit { background-color: #e2e8f0; color: #334155; }
+    .btn-delete { background-color: #fee2e2; color: #ef4444; }
+    .btn-user { background-color: #e0e7ff; color: #4f46e5; }
+    .btn-user:hover { background-color: #c7d2fe; }
+
+    /* Estilos do Modal Overlay */
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(15, 23, 42, 0.6);
+        display: none; /* Inicialmente escondido */
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        backdrop-filter: blur(4px);
+    }
+    .modal-overlay.active {
+        display: flex;
+    }
+    .modal-card {
+        background: #ffffff;
+        width: 100%;
+        max-width: 450px;
+        border-radius: 12px;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        animation: slideUp 0.2s ease-out;
+    }
+    @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .modal-title { font-size: 1.125rem; font-weight: 700; color: #0f172a; }
+    .modal-close { background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer; }
+    .modal-close:hover { color: #475569; }
+    
+    .modal-body { padding: 1.5rem; }
+    .form-group-modal { margin-bottom: 1.25rem; }
+    .modal-label { display: block; font-size: 0.875rem; font-weight: 500; color: #475569; margin-bottom: 0.5rem; }
+    .modal-input {
+        width: 100%; padding: 0.65rem 0.75rem; border-radius: 8px; border: 1px solid #cbd5e1;
+        font-size: 0.875rem; outline: none; transition: border 0.15s;
+    }
+    .modal-input:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+    
+    .modal-footer {
+        display: flex; justify-content: flex-end; gap: 0.75rem;
+        padding: 1rem 1.5rem; background-color: #f8fafc; border-top: 1px solid #f1f5f9;
+    }
+    .btn-modal-cancel { background: none; border: 1px solid #cbd5e1; padding: 0.6rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.875rem; color: #64748b; cursor: pointer; }
+    .btn-modal-submit { background-color: #4f46e5; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-weight: 600; font-size: 0.875rem; color: #ffffff; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2); }
+    .btn-modal-submit:hover { background-color: #4338ca; }
+</style>
