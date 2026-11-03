@@ -235,7 +235,7 @@
 
         // Monta a URL apontando diretamente para o domínio do Tenant
         // Exemplo: https://://seuapp.com/api/external-create-user
-        const url = `http://${domain}/api/register`;
+        const url = `https://${domain}/api/register`;
 
         fetch(url, {
             method: 'POST',
