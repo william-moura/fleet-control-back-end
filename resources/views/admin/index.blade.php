@@ -124,7 +124,7 @@
                                 </td>
                                 <td>
                                     <div class="actions-cell" style="justify-content: flex-end;">
-                                        <button class="btn-action btn-user" onclick="openUserModal('{{ $tenant->domains->first()->domain }}')">
+                                        <button class="btn-action btn-user" onclick="openUserModal('{{ $tenant->domains->first()->domain?? $tenant->id . '.fleetcontrol.com' }}')">
                                                 + Usuário
                                         </button>                                
                                         <!-- Botão Editar -->
