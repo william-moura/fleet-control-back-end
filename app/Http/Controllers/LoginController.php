@@ -21,14 +21,14 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $credentials['email'])->first();
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Email ou senha inválidos');
+            return redirect()->route('admin.login')->with('error', 'Email ou senha inválidos');
         }
         
         if (Hash::check($credentials['password'], $user->password)) {
             Auth::login($user);
             return redirect()->route('admin.index');
         }
-        return redirect()->route('login')->with('error', 'Email ou senha inválidos');
+        return redirect()->route('admin.login')->with('error', 'Email ou senha inválidos');
     }
     public function logout()
     {
