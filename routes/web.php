@@ -22,6 +22,6 @@ Route::middleware([
     Route::post('/update/{id}', [CompanyRegistrationController::class, 'update'])->name('admin.update');
     Route::delete('/destroy/{id}', [CompanyRegistrationController::class, 'destroy'])->name('admin.destroy');
 });
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+Route::get('/admin/login', [LoginController::class, 'login'])->name('admin.login');
+Route::post('/admin/login', [LoginController::class, 'authenticate'])->name('admin.login.authenticate');
 
