@@ -268,7 +268,7 @@
         })
         .catch(error => {
             console.error(error);
-            alert('Falha ao criar usuário. Verifique as configurações de CORS.');
+            alert('Falha ao criar usuário. ' + error.message);
         })
         .finally(() => {
             btnSubmit.innerText = "Criar Usuário";
