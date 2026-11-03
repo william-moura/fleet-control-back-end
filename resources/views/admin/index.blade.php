@@ -61,6 +61,7 @@
         
         /* Alertas */
         .alert { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.875rem; border: 1px solid #bbf7d0; background-color: #f0fdf4; color: #166534; }
+        .alert-danger { padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem; font-size: 0.875rem; border: 1px solid #fee2e2; background-color: #fee2e2; color: #b91c1c; }
     </style>
 </head>
 <body>
@@ -71,6 +72,13 @@
         @if(session('success'))
             <div class="alert">
                 <strong>✓</strong> {{ session('success') }}
+            </div>
+        @endif
+
+        {{-- Alerta de Erro --}}
+        @if(session('error'))
+            <div class="alert-danger">
+                <strong>✗</strong> {{ session('error') }}
             </div>
         @endif
 
