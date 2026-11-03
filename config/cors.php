@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [],
 
-    'allowed_origins_patterns' => ['/^https?:\/\/(.*\.)?sysmanager\.tech$/'],
+    'allowed_origins_patterns' => ['#^https?://(.*\\.)?sysmanager\\.tech$#'],
 
     'allowed_headers' => ['*'],
 
