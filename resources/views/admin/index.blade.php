@@ -243,8 +243,7 @@
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
                 // Como é uma requisição externa entre domínios, você precisará de um Token de Segurança (Bearer Token)
-                // gerado pelo seu painel central e conhecido pelo tenant para evitar ataques.
-                'Authorization': 'Bearer SEU_TOKEN_DE_SEGURANCA_GLOBAL_AQUI' 
+                // gerado pelo seu painel central e conhecido pelo tenant para evitar ataques.                
             },
             body: JSON.stringify({ name, email, password })
         })
