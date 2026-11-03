@@ -40,7 +40,7 @@ class CompanyRegistrationController extends Controller
 
     public function create()
     {
-        return view('admin.admin');
+        return view('admin.create');
     }
     public function edit(string $id)
     {

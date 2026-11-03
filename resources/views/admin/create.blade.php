@@ -141,9 +141,9 @@
                             <label for="domain">Subdomínio de Acesso</label>
                             <div class="input-addon-group">
                                 <input type="text" name="domain" id="domain" required value="{{ old('domain') }}" class="input-control" placeholder="empresa">
-                                <span class="addon-text">.fleetcontrol.com</span>
+                                <span class="addon-text">.{{ config('app.url') }}</span>
                             </div>
-                            <p class="help-text">Endereço exclusivo para este tenant acessar a plataforma.</p>
+                            <p class="help-text">Endereço exclusivo para este cliente acessar a plataforma.</p>
                         </div>
 
                         <div class="form-group">
