@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tenant;
 use Illuminate\Http\Request;
+use Stancl\Tenancy\Database\Models\Domain;
 
 class CompanyRegistrationController extends Controller
 {
@@ -11,9 +12,13 @@ class CompanyRegistrationController extends Controller
     {
         $request->validate([
             'company_name' => 'required|string|max:255',
-            'domain' => 'required|string',
+            'domain' => 'required|string|unique:domains,domain',
         ]);
-        
+        $existingDomain = Domain::where('domain', $request->domain . '.' . config('app.domain'))->first();
+        if ($existingDomain) {
+            return redirect()->route('admin.index')->with('error', 'Domínio ' . $request->domain . '.' . config('app.domain') . ' já existe');
+        }
+
         $tenant = Tenant::create($request->all());
         $tenant->domains()->create([
             'domain' => $request->domain . '.' . config('app.domain'),
@@ -33,6 +38,7 @@ class CompanyRegistrationController extends Controller
                 ->orWhere('domain', 'like', '%' . $search . '%')
                 ->orWhere('company_id', 'like', '%' . $search . '%');
         })->paginate($perPage, ['*'], 'page', $page);
+        
         return view('admin.index', [
             'tenants' => $tenants
         ]);
