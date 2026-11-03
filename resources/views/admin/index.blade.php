@@ -253,6 +253,7 @@
                 // Como é uma requisição externa entre domínios, você precisará de um Token de Segurança (Bearer Token)
                 // gerado pelo seu painel central e conhecido pelo tenant para evitar ataques.                
             },
+            credentials: 'include',
             body: JSON.stringify({ name, email, password })
         })
         .then(response => {
