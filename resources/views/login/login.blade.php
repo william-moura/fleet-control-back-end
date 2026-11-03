@@ -294,7 +294,7 @@
                 <p class="header-subtitle">Bem-vindo de volta! Insira suas credenciais abaixo.</p>
 
                 <!-- Formulário -->
-                <form action="{{ route('login.authenticate') }}" method="POST" class="login-form">
+                <form action="{{ route('admin.login.authenticate') }}" method="POST" class="login-form">
                     @csrf <!-- Adiciona o token CSRF para proteção contra ataques -->
 
                     <!-- Campo Email -->
