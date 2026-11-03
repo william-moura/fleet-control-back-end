@@ -141,7 +141,7 @@
                             <label for="domain">Subdomínio de Acesso</label>
                             <div class="input-addon-group">
                                 <input type="text" name="domain" id="domain" required value="{{ old('domain') }}" class="input-control" placeholder="empresa">
-                                <span class="addon-text">.{{ config('app.url') }}</span>
+                                <span class="addon-text">.{{ config('app.domain') }}</span>
                             </div>
                             <p class="help-text">Endereço exclusivo para este cliente acessar a plataforma.</p>
                         </div>
