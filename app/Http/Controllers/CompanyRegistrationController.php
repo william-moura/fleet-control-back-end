@@ -16,7 +16,7 @@ class CompanyRegistrationController extends Controller
         
         $tenant = Tenant::create($request->all());
         $tenant->domains()->create([
-            'domain' => $request->domain,
+            'domain' => $request->domain . '.' . config('app.domain'),
         ]);
         
         return redirect()->route('admin.index')->with('success', 'Cliente e Banco de Dados criados com sucesso!');
