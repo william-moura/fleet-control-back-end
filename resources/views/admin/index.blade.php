@@ -250,6 +250,8 @@
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'X-Requested-With': 'XMLHttpRequest',
                 // Como é uma requisição externa entre domínios, você precisará de um Token de Segurança (Bearer Token)
                 // gerado pelo seu painel central e conhecido pelo tenant para evitar ataques.                
             },
