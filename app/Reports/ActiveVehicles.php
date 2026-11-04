@@ -25,7 +25,7 @@ class ActiveVehicles implements ReportContract
                 'vehicle_brand' => $vehicle->brand->brand_name,
                 'vehicle_fuel_type' => $vehicle->fuelType->fuel_type_name,
                 'vehicle_tank_capacity' => number_format($vehicle->vehicle_tank_capacity, 2, ',', '.'),
-                'vehicle_current_mileage' => number_format($vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage, 2, ',', '.'),
+                'vehicle_current_mileage' => number_format($vehicle->maxKilometer?->kilometers_value ?? $vehicle->vehicle_current_mileage, 0, '', '.'),
                 'vehicle_status' => $this->getStatus($vehicle->vehicle_status),
                 'secretaria' => $vehicle->secretarias->pluck('secretaria_name')->implode(', '),                
             ]);

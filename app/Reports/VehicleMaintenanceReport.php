@@ -26,7 +26,7 @@ class VehicleMaintenanceReport implements ReportContract
                 'services' => $vehicleMaintenance->maintenanceRelationServices->map(fn(MaintenanceRelationService $service) => $service->maintenanceService->maintenance_control_service_name)->implode(', '),
                 'supplier' => $vehicleMaintenance->supplier->supplier_fantasy_name,
                 'maintenanceControlDate' => $vehicleMaintenance->maintenance_control_date->format('d/m/Y'),
-                'maintenanceControlKilometers' => $vehicleMaintenance->maintenance_control_kilometers,
+                'maintenanceControlKilometers' => number_format($vehicleMaintenance->maintenance_control_kilometers, 0, '', '.'),
                 'maintenanceControlDescription' => $vehicleMaintenance->maintenance_control_description,
                 'maintenanceControlTotalCost' => number_format($vehicleMaintenance->maintenance_control_total_cost, 2, ',', '.'),
                 'maintenanceControlNextDate' => $vehicleMaintenance->maintenance_control_next_date->format('d/m/Y'),                
