@@ -13,7 +13,7 @@ class CompanyRegistrationController extends Controller
         $request->validate([
             'company_name' => 'required|string|max:255',
             'domain' => 'required|string|unique:domains,domain',
-        ]);
+        ]);        
         $existingDomain = Domain::where('domain', $request->domain . '.' . config('app.domain'))->first();
         if ($existingDomain) {
             return redirect()->route('admin.index')->with('error', 'Domínio ' . $request->domain . '.' . config('app.domain') . ' já existe');
