@@ -16,7 +16,7 @@
 </head>
 <body>
     <div class="header">
-        <img src="{{ asset('images/log-final.jpeg') }}" alt="Realiza Informática" style="width: 100px; height: 100px;">
+        <img src="/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
         <h1>Realiza Informática - {{ $title }}</h1>
         <p>Período: {{ $startDate }} a {{ $endDate }}</p>
     </div>
