@@ -21,7 +21,9 @@ return [
 
     'allowed_origins' => [
         'https://sysmanager.tech',
-        '*.sysmanager.tech'
+        '*.sysmanager.tech',
+        'http://localhost:8081',
+        'http://localhost:4200'
     ],
 
     'allowed_origins_patterns' => [],
