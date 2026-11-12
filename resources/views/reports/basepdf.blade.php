@@ -12,11 +12,21 @@
         td { padding: 8px; border-bottom: 1px solid #ddd; }
         .zebra tr:nth-child(even) { background-color: #f2f2f2; }
         .text-right { text-align: right; }
+        .header-logo { text-align: left; }
+        .header-logo img { width: 100px; height: 100px; }
+        .header-logo h1 { font-size: 20px; font-weight: bold; color: #04750e; }
+        .header-logo p { font-size: 12px; color: #04750e; }
+        .header-logo { text-align: left; }
+        .header-logo img { width: 100px; height: 100px; }
+        .header-logo h1 { font-size: 20px; font-weight: bold; color: #04750e; }
+        .header-logo p { font-size: 12px; color: #04750e; }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="https://sysmanager.tech/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
+        <div class="header-logo">
+            <img src="https://sysmanager.tech/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
+        </div>
         <h1>Realiza Informática - {{ $title }}</h1>
         <p>Período: {{ $startDate }} a {{ $endDate }}</p>
     </div>
