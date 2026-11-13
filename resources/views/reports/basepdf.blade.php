@@ -25,7 +25,15 @@
 <body>
     <div class="header">
         <div class="header-logo">
-            <img src="https://sysmanager.tech/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
+            @php
+    $path = public_path('images/log-final.jpeg');
+    $type = pathinfo($path, PATHINFO_EXTENSION);
+    $data = file_get_contents($path);
+    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+@endphp
+
+<img src="{{ $base64 }}" alt="Realiza Informática">
+            
         </div>
         <h1>Realiza Informática - {{ $title }}</h1>
         <p>Período: {{ $startDate }} a {{ $endDate }}</p>
