@@ -12,12 +12,12 @@
         td { padding: 8px; border-bottom: 1px solid #ddd; }
         .zebra tr:nth-child(even) { background-color: #f2f2f2; }
         .text-right { text-align: right; }
-        .header-logo { text-align: left; }
+        .header-logo { text-align: center; }
         .header-logo img { width: 200px; height: 150px; }
         .header-logo h1 { font-size: 20px; font-weight: bold; color: #04750e; }
         .header-logo p { font-size: 12px; color: #04750e; }
-        .header-logo { text-align: left; }
-        .header-logo img { width: 100px; height: 100px; }
+        .header-logo { text-align: center; }
+        .header-logo img { width: 220px; height: 150px; }
         .header-logo h1 { font-size: 20px; font-weight: bold; color: #04750e; }
         .header-logo p { font-size: 12px; color: #04750e; }
     </style>
