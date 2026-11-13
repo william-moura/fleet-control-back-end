@@ -28,8 +28,8 @@
             @php
     $path = public_path('images/log-final.jpeg');
     $type = pathinfo($path, PATHINFO_EXTENSION);
-    $data = file_get_contents($path);
-    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+    $dataLogo = file_get_contents($path);
+    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($dataLogo);
 @endphp
 
 <img src="{{ $base64 }}" alt="Realiza Informática">
