@@ -25,7 +25,7 @@
 <body>
     <div class="header">
         <div class="header-logo">
-            <img src="https://sysmanager.tech/images/logo.png" alt="Realiza Informática" style="width: 100px; height: 100px;">
+            <img src="https://sysmanager.tech/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
         </div>
         <h1>Realiza Informática - {{ $title }}</h1>
         <p>Período: {{ $startDate }} a {{ $endDate }}</p>
