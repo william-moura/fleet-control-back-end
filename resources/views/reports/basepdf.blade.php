@@ -36,7 +36,7 @@
             
         </div>
         <h1>Realiza Informática - {{ $title }}</h1>
-        <p>Período: {{ $startDate }} a {{ $endDate }}</p>
+        <p>Período: {{ $startDate }} a {{ $endDate }}</p> 
     </div>
 
     <table class="zebra">
