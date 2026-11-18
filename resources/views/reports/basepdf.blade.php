@@ -28,7 +28,7 @@
             <img src="https://sysmanager.tech/images/log-final.jpeg" alt="Realiza Informática" style="width: 100px; height: 100px;">
         </div>
         <h1>Realiza Informática - {{ $title }}</h1>
-        <p>Período: {{ $startDate }} a {{ $endDate }}</p>
+        <p>Período: {{ $startDate }} a {{ $endDate }}</p> 
     </div>
 
     <table class="zebra">
