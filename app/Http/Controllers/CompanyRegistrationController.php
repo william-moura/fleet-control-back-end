@@ -57,6 +57,9 @@ class CompanyRegistrationController extends Controller
     {
         $tenant = Tenant::find($id);
         $tenant->update($request->all());
+        $tenant->domains()->update([
+            'domain' => $request->domain . '.' . config('app.domain'),
+        ]);
         return redirect()->route('admin.index')->with('success', 'Tenant atualizado com sucesso');
     }
     public function destroy(string $id)
